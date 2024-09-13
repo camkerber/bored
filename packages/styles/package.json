@@ -3,5 +3,8 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "main": "./index.css"
+  "main": "./index.css",
+  "devDependencies": {
+    "prettier": "^3.3.3"
+  }
 }

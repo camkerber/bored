@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@bored/providers": "workspace:*",
     "@bored/home": "workspace:*",
+    "@bored/providers": "workspace:*",
     "@bored/styles": "workspace:*",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
@@ -27,8 +27,7 @@
     "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
-    "@bored/eslint-config": "workspace:*",
-    "eslint": "^9.10.0",
+    "eslint": "^8.57.0",
     "vite": "^5.4.5",
     "vite-tsconfig-paths": "^5.0.1"
   }

@@ -10,6 +10,11 @@
   "author": "Cameron Kerber",
   "license": "UNLICENSED",
   "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.5.0",
+    "@typescript-eslint/parser": "^8.5.0",
+    "eslint-plugin-react": "^7.36.1",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.11",
     "prettier": "^3.3.3"
   }
 }
