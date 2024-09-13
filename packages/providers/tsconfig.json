@@ -3,5 +3,5 @@
   "compilerOptions": {
     "baseUrl": "."
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts", "vite-env.d.ts"]
+  "include": ["./**/*.ts", "./**/*.tsx", "vite.config.ts"]
 }

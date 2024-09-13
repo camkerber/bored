@@ -1,10 +1,28 @@
 {
-  "name": "@cam-is-bored/home",
+  "name": "@bored/home",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "main": "./index.tsx",
-  "dependencies": {
-    "@cam-is-bored/utils": "workspace:*"
-  }
+  "main": "./src/index.ts",
+  "devDependencies": {
+    "@bored/eslint-config": "workspace:*",
+    "@bored/prettier-config": "workspace:*",
+    "@bored/typescript-config": "workspace:*",
+    "@bored/vite-config": "workspace:*",
+    "@bored/utils": "workspace:*",
+    "@bored/styles": "workspace:*",
+    "@mui/material": "^6.1.0",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^9.10.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.5",
+    "vite-plugin-dts": "^4.2.1",
+    "vite-tsconfig-paths": "^5.0.1"
+  },
+  "prettier": "@bored/prettier-config"
 }

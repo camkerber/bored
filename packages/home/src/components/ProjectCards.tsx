@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Card,
   CardActionArea,
@@ -6,9 +5,9 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-// import "../../index.css";
-import { PROJECTS_MAP } from "@cam-is-bored/utils";
+import {useNavigate} from "react-router-dom";
+import "@bored/styles";
+import {PROJECTS_MAP} from "@bored/utils";
 
 export const ProjectCards = () => {
   const navigate = useNavigate();

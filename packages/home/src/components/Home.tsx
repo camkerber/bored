@@ -1,5 +1,4 @@
-import React from "react";
-import { IntroContent, ProjectCards } from "./components";
+import {IntroContent, ProjectCards} from "..";
 
 export const Home = () => {
   return (

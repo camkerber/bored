@@ -1,9 +1,9 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import { AppRouter } from "./AppRouter";
-import { ColorModeProvider, FirebaseProvider } from "@cam-is-bored/providers";
-import { SnackbarProvider } from "notistack";
-import { CssBaseline } from "@mui/material";
+import {StrictMode} from "react";
+import {createRoot} from "react-dom/client";
+import {AppRouter} from "./components";
+import {ColorModeProvider, FirebaseProvider} from "@bored/providers";
+import {CssBaseline} from "@mui/material";
+import {SnackbarProvider} from "notistack";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

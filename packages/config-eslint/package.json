@@ -1,0 +1,17 @@
+{
+  "name": "@bored/eslint-config",
+  "version": "1.0.0",
+  "main": "./index.js",
+  "type": "commonjs",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.5.0",
+    "@typescript-eslint/parser": "^8.5.0",
+    "eslint": "^9.10.0",
+    "eslint-plugin-react": "^7.36.1",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.11"
+  },
+  "peerDependencies": {
+    "eslint": "^9.10.0"
+  }
+}

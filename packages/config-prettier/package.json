@@ -1,0 +1,11 @@
+{
+  "name": "@bored/prettier-config",
+  "version": "1.0.0",
+  "main": "./prettier.json",
+  "devDependencies": {
+    "prettier": "^3.3.3"
+  },
+  "peerDependencies": {
+    "prettier": "^3.3.3"
+  }
+}

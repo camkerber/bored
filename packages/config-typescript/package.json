@@ -1,0 +1,12 @@
+{
+  "name": "@bored/typescript-config",
+  "version": "1.0.0",
+  "main": "./tsconfig.json",
+  "devDependencies": {
+    "@tsconfig/vite-react": "^3.0.2",
+    "typescript": "^5.6.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.6.2"
+  }
+}

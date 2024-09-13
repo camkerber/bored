@@ -1,6 +1,5 @@
-import React from "react";
-import { Paper, Typography } from "@mui/material";
-// import "../../index.css";
+import {Paper, Typography} from "@mui/material";
+import "@bored/styles";
 
 export const IntroContent = () => {
   return (

@@ -1,7 +1,7 @@
 {
-  "name": "@bored/utils",
+  "name": "@bored/styles",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "main": "./src/index.ts"
+  "main": "./index.css"
 }

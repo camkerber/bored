@@ -1,0 +1,135 @@
+.outlet-container {
+  max-width: 1280px !important;
+  margin: 0 auto;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.paper-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 2em;
+  margin-bottom: 2em;
+
+  @media (min-width: 800px) {
+    width: 67%;
+  }
+}
+
+.card-container {
+  max-width: 100%;
+
+  @media (min-width: 800px) {
+    max-width: 33%;
+  }
+}
+
+.connections-game-board {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  @media (min-width: 700px) {
+    aspect-ratio: 5 / 3;
+    max-width: 800px;
+  }
+}
+
+.connections-tile {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  font-size: 0.75rem !important;
+  overflow-wrap: anywhere;
+  padding: 0px 2px 0px 2px !important;
+
+  @media (min-width: 500px) {
+    font-size: 0.9rem !important;
+  }
+
+  @media (min-width: 700px) {
+    font-size: 1.2rem !important;
+    aspect-ratio: 5 / 3;
+  }
+}
+
+.connections-actions-container {
+  justify-content: center;
+  align-items: center;
+  max-width: 750px;
+
+  @media (min-width: 500px) {
+    flex-direction: row;
+  }
+}
+
+.connections-action-button {
+  width: 100%;
+}
+
+.connections-submit-button {
+  width: 100%;
+
+  @media (min-width: 500px) {
+    max-width: 300px;
+  }
+}
+
+.connections-action-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.connections-guess-counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.connections-revealed-category {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 1;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  @media (min-width: 700px) {
+    aspect-ratio: 6 / 1;
+  }
+}
+
+.share-results-content {
+  text-align: center;
+  margin: 0;
+}
+
+.bored-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  box-shadow: 24;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  @media (min-width: 600px) {
+    width: 500px;
+  }
+}
+
+.bored-modal-close-button {
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  margin: 5px !important;
+}
