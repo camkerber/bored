@@ -1,6 +1,6 @@
-import { getToken } from "firebase/app-check";
-import { getAuth, signInAnonymously } from "firebase/auth";
-import { DatabaseReference, getDatabase, ref } from "firebase/database";
+import {getToken} from "firebase/app-check";
+import {getAuth, signInAnonymously} from "firebase/auth";
+import {DatabaseReference, getDatabase, ref} from "firebase/database";
 import {
   createContext,
   PropsWithChildren,
@@ -22,7 +22,7 @@ const DEFAULT_FIREBASE_CONTEXT: Firebase = {
 
 export const FirebaseContext = createContext(DEFAULT_FIREBASE_CONTEXT);
 
-export const FirebaseProvider = ({ children }: PropsWithChildren) => {
+export const FirebaseProvider = ({children}: PropsWithChildren) => {
   const [initializing, setInitializing] = useState<boolean>(true);
 
   useEffect(() => {

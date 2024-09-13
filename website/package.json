@@ -13,7 +13,6 @@
     "@bored/providers": "workspace:*",
     "@bored/home": "workspace:*",
     "@bored/styles": "workspace:*",
-    "@bored/vite-config": "workspace:*",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@fontsource/roboto": "^5.1.0",
@@ -29,11 +28,8 @@
   },
   "devDependencies": {
     "@bored/eslint-config": "workspace:*",
-    "@bored/prettier-config": "workspace:*",
-    "@bored/typescript-config": "workspace:*",
     "eslint": "^9.10.0",
     "vite": "^5.4.5",
     "vite-tsconfig-paths": "^5.0.1"
-  },
-  "prettier": "@bored/prettier-config"
+  }
 }
