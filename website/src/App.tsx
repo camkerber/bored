@@ -1,5 +1,5 @@
 import {Container} from "@mui/material";
-import Header from "./components/Header";
+import {Header} from "@bored/ui";
 import {Outlet} from "react-router-dom";
 import "@bored/styles";
 

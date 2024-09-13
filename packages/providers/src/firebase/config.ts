@@ -4,6 +4,14 @@ import {
   initializeAppCheck,
 } from "firebase/app-check";
 
+declare global {
+  interface Window {
+    FIREBASE_APPCHECK_DEBUG_TOKEN: string;
+  }
+}
+
+export {};
+
 const RECAPTCHA_SITE_KEY = "6Lf1IycqAAAAALR2YgmNb9ZSd_wf3EZ3UOGznV6B";
 const recaptchaProvider = new ReCaptchaEnterpriseProvider(RECAPTCHA_SITE_KEY);
 

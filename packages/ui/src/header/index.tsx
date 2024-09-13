@@ -4,7 +4,7 @@ import GitHubProfile from "./GitHubProfile";
 import LinkedInProfile from "./LinkedInProfile";
 import ReturnHome from "./ReturnHome";
 
-const Header = () => {
+export const Header = () => {
   return (
     <AppBar component="nav" position="static" sx={{mb: 4}}>
       <Toolbar>
@@ -19,5 +19,3 @@ const Header = () => {
     </AppBar>
   );
 };
-
-export default Header;

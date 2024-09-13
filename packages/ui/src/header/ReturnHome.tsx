@@ -18,7 +18,7 @@ const ReturnHome = () => {
         <Tooltip title="Return to home page" placement="bottom-start">
           <IconButton
             sx={{mr: 1}}
-            onClick={() => navigate("/cam-is-bored/")}
+            onClick={() => navigate("/")}
             color="inherit"
             className="return-home"
           >
