@@ -1,0 +1,7 @@
+{
+  "name": "@cam-is-bored/providers",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./index.ts"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "@cam-is-bored/home",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./index.tsx",
+  "dependencies": {
+    "@cam-is-bored/utils": "workspace:*"
+  }
+}
