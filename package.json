@@ -2,6 +2,7 @@
   "name": "cam-is-bored_new",
   "private": true,
   "version": "1.0.0",
+  "homepage": "cam-is-bored.dev",
   "scripts": {
     "build": "pnpm --filter website build",
     "dev": "pnpm --filter website dev",
