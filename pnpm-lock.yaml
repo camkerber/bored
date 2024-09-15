@@ -140,9 +140,6 @@ importers:
 
   packages/providers:
     devDependencies:
-      '@bored/api':
-        specifier: workspace:*
-        version: link:../api
       '@bored/utils':
         specifier: workspace:*
         version: link:../utils

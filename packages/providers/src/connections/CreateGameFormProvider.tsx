@@ -7,7 +7,6 @@ import {
   useReducer,
   useState,
 } from "react";
-import {useCreateGame} from "@bored/api";
 import {
   CategoryV2,
   ConnectionV2,
@@ -16,7 +15,6 @@ import {
   GameFormField,
   GameFormFieldValidity,
   GameV2,
-  useNavigateToConnectionsPath,
 } from "@bored/utils";
 
 const FORM_VALIDITY_MAP: GameFormFieldValidity = {
@@ -37,9 +35,6 @@ export interface CreateGameForm {
   newGame: GameV2;
   updateGameForm: (action: CreateGameFormAction) => void;
   setFormFieldValid: (isValid: boolean, formField: GameFormField) => void;
-  createNewGame: () => Promise<void>;
-  creatingNewGame: boolean;
-  creationError: Error | null;
 }
 
 const CREATE_GAME_FORM_CONTEXT_DEFAULT: CreateGameForm = {
@@ -73,9 +68,6 @@ const CREATE_GAME_FORM_CONTEXT_DEFAULT: CreateGameForm = {
   },
   updateGameForm: () => {},
   setFormFieldValid: () => {},
-  createNewGame: async () => {},
-  creatingNewGame: false,
-  creationError: null,
 };
 
 export const CreateGameFormContext = createContext(
@@ -156,9 +148,6 @@ const reducer = (state: GameV2, action: CreateGameFormAction): GameV2 => {
 };
 
 export const CreateGameFormProvider = ({children}: PropsWithChildren) => {
-  const navigateTo = useNavigateToConnectionsPath();
-  const {createGame, loading, error} = useCreateGame();
-
   const [formIsValid, setFormIsValid] = useState<boolean>(false);
   const [formFieldValidity, setFormFieldValidity] =
     useState<GameFormFieldValidity>(FORM_VALIDITY_MAP);
@@ -184,29 +173,14 @@ export const CreateGameFormProvider = ({children}: PropsWithChildren) => {
     [],
   );
 
-  const createGameRequest = useCallback(async () => {
-    const newGame = await createGame(state);
-    navigateTo(newGame?.id ?? "");
-  }, [createGame, navigateTo, state]);
-
   const createGameForm = useMemo(() => {
     return {
       formIsValid,
       newGame: state,
       updateGameForm: dispatch,
       setFormFieldValid,
-      createNewGame: createGameRequest,
-      creatingNewGame: loading,
-      creationError: error,
     };
-  }, [
-    createGameRequest,
-    error,
-    formIsValid,
-    loading,
-    setFormFieldValid,
-    state,
-  ]);
+  }, [formIsValid, setFormFieldValid, state]);
 
   return (
     <CreateGameFormContext.Provider value={createGameForm}>

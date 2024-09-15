@@ -7,17 +7,29 @@ import {
   useTheme,
 } from "@mui/material";
 import {useCreateGameFormContext} from "@bored/providers";
-import {CategoryV2} from "@bored/utils";
+import {CategoryV2, useNavigateToConnectionsPath} from "@bored/utils";
 import Author from "./Author";
 import Connection from "./Connection";
 import Title from "./Title";
+import {useCreateGame} from "@bored/api";
 
 const GameForm = () => {
-  const {formIsValid, createNewGame, creatingNewGame, creationError} =
-    useCreateGameFormContext();
+  const {formIsValid, newGame} = useCreateGameFormContext();
+
+  const navigateTo = useNavigateToConnectionsPath();
+  const {
+    createGame,
+    loading: creatingNewGame,
+    error: creationError,
+  } = useCreateGame();
 
   const theme = useTheme();
   const largerScreen = useMediaQuery(theme.breakpoints.up("lg"));
+
+  const handleCreateNewGame = async () => {
+    const returnedGame = await createGame(newGame);
+    navigateTo(returnedGame?.id ?? "");
+  };
 
   return (
     <Grid item xs={largerScreen ? 6 : 12}>
@@ -33,7 +45,7 @@ const GameForm = () => {
           sx={{mt: {xs: 9, sm: 9, md: 9, lg: 4}}}
           fullWidth
           disabled={!formIsValid}
-          onClick={createNewGame}
+          onClick={handleCreateNewGame}
         >
           {creatingNewGame ? <CircularProgress size={26} /> : "Create Game"}
           {creationError ? (
