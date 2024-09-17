@@ -1,13 +1,26 @@
 import {useConnectionsGameContext} from "@bored/providers";
-import Tile from "./Tile";
+import {Button, Grid} from "@mui/material";
 
 const Tiles = () => {
-  const {options} = useConnectionsGameContext();
+  const {options, selectOption, selections} = useConnectionsGameContext();
 
   return (
     <>
       {options.map((option) => {
-        return <Tile key={option} option={option} />;
+        const isSelected = selections.includes(option);
+        return (
+          <Grid key={option} item xs={3}>
+            <Button
+              onClick={() => selectOption(option)}
+              className="connections-tile"
+              variant="contained"
+              disableElevation
+              color={isSelected ? "primary" : "inherit"}
+            >
+              {option}
+            </Button>
+          </Grid>
+        );
       })}
     </>
   );

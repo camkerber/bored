@@ -3,8 +3,9 @@ import {useSnackbar} from "notistack";
 import {useMemo} from "react";
 import {useConnectionsGameContext} from "@bored/providers";
 import "@bored/styles";
-import {CategoryV2} from "@bored/utils";
+import {CategoryV2, shareLinkOrText} from "@bored/utils";
 import {Modal} from "@bored/ui";
+import {isMobile} from "react-device-detect";
 
 const CATEGORY_SQUARE_MAP: Record<CategoryV2, string> = {
   [CategoryV2.Yellow]: "\u{1F7E8}",
@@ -35,19 +36,20 @@ const ShareResultsModal = ({open, onClose}: ShareResultsModalProps) => {
     return `${activeGame.title}\n${allGuesses.join("")}`;
   }, [results, activeGame.title]);
 
-  const handleCopyToClipboard = () => {
-    navigator.clipboard
-      .writeText(resultsString)
-      .then(() => {
+  const handleShare = async () => {
+    await shareLinkOrText(
+      {
+        text: resultsString,
+      },
+      () =>
         enqueueSnackbar("Results copied", {
           variant: "success",
-        });
-      })
-      .catch(() => {
+        }),
+      () =>
         enqueueSnackbar("Failed to copy results", {
           variant: "error",
-        });
-      });
+        }),
+    );
   };
 
   return (
@@ -59,8 +61,8 @@ const ShareResultsModal = ({open, onClose}: ShareResultsModalProps) => {
         <pre id="camnections-results" className="share-results-content">
           {resultsString}
         </pre>
-        <Button onClick={handleCopyToClipboard} variant="outlined" sx={{mt: 2}}>
-          Copy to Clipboard
+        <Button onClick={handleShare} variant="outlined" sx={{mt: 2}}>
+          {isMobile ? "Share" : "Copy to clipboard"}
         </Button>
       </>
     </Modal>

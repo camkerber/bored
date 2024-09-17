@@ -25,7 +25,7 @@ export const useGetNewGame = () => {
           const allGameIds = idsSnapshot.val() as string[];
           let loopCount = 0;
           do {
-            newGameId = getRandomArrayItem(allGameIds) as string;
+            newGameId = getRandomArrayItem(allGameIds);
             loopCount++;
             if (loopCount > allGameIds.length) {
               clearCompletedGames();

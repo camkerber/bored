@@ -1,3 +1,3 @@
-export const getRandomArrayItem = (array: Array<unknown>) => {
+export const getRandomArrayItem = <T>(array: T[]): T => {
   return array[Math.floor(Math.random() * array.length)];
 };

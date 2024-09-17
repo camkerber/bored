@@ -4,6 +4,5 @@ export * from "./GameWrapper";
 export * from "./GuessCounter";
 export * from "./ShareResultsModal";
 export * from "./SolvedCategories";
-export * from "./SolvedCategory";
-export * from "./Tile";
 export * from "./Tiles";
+export * from "./ShareGameButton";

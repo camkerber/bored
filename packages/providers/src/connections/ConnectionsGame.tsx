@@ -54,7 +54,7 @@ const initializeOptions = (connections: ConnectionV2[]): string[] => {
   connections.forEach((connection) => {
     allOptions = [...allOptions, ...connection.options];
   });
-  return shuffleArray(allOptions) as string[];
+  return shuffleArray(allOptions);
 };
 
 interface ConnectionsGameProviderProps extends PropsWithChildren {
@@ -106,7 +106,7 @@ export const ConnectionsGameProvider = ({
   }, [incorrectGuessCount]);
 
   const shuffleOptions = useCallback(() => {
-    setOptions((prevOptions) => shuffleArray(prevOptions) as string[]);
+    setOptions((prevOptions) => shuffleArray(prevOptions));
   }, []);
 
   const handleSelectOption = useCallback((option: string) => {

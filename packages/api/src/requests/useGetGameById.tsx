@@ -1,7 +1,7 @@
 import {child, get} from "firebase/database";
 import {useCallback, useEffect, useState} from "react";
 import {useFirebaseContext} from "@bored/providers";
-import {delay, GameV2} from "@bored/utils";
+import {GameV2} from "@bored/utils";
 
 export const useGetGameById = (gameId: string) => {
   const {camnectionsV2Ref} = useFirebaseContext();
@@ -29,7 +29,6 @@ export const useGetGameById = (gameId: string) => {
       } catch (error) {
         setError(error as Error);
       } finally {
-        await delay(200);
         setLoading(false);
       }
     },

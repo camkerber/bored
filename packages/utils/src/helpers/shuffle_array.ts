@@ -1,5 +1,5 @@
 // Knuth shuffle algorithm
-export const shuffleArray = (inputArr: Array<unknown>) => {
+export const shuffleArray = <T>(inputArr: Array<T>): Array<T> => {
   const newArray = [...inputArr];
   let currentIndex = newArray.length;
 
