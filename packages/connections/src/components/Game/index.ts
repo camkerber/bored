@@ -5,4 +5,3 @@ export * from "./GuessCounter";
 export * from "./ShareResultsModal";
 export * from "./SolvedCategories";
 export * from "./Tiles";
-export * from "./ShareGameButton";

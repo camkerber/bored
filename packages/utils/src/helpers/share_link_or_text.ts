@@ -19,9 +19,8 @@ export const shareLinkOrText = async (
       text: data.text,
       url: data?.url,
     });
-    onResolve?.();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    onReject?.();
+    // ignore
   }
 };
