@@ -2,12 +2,11 @@ import {CircularProgress} from "@mui/material";
 import {useState} from "react";
 import {Navigate, useParams} from "react-router-dom";
 import {useGetGameById, useGetNewGame} from "@bored/api";
-import {ConnectionsGameProvider} from "@bored/providers";
 import {useNavigateToConnectionsPath} from "@bored/utils";
-import ErrorView from "./ErrorView";
-import GameWrapper from "./Game/GameWrapper";
-import Header from "./Header";
-import {DEFAULT_GAME_ID} from "../utils";
+import {ErrorView} from "./ErrorView";
+import GameWrapper from "./GameWrapper";
+import {Header} from "./Header";
+import {DEFAULT_GAME_ID} from "../../utils";
 
 export const Connections = () => {
   const params = useParams();
@@ -38,9 +37,7 @@ export const Connections = () => {
       {params?.gameId ? (
         <>
           {!loading && data ? (
-            <ConnectionsGameProvider game={data}>
-              <GameWrapper onGetNewGame={handleGetNewGame} />
-            </ConnectionsGameProvider>
+            <GameWrapper game={data} onGetNewGame={handleGetNewGame} />
           ) : null}
         </>
       ) : (

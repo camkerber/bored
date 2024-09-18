@@ -1,7 +1,7 @@
 import {useConnectionsGameContext} from "@bored/providers";
 import {Button, Grid} from "@mui/material";
 
-const Tiles = () => {
+export const Tiles = () => {
   const {options, selectOption, selections} = useConnectionsGameContext();
 
   return (
@@ -25,5 +25,3 @@ const Tiles = () => {
     </>
   );
 };
-
-export default Tiles;

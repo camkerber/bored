@@ -4,7 +4,7 @@ import {Home} from "@bored/home";
 import {ErrorPage} from "@bored/ui";
 import {PROJECTS_MAP} from "@bored/utils";
 import {AuthenticationInit} from "@bored/ui";
-import {Connections, GameCreator} from "@bored/connections";
+import {Connections, GameCreator, Archive} from "@bored/connections";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: `${PROJECTS_MAP.connections.path}/create`,
         element: <GameCreator />,
+      },
+      {
+        path: `${PROJECTS_MAP.connections.path}/archive`,
+        element: <Archive />,
       },
     ],
   },

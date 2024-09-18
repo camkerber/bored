@@ -1,9 +1,9 @@
 import {useColorModeContext, useConnectionsGameContext} from "@bored/providers";
 import {CategoryV2} from "@bored/utils";
 import {Paper, Typography, Grid} from "@mui/material";
-import {COLOR_MAP} from "../../utils";
+import {COLOR_MAP} from "../../../utils";
 
-const SolvedCategories = () => {
+export const SolvedCategories = () => {
   const {solvedCategories, activeGame} = useConnectionsGameContext();
   const colorMode = useColorModeContext();
 
@@ -40,5 +40,3 @@ const SolvedCategories = () => {
     </>
   );
 };
-
-export default SolvedCategories;

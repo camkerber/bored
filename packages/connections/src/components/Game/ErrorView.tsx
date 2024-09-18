@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material";
+import {Button, Typography} from "@mui/material";
 
 interface ErrorViewProps {
   getGameError: Error | null;
@@ -6,7 +6,7 @@ interface ErrorViewProps {
   onGetNewGame: () => Promise<void>;
 }
 
-const ErrorView = ({
+export const ErrorView = ({
   getGameError,
   newGameError,
   onGetNewGame,
@@ -15,14 +15,14 @@ const ErrorView = ({
     <>
       {getGameError || newGameError ? (
         <>
-          <Typography variant='h6' color='error.main' mt={10}>
+          <Typography variant="h6" color="error.main" mt={10}>
             {getGameError?.message || newGameError?.message}
           </Typography>
           <Button
             onClick={onGetNewGame}
-            variant='outlined'
-            size='large'
-            sx={{ mt: 2 }}
+            variant="outlined"
+            size="large"
+            sx={{mt: 2}}
           >
             Try Again
           </Button>
@@ -31,5 +31,3 @@ const ErrorView = ({
     </>
   );
 };
-
-export default ErrorView;

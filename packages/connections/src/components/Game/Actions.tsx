@@ -99,7 +99,7 @@ const Actions = ({onShareResults, onGetNewGame}: ActionsProps) => {
             className="connections-action-button"
             disabled={pauseNewGameButton}
           >
-            New Game
+            Random Game
           </Button>
         </Grid>
         <Grid item xs={6} className="connections-action-button-container">
@@ -110,10 +110,10 @@ const Actions = ({onShareResults, onGetNewGame}: ActionsProps) => {
             className="connections-action-button"
             disabled={pauseNewGameButton}
           >
-            Share this game
+            Share This Game
           </Button>
         </Grid>
-        <Grid item xs={12} className="connections-action-button-container">
+        <Grid item xs={6} className="connections-action-button-container">
           <Button
             onClick={() => navigateTo("create")}
             variant="outlined"
@@ -121,6 +121,16 @@ const Actions = ({onShareResults, onGetNewGame}: ActionsProps) => {
             className="connections-action-button"
           >
             Create a Game
+          </Button>
+        </Grid>
+        <Grid item xs={6} className="connections-action-button-container">
+          <Button
+            onClick={() => navigateTo("archive")}
+            variant="outlined"
+            size="large"
+            className="connections-action-button"
+          >
+            Game Archives
           </Button>
         </Grid>
       </Grid>
