@@ -1,6 +1,7 @@
 import {useColorModeContext, useConnectionsGameContext} from "@bored/providers";
-import {CategoryV2, COLOR_MAP} from "@bored/utils";
+import {CategoryV2} from "@bored/utils";
 import {Paper, Typography, Grid} from "@mui/material";
+import {COLOR_MAP} from "../../utils";
 
 const SolvedCategories = () => {
   const {solvedCategories, activeGame} = useConnectionsGameContext();

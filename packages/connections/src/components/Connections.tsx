@@ -7,8 +7,7 @@ import {useNavigateToConnectionsPath} from "@bored/utils";
 import ErrorView from "./ErrorView";
 import GameWrapper from "./Game/GameWrapper";
 import Header from "./Header";
-
-const DEFAULT_GAME_ID = "204";
+import {DEFAULT_GAME_ID} from "../utils";
 
 export const Connections = () => {
   const params = useParams();

@@ -36,6 +36,7 @@ export enum CreateGameFormActionType {
   ChangeAuthor = "change_author",
   ChangeCategoryName = "change_category_name",
   ChangeCategoryOptions = "change_category_options",
+  ResetForm = "reset_form",
 }
 
 export interface CreateGameFormActionPayload {
@@ -49,6 +50,7 @@ export interface CreateGameFormActionPayload {
     category: CategoryV2;
     newOptions: string[];
   };
+  resetForm?: boolean;
 }
 
 export interface CreateGameFormAction {
@@ -59,3 +61,11 @@ export interface CreateGameFormAction {
 export type GameFormFieldValidity = {
   [key in GameFormField]: boolean;
 };
+
+export interface CreateGameForm {
+  formIsValid: boolean;
+  newGame: GameV2;
+  updateGameForm: (action: CreateGameFormAction) => void;
+  setFormFieldValid: (isValid: boolean, formField: GameFormField) => void;
+  resetForm: () => void;
+}

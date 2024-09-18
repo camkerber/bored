@@ -3,16 +3,10 @@ import {useSnackbar} from "notistack";
 import {useMemo} from "react";
 import {useConnectionsGameContext} from "@bored/providers";
 import "@bored/styles";
-import {CategoryV2, shareLinkOrText} from "@bored/utils";
+import {shareLinkOrText} from "@bored/utils";
 import {Modal} from "@bored/ui";
 import {isMobile} from "react-device-detect";
-
-const CATEGORY_SQUARE_MAP: Record<CategoryV2, string> = {
-  [CategoryV2.Yellow]: "\u{1F7E8}",
-  [CategoryV2.Green]: "\u{1F7E9}",
-  [CategoryV2.Blue]: "\u{1F7E6}",
-  [CategoryV2.Purple]: "\u{1F7EA}",
-};
+import {CATEGORY_SQUARE_MAP} from "../../utils";
 
 interface ShareResultsModalProps {
   open: boolean;

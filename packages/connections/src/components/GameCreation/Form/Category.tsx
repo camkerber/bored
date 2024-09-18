@@ -4,15 +4,8 @@ import {useCreateGameFormContext} from "@bored/providers";
 import {
   CategoryV2 as CategoryType,
   CreateGameFormActionType,
-  GameFormField,
 } from "@bored/utils";
-
-const CATEGORY_FORM_FIELD_MAP = {
-  [CategoryType.Yellow]: GameFormField.YellowName,
-  [CategoryType.Green]: GameFormField.GreenName,
-  [CategoryType.Blue]: GameFormField.BlueName,
-  [CategoryType.Purple]: GameFormField.PurpleName,
-};
+import {CATEGORY_FORM_FIELD_NAME_MAP} from "../../../utils";
 
 interface CategoryProps {
   color: "warning" | "success" | "primary" | "secondary";
@@ -33,7 +26,7 @@ const Category = ({color, category}: CategoryProps) => {
 
     if (proposedCategoryName.length > 40) {
       setError("Category names must be 40 characters or less");
-      setFormFieldValid(false, CATEGORY_FORM_FIELD_MAP[category]);
+      setFormFieldValid(false, CATEGORY_FORM_FIELD_NAME_MAP[category]);
     } else {
       setError(null);
     }
@@ -56,13 +49,13 @@ const Category = ({color, category}: CategoryProps) => {
 
     if (proposedCategoryName.trim().length === 0) {
       setError("Category name is required");
-      setFormFieldValid(false, CATEGORY_FORM_FIELD_MAP[category]);
+      setFormFieldValid(false, CATEGORY_FORM_FIELD_NAME_MAP[category]);
       return;
     }
 
     if (proposedCategoryName.length > 40) {
       setError("Category names must be 40 characters or less");
-      setFormFieldValid(false, CATEGORY_FORM_FIELD_MAP[category]);
+      setFormFieldValid(false, CATEGORY_FORM_FIELD_NAME_MAP[category]);
       return;
     } else {
       setError(null);
@@ -79,7 +72,7 @@ const Category = ({color, category}: CategoryProps) => {
     });
     if (hasDuplicates) {
       setError("All category names must be unique");
-      setFormFieldValid(false, CATEGORY_FORM_FIELD_MAP[category]);
+      setFormFieldValid(false, CATEGORY_FORM_FIELD_NAME_MAP[category]);
       return;
     } else {
       setError(null);
@@ -94,7 +87,7 @@ const Category = ({color, category}: CategoryProps) => {
         },
       },
     });
-    setFormFieldValid(true, CATEGORY_FORM_FIELD_MAP[category]);
+    setFormFieldValid(true, CATEGORY_FORM_FIELD_NAME_MAP[category]);
   };
 
   return (

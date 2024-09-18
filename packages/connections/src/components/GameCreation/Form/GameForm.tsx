@@ -14,7 +14,7 @@ import Title from "./Title";
 import {useCreateGame} from "@bored/api";
 
 const GameForm = () => {
-  const {formIsValid, newGame} = useCreateGameFormContext();
+  const {formIsValid, newGame, resetForm} = useCreateGameFormContext();
 
   const navigateTo = useNavigateToConnectionsPath();
   const {
@@ -54,6 +54,15 @@ const GameForm = () => {
               <Typography>{creationError?.message}</Typography>
             </>
           ) : null}
+        </Button>
+        <Button
+          variant="outlined"
+          size="large"
+          fullWidth
+          onClick={resetForm}
+          sx={{mt: 2}}
+        >
+          Reset inputs
         </Button>
       </Grid>
     </Grid>

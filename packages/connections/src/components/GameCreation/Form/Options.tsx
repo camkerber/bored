@@ -1,18 +1,8 @@
 import {TextField} from "@mui/material";
 import {ChangeEvent, FocusEvent, useState} from "react";
 import {useCreateGameFormContext} from "@bored/providers";
-import {
-  CategoryV2,
-  CreateGameFormActionType,
-  GameFormField,
-} from "@bored/utils";
-
-const CATEGORY_FORM_FIELD_MAP = {
-  [CategoryV2.Yellow]: GameFormField.YellowOptions,
-  [CategoryV2.Green]: GameFormField.GreenOptions,
-  [CategoryV2.Blue]: GameFormField.BlueOptions,
-  [CategoryV2.Purple]: GameFormField.PurpleOptions,
-};
+import {CategoryV2, CreateGameFormActionType} from "@bored/utils";
+import {CATEGORY_FORM_FIELD_OPTIONS_MAP} from "../../../utils";
 
 interface OptionsProps {
   color: "warning" | "success" | "primary" | "secondary";
@@ -119,7 +109,7 @@ const Options = ({color, category}: OptionsProps) => {
         },
       },
     });
-    setFormFieldValid(true, CATEGORY_FORM_FIELD_MAP[category]);
+    setFormFieldValid(true, CATEGORY_FORM_FIELD_OPTIONS_MAP[category]);
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

@@ -1,18 +1,9 @@
 import {Grid, Paper} from "@mui/material";
 import {useColorModeContext} from "@bored/providers";
-import {COLOR_MAP, CategoryV2 as CategoryType} from "@bored/utils";
+import {CategoryV2 as CategoryType} from "@bored/utils";
 import Category from "./Category";
 import Options from "./Options";
-
-const TEXT_FIELD_COLORS: Record<
-  CategoryType,
-  "warning" | "success" | "primary" | "secondary"
-> = {
-  [CategoryType.Yellow]: "warning",
-  [CategoryType.Green]: "success",
-  [CategoryType.Blue]: "primary",
-  [CategoryType.Purple]: "secondary",
-};
+import {COLOR_MAP, TEXT_FIELD_COLORS} from "../../../utils";
 
 interface ConnectionProps {
   category: CategoryType;
