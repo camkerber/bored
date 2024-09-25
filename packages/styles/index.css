@@ -133,3 +133,15 @@
   right: 0;
   margin: 5px !important;
 }
+
+.archives-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.games-paper {
+  padding-left: 10px;
+  padding-right: 10px;
+}

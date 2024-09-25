@@ -3,5 +3,6 @@ export * from "./Board";
 export * from "./GameWrapper";
 export * from "./GuessCounter";
 export * from "./ShareResultsModal";
-export * from "./SolvedCategories";
-export * from "./Tiles";
+export * from "./Connections";
+export * from "./ErrorView";
+export * from "./Header";

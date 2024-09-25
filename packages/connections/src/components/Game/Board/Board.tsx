@@ -1,9 +1,9 @@
 import {Grid} from "@mui/material";
 import "@bored/styles";
-import SolvedCategories from "./SolvedCategories";
-import Tiles from "./Tiles";
+import {SolvedCategories} from "./SolvedCategories";
+import {Tiles} from "./Tiles";
 
-const Board = () => {
+export const Board = () => {
   return (
     <div>
       <Grid container spacing={1} className="connections-game-board">
@@ -13,5 +13,3 @@ const Board = () => {
     </div>
   );
 };
-
-export default Board;
