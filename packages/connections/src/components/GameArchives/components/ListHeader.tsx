@@ -1,6 +1,6 @@
 import {Typography} from "@mui/material";
 
-export const Header = () => {
+export const ListHeader = () => {
   return (
     <>
       <Typography variant="h4">Game Archives</Typography>

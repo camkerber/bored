@@ -1,7 +1,7 @@
 import {useGetPageOfGames} from "@bored/api";
 import {Button, Container} from "@mui/material";
 import {useEffect} from "react";
-import {Header, GamesList} from "./components";
+import {ListHeader, GamesList} from "./components";
 // import {clearCompletedGames, getCompletedGames} from "@bored/utils";
 
 export const Archive = () => {
@@ -37,7 +37,7 @@ export const Archive = () => {
 
   return (
     <Container className="archives-container">
-      <Header />
+      <ListHeader />
       <GamesList games={data} resultsCleared={false} />
       {canPageForward ? (
         <Button size="large" variant="outlined" sx={{mt: 2}}>

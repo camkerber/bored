@@ -1,2 +1,2 @@
 export * from "./GamesList";
-export * from "./Header";
+export * from "./ListHeader";
