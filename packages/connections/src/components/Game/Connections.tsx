@@ -7,6 +7,7 @@ import {ErrorView} from "./ErrorView";
 import GameWrapper from "./GameWrapper";
 import {Header} from "./Header";
 import {DEFAULT_GAME_ID} from "../../utils";
+import {ConnectionsGameProvider} from "@bored/providers";
 
 export const Connections = () => {
   const params = useParams();
@@ -37,7 +38,9 @@ export const Connections = () => {
       {params?.gameId ? (
         <>
           {!loading && data ? (
-            <GameWrapper game={data} onGetNewGame={handleGetNewGame} />
+            <ConnectionsGameProvider game={data}>
+              <GameWrapper onGetNewGame={handleGetNewGame} />
+            </ConnectionsGameProvider>
           ) : null}
         </>
       ) : (

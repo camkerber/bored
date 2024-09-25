@@ -7,18 +7,49 @@ import {
   query,
   startAt,
 } from "firebase/database";
-import {useCallback, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {useFirebaseContext} from "@bored/providers";
 import {GameV2} from "@bored/utils";
 
 export const useGetPageOfGames = (pageLength: number) => {
   const {camnectionsV2Ref} = useFirebaseContext();
+
   const [data, setData] = useState<GameV2[] | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
   const [startKey, setStartKey] = useState<string | undefined>(undefined);
   const [pageEnd, setPageEnd] = useState<number>(pageLength);
+
+  const [canPageForward, setCanPageForward] = useState<boolean>(false);
+  // const [canPageBackward, setCanPageBackward] = useState<boolean>(false);
+  const [allGamesLength, setAllGamesLength] = useState<number>(0);
+
+  useEffect(() => {
+    (async function setup() {
+      const idsSnapshot = await get(child(camnectionsV2Ref, "/gameIds"));
+      if (idsSnapshot.exists()) {
+        const allGameIds = idsSnapshot.val() as string[];
+        setAllGamesLength(allGameIds.length);
+        if (allGameIds.length < pageLength) {
+          setCanPageForward(false);
+        } else {
+          setCanPageForward(true);
+        }
+      }
+    })()
+      .then(() => {})
+      .catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (allGamesLength < pageEnd) {
+      setCanPageForward(false);
+    } else {
+      setCanPageForward(true);
+    }
+  }, [pageEnd, allGamesLength]);
 
   const getNextPage = useCallback(async () => {
     setLoading(true);
@@ -47,7 +78,6 @@ export const useGetPageOfGames = (pageLength: number) => {
       } else {
         throw new Error("Games could not be found...");
       }
-      console.log("results", snapshot.val());
     } catch (error) {
       setError(error as Error);
     } finally {
@@ -56,5 +86,5 @@ export const useGetPageOfGames = (pageLength: number) => {
     }
   }, [camnectionsV2Ref, pageEnd, pageLength, startKey]);
 
-  return {data, loading, error, getNextPage};
+  return {data, loading, error, getNextPage, canPageForward};
 };
