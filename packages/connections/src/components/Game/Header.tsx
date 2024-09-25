@@ -8,7 +8,9 @@ interface HeaderProps {
 export const Header = ({title, author}: HeaderProps) => {
   return (
     <>
-      <Typography variant="h3">{title ?? "Connections"}</Typography>
+      <Typography variant="h3" sx={{textAlign: "center"}}>
+        {title ?? "Connections"}
+      </Typography>
       {author ? (
         <Typography variant="body1">Created by: {author}</Typography>
       ) : null}

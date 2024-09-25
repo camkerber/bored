@@ -1,5 +1,4 @@
 import {Button, Grid} from "@mui/material";
-import {useState} from "react";
 import {useConnectionsGameContext} from "@bored/providers";
 import {shareLinkOrText, useNavigateToConnectionsPath} from "@bored/utils";
 import "@bored/styles";
@@ -7,10 +6,9 @@ import {useSnackbar} from "notistack";
 
 interface ActionsProps {
   onShareResults: () => void;
-  onGetNewGame: () => Promise<void>;
 }
 
-const Actions = ({onShareResults, onGetNewGame}: ActionsProps) => {
+const Actions = ({onShareResults}: ActionsProps) => {
   const {
     submit,
     shuffleOptions,
@@ -19,17 +17,8 @@ const Actions = ({onShareResults, onGetNewGame}: ActionsProps) => {
     activeGame,
   } = useConnectionsGameContext();
 
-  const [pauseNewGameButton, setPauseNewGameButton] = useState(false);
   const navigateTo = useNavigateToConnectionsPath();
   const {enqueueSnackbar} = useSnackbar();
-
-  const handleGetNewGame = async () => {
-    setPauseNewGameButton(true);
-    await onGetNewGame();
-    setTimeout(() => {
-      setPauseNewGameButton(false);
-    }, 3_000);
-  };
 
   const handleShareGame = async () => {
     await shareLinkOrText(
@@ -93,28 +82,6 @@ const Actions = ({onShareResults, onGetNewGame}: ActionsProps) => {
         </Grid>
         <Grid item xs={6} className="connections-action-button-container">
           <Button
-            onClick={handleGetNewGame}
-            variant="outlined"
-            size="large"
-            className="connections-action-button"
-            disabled={pauseNewGameButton}
-          >
-            Random Game
-          </Button>
-        </Grid>
-        <Grid item xs={6} className="connections-action-button-container">
-          <Button
-            onClick={handleShareGame}
-            variant="outlined"
-            size="large"
-            className="connections-action-button"
-            disabled={pauseNewGameButton}
-          >
-            Share This Game
-          </Button>
-        </Grid>
-        <Grid item xs={6} className="connections-action-button-container">
-          <Button
             onClick={() => navigateTo("create")}
             variant="outlined"
             size="large"
@@ -130,7 +97,17 @@ const Actions = ({onShareResults, onGetNewGame}: ActionsProps) => {
             size="large"
             className="connections-action-button"
           >
-            Game Archives
+            Archives
+          </Button>
+        </Grid>
+        <Grid item xs={12} className="connections-action-button-container">
+          <Button
+            onClick={handleShareGame}
+            variant="outlined"
+            size="large"
+            className="connections-action-button"
+          >
+            Share This Game
           </Button>
         </Grid>
       </Grid>

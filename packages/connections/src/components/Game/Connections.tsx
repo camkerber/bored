@@ -39,7 +39,7 @@ export const Connections = () => {
         <>
           {!loading && data ? (
             <ConnectionsGameProvider game={data}>
-              <GameWrapper onGetNewGame={handleGetNewGame} />
+              <GameWrapper />
             </ConnectionsGameProvider>
           ) : null}
         </>
