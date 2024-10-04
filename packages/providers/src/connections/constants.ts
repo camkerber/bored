@@ -37,6 +37,7 @@ export const CREATE_GAME_FORM_CONTEXT_DEFAULT: CreateGameForm = {
   updateGameForm: () => {},
   setFormFieldValid: () => {},
   resetForm: () => {},
+  formResetSignal: "static",
 };
 
 export const FORM_VALIDITY_MAP: GameFormFieldValidity = {
