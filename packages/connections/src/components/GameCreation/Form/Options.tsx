@@ -1,5 +1,5 @@
 import {TextField} from "@mui/material";
-import {ChangeEvent, FocusEvent, useState} from "react";
+import {ChangeEvent, FocusEvent, useEffect, useState} from "react";
 import {useCreateGameFormContext} from "@bored/providers";
 import {CategoryV2, CreateGameFormActionType} from "@bored/utils";
 import {CATEGORY_FORM_FIELD_OPTIONS_MAP} from "../../../utils";
@@ -12,8 +12,14 @@ interface OptionsProps {
 const Options = ({color, category}: OptionsProps) => {
   const [error, setError] = useState<string | null>(null);
   const [localOptions, setLocalOptions] = useState<string>("");
-  const {newGame, updateGameForm, setFormFieldValid} =
+  const {newGame, updateGameForm, setFormFieldValid, formResetSignal} =
     useCreateGameFormContext();
+
+  useEffect(() => {
+    if (formResetSignal === "reset") {
+      setError(null);
+    }
+  }, [formResetSignal]);
 
   const validateAndUpdate = (
     event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>,

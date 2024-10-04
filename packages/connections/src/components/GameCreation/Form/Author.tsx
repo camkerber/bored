@@ -1,12 +1,18 @@
 import {Grid, TextField} from "@mui/material";
-import {ChangeEvent, FocusEvent, useState} from "react";
+import {ChangeEvent, FocusEvent, useEffect, useState} from "react";
 import {useCreateGameFormContext} from "@bored/providers";
 import {CreateGameFormActionType, GameFormField} from "@bored/utils";
 
 const Author = () => {
-  const {newGame, updateGameForm, setFormFieldValid} =
+  const {newGame, updateGameForm, setFormFieldValid, formResetSignal} =
     useCreateGameFormContext();
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (formResetSignal === "reset") {
+      setError(null);
+    }
+  }, [formResetSignal]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const proposedAuthor = event.target.value;

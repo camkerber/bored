@@ -1,3 +1,3 @@
 export * from "./Home";
 export * from "./IntroContent";
-export * from "./ProjectCards";
+export * from "./carousel";

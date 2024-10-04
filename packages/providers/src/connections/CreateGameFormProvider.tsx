@@ -7,7 +7,10 @@ import {
   useState,
 } from "react";
 import {
+  CreateGameForm,
   CreateGameFormActionType,
+  delay,
+  FormResetSignal,
   GameFormField,
   GameFormFieldValidity,
 } from "@bored/utils";
@@ -19,6 +22,8 @@ export const CreateGameFormProvider = ({children}: PropsWithChildren) => {
   const [formIsValid, setFormIsValid] = useState<boolean>(false);
   const [formFieldValidity, setFormFieldValidity] =
     useState<GameFormFieldValidity>(FORM_VALIDITY_MAP);
+  const [formResetSignal, setFormResetSignal] =
+    useState<FormResetSignal>("static");
 
   const [state, dispatch] = useReducer(
     formReducer,
@@ -41,24 +46,28 @@ export const CreateGameFormProvider = ({children}: PropsWithChildren) => {
     [],
   );
 
-  const resetForm = useCallback(() => {
+  const resetForm = useCallback(async () => {
+    setFormResetSignal("reset");
     setFormIsValid(false);
     setFormFieldValidity(FORM_VALIDITY_MAP);
     dispatch({
       type: CreateGameFormActionType.ResetForm,
       payload: {resetForm: true},
     });
+    await delay(500);
+    setFormResetSignal("static");
   }, []);
 
-  const createGameForm = useMemo(() => {
+  const createGameForm: CreateGameForm = useMemo(() => {
     return {
       formIsValid,
       newGame: state,
       updateGameForm: dispatch,
       setFormFieldValid,
       resetForm,
+      formResetSignal,
     };
-  }, [formIsValid, setFormFieldValid, state, resetForm]);
+  }, [formIsValid, setFormFieldValid, state, resetForm, formResetSignal]);
 
   return (
     <CreateGameFormContext.Provider value={createGameForm}>

@@ -1,5 +1,5 @@
 import {TextField} from "@mui/material";
-import {ChangeEvent, FocusEvent, useState} from "react";
+import {ChangeEvent, FocusEvent, useEffect, useState} from "react";
 import {useCreateGameFormContext} from "@bored/providers";
 import {
   CategoryV2 as CategoryType,
@@ -13,9 +13,16 @@ interface CategoryProps {
 }
 
 const Category = ({color, category}: CategoryProps) => {
-  const {newGame, updateGameForm, setFormFieldValid} =
+  const {newGame, updateGameForm, setFormFieldValid, formResetSignal} =
     useCreateGameFormContext();
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    console.log("formResetForm:", formResetSignal);
+    if (formResetSignal === "reset") {
+      setError(null);
+    }
+  }, [formResetSignal]);
 
   const categoryNameFieldValue = newGame.connections.find(
     (connection) => connection.category === category,

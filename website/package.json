@@ -10,12 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@bored/connections": "workspace:*",
     "@bored/home": "workspace:*",
     "@bored/providers": "workspace:*",
     "@bored/styles": "workspace:*",
     "@bored/ui": "workspace:*",
     "@bored/utils": "workspace:*",
-    "@bored/connections": "workspace:*",
+    "@bored/wordle": "workspace:*",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@fontsource/roboto": "^5.1.0",

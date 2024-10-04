@@ -62,10 +62,13 @@ export type GameFormFieldValidity = {
   [key in GameFormField]: boolean;
 };
 
+export type FormResetSignal = "reset" | "static";
+
 export interface CreateGameForm {
   formIsValid: boolean;
   newGame: GameV2;
   updateGameForm: (action: CreateGameFormAction) => void;
   setFormFieldValid: (isValid: boolean, formField: GameFormField) => void;
   resetForm: () => void;
+  formResetSignal: FormResetSignal;
 }

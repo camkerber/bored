@@ -42,7 +42,7 @@ const Actions = ({onShareResults}: ActionsProps) => {
     <>
       <Grid
         container
-        sx={{mt: 3, mb: 4}}
+        sx={{mt: 2, mb: 4}}
         spacing={1}
         rowGap={2}
         className="connections-actions-container"

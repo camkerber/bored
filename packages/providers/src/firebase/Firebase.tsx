@@ -12,11 +12,13 @@ import firebaseAppCheck from "./config";
 
 export interface Firebase {
   camnectionsV2Ref: DatabaseReference;
+  wordleRef: DatabaseReference;
   initializing: boolean;
 }
 
 const DEFAULT_FIREBASE_CONTEXT: Firebase = {
   camnectionsV2Ref: {} as DatabaseReference,
+  wordleRef: {} as DatabaseReference,
   initializing: true,
 };
 
@@ -47,12 +49,18 @@ export const FirebaseProvider = ({children}: PropsWithChildren) => {
     return ref(database, "camnections-v2");
   }, []);
 
+  const wordleRef = useMemo(() => {
+    const database = getDatabase(firebaseAppCheck.app);
+    return ref(database, "wordle");
+  }, []);
+
   const dbRefs = useMemo(
     () => ({
       camnectionsV2Ref,
+      wordleRef,
       initializing,
     }),
-    [camnectionsV2Ref, initializing],
+    [camnectionsV2Ref, wordleRef, initializing],
   );
 
   return (

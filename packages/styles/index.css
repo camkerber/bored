@@ -1,3 +1,9 @@
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .outlet-container {
   max-width: 1280px !important;
   margin: 0 auto;
@@ -16,14 +22,6 @@
 
   @media (min-width: 800px) {
     width: 67%;
-  }
-}
-
-.card-container {
-  max-width: 100%;
-
-  @media (min-width: 800px) {
-    max-width: 33%;
   }
 }
 
@@ -75,18 +73,6 @@
   @media (min-width: 500px) {
     max-width: 300px;
   }
-}
-
-.connections-action-button-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.connections-guess-counter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .connections-revealed-category {
@@ -144,4 +130,58 @@
 .games-paper {
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.wordle-guess-board-container {
+  width: 100%;
+
+  @media (min-width: 450px) {
+    width: 400px;
+  }
+}
+
+.wordle-guess-container {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.wordle-tile {
+  height: 60px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (min-width: 450px) {
+    height: 80px;
+  }
+}
+
+.keyboard-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.keyboard-char {
+  min-width: 20px !important;
+  padding: 15px !important;
+  font-size: 12px !important;
+
+  @media (min-width: 580px) {
+    padding: 20px !important;
+    font-size: 20px !important;
+  }
 }

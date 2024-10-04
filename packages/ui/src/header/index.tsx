@@ -6,7 +6,7 @@ import ReturnHome from "./ReturnHome";
 
 export const Header = () => {
   return (
-    <AppBar component="nav" position="static" sx={{mb: 4}}>
+    <AppBar component="nav" position="static" sx={{mb: 3}}>
       <Toolbar>
         <ReturnHome />
         <Typography variant="h6" component="div" sx={{flexGrow: 1}}>

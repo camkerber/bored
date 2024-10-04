@@ -1,10 +1,11 @@
-import {IntroContent, ProjectCards} from "..";
+import {IntroContent} from "..";
+import {ProjectsCarousel} from "./carousel";
 
 export const Home = () => {
   return (
     <>
       <IntroContent />
-      <ProjectCards />
+      <ProjectsCarousel />
     </>
   );
 };

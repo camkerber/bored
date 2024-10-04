@@ -1,0 +1,36 @@
+.carousel-container {
+  max-width: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: scroll;
+  /* -ms-overflow-style: none;
+  scrollbar-width: none; */
+  padding: 10px;
+  margin: -10px;
+  scroll-snap-type: x mandatory;
+
+  @media (min-width: 800px) {
+    width: 67%;
+  }
+}
+
+/* .carousel-container::-webkit-scrollbar {
+  display: none;
+} */
+
+.card-container {
+  min-width: 100%;
+  scroll-snap-align: center;
+
+  @media (min-width: 800px) {
+    min-width: unset;
+    max-width: 50%;
+  }
+}
+
+.card-container:not(:last-of-type) {
+  margin-right: 30px;
+  @media (min-width: 800px) {
+    margin-right: 10px;
+  }
+}
