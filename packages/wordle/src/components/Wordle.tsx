@@ -310,7 +310,7 @@ export const Wordle = () => {
             <Button
               size="large"
               variant="outlined"
-              sx={{mt: 3}}
+              sx={{mb: 3}}
               onClick={handleGetNewWord}
             >
               New Game

@@ -47,7 +47,7 @@ const Actions = ({onShareResults}: ActionsProps) => {
         rowGap={2}
         className="connections-actions-container"
       >
-        <Grid item xs={12} className="connections-action-button-container">
+        <Grid item xs={12} className="flex-center">
           <Button
             onClick={submit}
             variant="contained"
@@ -58,7 +58,7 @@ const Actions = ({onShareResults}: ActionsProps) => {
             Submit
           </Button>
         </Grid>
-        <Grid item xs={6} className="connections-action-button-container">
+        <Grid item xs={6} className="flex-center">
           <Button
             onClick={shuffleOptions}
             variant="outlined"
@@ -69,7 +69,7 @@ const Actions = ({onShareResults}: ActionsProps) => {
             Shuffle
           </Button>
         </Grid>
-        <Grid item xs={6} className="connections-action-button-container">
+        <Grid item xs={6} className="flex-center">
           <Button
             onClick={onShareResults}
             variant="outlined"
@@ -80,7 +80,7 @@ const Actions = ({onShareResults}: ActionsProps) => {
             View Results
           </Button>
         </Grid>
-        <Grid item xs={6} className="connections-action-button-container">
+        <Grid item xs={6} className="flex-center">
           <Button
             onClick={() => navigateTo("create")}
             variant="outlined"
@@ -90,7 +90,7 @@ const Actions = ({onShareResults}: ActionsProps) => {
             Create a Game
           </Button>
         </Grid>
-        <Grid item xs={6} className="connections-action-button-container">
+        <Grid item xs={6} className="flex-center">
           <Button
             onClick={() => navigateTo("archive")}
             variant="outlined"
@@ -100,7 +100,7 @@ const Actions = ({onShareResults}: ActionsProps) => {
             Archives
           </Button>
         </Grid>
-        <Grid item xs={12} className="connections-action-button-container">
+        <Grid item xs={12} className="flex-center">
           <Button
             onClick={handleShareGame}
             variant="outlined"
