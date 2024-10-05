@@ -38,7 +38,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: `${PROJECTS_MAP.wordle.path}/:wordHash?`,
+        path: `${PROJECTS_MAP.wordle.path}/:wordValue?`,
         element: (
           <AuthenticationInit>
             <WordleWrapper />
