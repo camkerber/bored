@@ -112,7 +112,7 @@ export const WordleProvider = ({
     if (word) {
       console.log(word.toUpperCase());
       setWordToGuess(word.toUpperCase());
-      navigateTo(wordleDict[word]);
+      // navigateTo("wordle/" + wordleDict[word]);
     }
 
     setGuesses((prevState) => {
@@ -340,7 +340,7 @@ export const WordleProvider = ({
     if (word) {
       console.log(word.toUpperCase());
       setWordToGuess(word.toUpperCase());
-      navigateTo(wordleDict[word]);
+      // navigateTo(wordleDict[word]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wordleDict]);
