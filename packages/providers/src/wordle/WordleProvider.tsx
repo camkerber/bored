@@ -5,6 +5,8 @@ import {
   getCompletedWordles,
   setCompletedWordles,
   getRandomArrayItem,
+  clearWordleCompletions,
+  useNavigateToWordlePath,
 } from "@bored/utils";
 import {useSnackbar} from "notistack";
 import {
@@ -15,7 +17,13 @@ import {
   useMemo,
   useState,
 } from "react";
-import {WORDLE_MAP, DELETE_STRING, SUBMIT_STRING, ALL_KEYS} from "./constants";
+import {
+  WORDLE_MAP,
+  DELETE_STRING,
+  SUBMIT_STRING,
+  ALL_KEYS,
+  DICT_LENGTH,
+} from "./constants";
 
 export interface WordleGameContext {
   charsNotInWord: string[];
@@ -45,10 +53,16 @@ export const WordleContext = createContext(DEFAULT_WORDLE_CONTEXT);
 
 export interface WordleProviderProps extends PropsWithChildren {
   wordleDict: WordleDictionary;
+  wordIndexFromRoute?: string;
 }
 
-export const WordleProvider = ({wordleDict, children}: WordleProviderProps) => {
+export const WordleProvider = ({
+  wordleDict,
+  wordIndexFromRoute,
+  children,
+}: WordleProviderProps) => {
   const {enqueueSnackbar} = useSnackbar();
+  const navigateTo = useNavigateToWordlePath();
 
   const [charsNotInWord, setCharsNotInWord] = useState<string[]>([]);
   const [globalCorrectLetters, setGlobalCorrectLetters] = useState<string[]>(
@@ -69,7 +83,11 @@ export const WordleProvider = ({wordleDict, children}: WordleProviderProps) => {
       const randomWord = getRandomArrayItem(Object.keys(wordleDict));
       const completedGames = getCompletedWordles();
       if (completedGames) {
-        if (completedGames.includes(randomWord)) {
+        // all wordles complete
+        if (completedGames.length === DICT_LENGTH) {
+          clearWordleCompletions();
+          return randomWord;
+        } else if (completedGames.includes(randomWord)) {
           getRandomWord();
         } else {
           return randomWord;
@@ -94,6 +112,7 @@ export const WordleProvider = ({wordleDict, children}: WordleProviderProps) => {
     if (word) {
       console.log(word.toUpperCase());
       setWordToGuess(word.toUpperCase());
+      navigateTo(wordleDict[word]);
     }
 
     setGuesses((prevState) => {
@@ -105,7 +124,7 @@ export const WordleProvider = ({wordleDict, children}: WordleProviderProps) => {
       });
       return prevState;
     });
-  }, [getRandomWord]);
+  }, [getRandomWord, navigateTo, wordleDict]);
 
   const handleGuess = useCallback(() => {
     // build word from guesses
@@ -296,11 +315,32 @@ export const WordleProvider = ({wordleDict, children}: WordleProviderProps) => {
     [handleNewChar],
   );
 
+  const getSpecificWord = (numValue: string): string => {
+    let word = "";
+    if (Number(numValue) > DICT_LENGTH) {
+      return getRandomWord() ?? wordleDict[69];
+    }
+
+    Object.keys(wordleDict).forEach((key) => {
+      if (wordleDict[key] === numValue.toString()) {
+        word = key;
+      }
+    });
+    return word;
+  };
+
   useEffect(() => {
-    const word = getRandomWord();
+    let word: string | undefined;
+    if (typeof wordIndexFromRoute !== "number") {
+      word = getRandomWord();
+    } else {
+      word = getSpecificWord(wordIndexFromRoute);
+    }
+
     if (word) {
       console.log(word.toUpperCase());
       setWordToGuess(word.toUpperCase());
+      navigateTo(wordleDict[word]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wordleDict]);

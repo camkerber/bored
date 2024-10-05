@@ -1,5 +1,7 @@
 import {CharGuessStatus, WordleGame} from "@bored/utils";
 
+export const DICT_LENGTH = 2316;
+
 export const DELETE_STRING = "DEL";
 export const DELETE_UNICODE = "\u{21A9}";
 export const SUBMIT_STRING = "GUESS";

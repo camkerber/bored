@@ -27,11 +27,7 @@ export const KeyboardRow = ({keyboardRow}: KeyboardRowProps) => {
           sx={{
             backgroundColor: (theme) =>
               charsNotInWord.includes(char)
-                ? theme.palette.action.disabledBackground
-                : undefined,
-            color: (theme) =>
-              charsNotInWord.includes(char)
-                ? theme.palette.action.disabled
+                ? theme.palette.error.light
                 : undefined,
           }}
         >
