@@ -1,13 +1,11 @@
 import {generateId} from "@bored/utils";
 import {CharInput} from "./CharInput";
 import {Grid2} from "@mui/material";
-import {WordleGame} from "../utils";
+import {useWordleContext} from "@bored/providers";
 
-interface GuessBoardProps {
-  guesses: WordleGame;
-}
+export const GuessBoard = () => {
+  const {guesses} = useWordleContext();
 
-export const GuessBoard = ({guesses}: GuessBoardProps) => {
   return (
     <div className="wordle-guess-board-container">
       {guesses.map((guessRow) => (

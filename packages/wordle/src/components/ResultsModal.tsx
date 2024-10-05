@@ -1,24 +1,19 @@
 import {Modal} from "@bored/ui";
-import {shareLinkOrText} from "@bored/utils";
+import {shareLinkOrText, CharGuessStatus} from "@bored/utils";
 import {Button, Typography} from "@mui/material";
 import {useSnackbar} from "notistack";
 import {isMobile} from "react-device-detect";
-import {CHAR_STATUS_SQUARE_MAP, CharGuessStatus, WordleGame} from "../utils";
 import {useMemo} from "react";
+import {useWordleContext, CHAR_STATUS_SQUARE_MAP} from "@bored/providers";
 
 interface ResultsModalProps {
   open: boolean;
   onClose: () => void;
-  guesses: WordleGame;
-  onGetNewWord: () => void;
 }
 
-export const ResultsModal = ({
-  open,
-  onClose,
-  guesses,
-  onGetNewWord,
-}: ResultsModalProps) => {
+export const ResultsModal = ({open, onClose}: ResultsModalProps) => {
+  const {guesses, handleGetNewWord, wordToGuess, wordleDict} =
+    useWordleContext();
   const {enqueueSnackbar} = useSnackbar();
 
   const resultsString = useMemo(() => {
@@ -42,7 +37,7 @@ export const ResultsModal = ({
         break;
       }
     }
-    return `${allGuesses.join("")}`;
+    return `Wordle #${wordleDict[wordToGuess.toLowerCase()]}\n${allGuesses.join("")}`;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [guesses, open]);
 
@@ -78,7 +73,7 @@ export const ResultsModal = ({
           variant="outlined"
           sx={{mt: 2}}
           onClick={() => {
-            onGetNewWord();
+            handleGetNewWord();
             onClose();
           }}
         >

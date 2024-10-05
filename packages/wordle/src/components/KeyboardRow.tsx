@@ -1,19 +1,17 @@
 import {Button} from "@mui/material";
-import {DELETE_STRING, DELETE_UNICODE} from "../utils";
+import {
+  DELETE_STRING,
+  DELETE_UNICODE,
+  useWordleContext,
+} from "@bored/providers";
 
 interface KeyboardRowProps {
   keyboardRow: string[];
-  onNewChar: (char: string) => void;
-  gameCompleted: boolean;
-  charsNotInWord: string[];
 }
 
-export const KeyboardRow = ({
-  keyboardRow,
-  onNewChar,
-  gameCompleted,
-  charsNotInWord,
-}: KeyboardRowProps) => {
+export const KeyboardRow = ({keyboardRow}: KeyboardRowProps) => {
+  const {handleNewChar, gameCompleted, charsNotInWord} = useWordleContext();
+
   return (
     <div className="keyboard-row">
       {keyboardRow.map((char) => (
@@ -24,7 +22,7 @@ export const KeyboardRow = ({
           color="inherit"
           disableElevation
           size="small"
-          onClick={() => onNewChar(char)}
+          onClick={() => handleNewChar(char)}
           disabled={gameCompleted}
           sx={{
             backgroundColor: (theme) =>

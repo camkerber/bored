@@ -26,3 +26,5 @@ export type WordleGame = [
   WordleGuess,
   WordleGuess,
 ];
+
+export type WordleDictionary = Record<string, string>;

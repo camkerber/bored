@@ -5,7 +5,7 @@ import {ErrorPage} from "@bored/ui";
 import {PROJECTS_MAP} from "@bored/utils";
 import {AuthenticationInit} from "@bored/ui";
 import {Connections, GameCreator, Archive} from "@bored/connections";
-import {Wordle} from "@bored/wordle";
+import {WordleWrapper} from "@bored/wordle";
 
 const router = createBrowserRouter([
   {
@@ -41,7 +41,7 @@ const router = createBrowserRouter([
         path: `${PROJECTS_MAP.wordle.path}/:wordHash?`,
         element: (
           <AuthenticationInit>
-            <Wordle />
+            <WordleWrapper />
           </AuthenticationInit>
         ),
       },

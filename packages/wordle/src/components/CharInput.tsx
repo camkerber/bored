@@ -1,6 +1,6 @@
 import {Paper, Typography, useTheme} from "@mui/material";
 import {useColorModeContext} from "@bored/providers";
-import {CharGuessStatus, WordleCharacter} from "../utils";
+import {CharGuessStatus, WordleCharacter} from "@bored/utils";
 import {useMemo} from "react";
 
 interface CharInputProps {

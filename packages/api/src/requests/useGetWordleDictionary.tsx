@@ -1,8 +1,7 @@
 import {get} from "firebase/database";
 import {useCallback, useEffect, useState} from "react";
 import {useFirebaseContext} from "@bored/providers";
-
-type WordleDictionary = Record<string, string>;
+import {WordleDictionary} from "@bored/utils";
 
 export const useGetWordleDictionary = () => {
   const {wordleRef} = useFirebaseContext();
