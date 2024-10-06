@@ -340,7 +340,10 @@ export const WordleProvider = ({
 
   useEffect(() => {
     if (guessCount === 6) {
-      setGameCompleted(true);
+      setTimeout(() => {
+        setOpenResultsModal(true);
+        setGameCompleted(true);
+      }, 1000);
     }
   }, [guessCount]);
 
