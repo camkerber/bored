@@ -53,7 +53,7 @@ export const WordleContext = createContext(DEFAULT_WORDLE_CONTEXT);
 
 export interface WordleProviderProps extends PropsWithChildren {
   wordleDict: WordleDictionary;
-  wordIndexFromRoute?: string;
+  wordIndexFromRoute: string;
 }
 
 export const WordleProvider = ({
@@ -112,7 +112,7 @@ export const WordleProvider = ({
     if (word) {
       console.log(word.toUpperCase());
       setWordToGuess(word.toUpperCase());
-      // navigateTo("wordle/" + wordleDict[word]);
+      navigateTo(wordleDict[word]);
     }
 
     setGuesses((prevState) => {
@@ -162,7 +162,6 @@ export const WordleProvider = ({
         }
         return prevGuesses;
       });
-      setGameCompleted(true);
       const completions = getCompletedWordles();
       if (completions) {
         setCompletedWordles(wordToGuess);
@@ -171,6 +170,7 @@ export const WordleProvider = ({
       }
       setTimeout(() => {
         setOpenResultsModal(true);
+        setGameCompleted(true);
       }, 1000);
     } else {
       setGuessedWords((prevWords) => [...prevWords, userGuess]);
@@ -330,20 +330,13 @@ export const WordleProvider = ({
   };
 
   useEffect(() => {
-    let word: string | undefined;
-    if (typeof wordIndexFromRoute !== "number") {
-      word = getRandomWord();
-    } else {
-      word = getSpecificWord(wordIndexFromRoute);
-    }
-
+    const word = getSpecificWord(wordIndexFromRoute);
     if (word) {
       console.log(word.toUpperCase());
       setWordToGuess(word.toUpperCase());
-      // navigateTo(wordleDict[word]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [wordleDict]);
+  }, []);
 
   useEffect(() => {
     if (guessCount === 6) {

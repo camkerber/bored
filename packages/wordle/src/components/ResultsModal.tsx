@@ -6,14 +6,15 @@ import {isMobile} from "react-device-detect";
 import {useMemo} from "react";
 import {useWordleContext, CHAR_STATUS_SQUARE_MAP} from "@bored/providers";
 
-interface ResultsModalProps {
-  open: boolean;
-  onClose: () => void;
-}
-
-export const ResultsModal = ({open, onClose}: ResultsModalProps) => {
-  const {guesses, handleGetNewWord, wordToGuess, wordleDict} =
-    useWordleContext();
+export const ResultsModal = () => {
+  const {
+    guesses,
+    handleGetNewWord,
+    wordToGuess,
+    wordleDict,
+    openResultsModal,
+    setOpenResultsModal,
+  } = useWordleContext();
   const {enqueueSnackbar} = useSnackbar();
 
   const resultsString = useMemo(() => {
@@ -39,7 +40,7 @@ export const ResultsModal = ({open, onClose}: ResultsModalProps) => {
     }
     return `Wordle #${wordleDict[wordToGuess.toLowerCase()]}\n${allGuesses.join("")}`;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [guesses, open]);
+  }, [guesses, openResultsModal]);
 
   const handleShare = async () => {
     await shareLinkOrText(
@@ -58,7 +59,11 @@ export const ResultsModal = ({open, onClose}: ResultsModalProps) => {
   };
 
   return (
-    <Modal open={open} onClose={onClose} showCloseButton>
+    <Modal
+      open={openResultsModal}
+      onClose={() => setOpenResultsModal(false)}
+      showCloseButton
+    >
       <>
         <Typography variant="h6" mb={2}>
           Wordle Completed!
@@ -67,14 +72,14 @@ export const ResultsModal = ({open, onClose}: ResultsModalProps) => {
           {resultsString}
         </pre>
         <Button onClick={handleShare} variant="outlined" sx={{mt: 2}}>
-          {isMobile ? "Share" : "Copy to clipboard"}
+          {isMobile ? "Share" : "Copy results"}
         </Button>
         <Button
           variant="outlined"
           sx={{mt: 2}}
           onClick={() => {
             handleGetNewWord();
-            onClose();
+            setOpenResultsModal(false);
           }}
         >
           New Game
