@@ -1,6 +1,6 @@
 import {useWordleContext} from "@bored/providers";
-import {shareLinkOrText} from "@bored/utils";
-import {Button, Container} from "@mui/material";
+import {getCompletedWordles, shareLinkOrText} from "@bored/utils";
+import {Button, Container, Typography} from "@mui/material";
 import {useSnackbar} from "notistack";
 
 export const Actions = () => {
@@ -12,6 +12,12 @@ export const Actions = () => {
     wordleDict,
   } = useWordleContext();
   const {enqueueSnackbar} = useSnackbar();
+  const completedGames = getCompletedWordles();
+
+  const showNewGameButton =
+    (gameCompleted && !openResultsModal) ||
+    completedGames.includes(wordToGuess);
+  const showShareButton = gameCompleted && !openResultsModal;
 
   const handleShare = async () => {
     await shareLinkOrText(
@@ -33,20 +39,25 @@ export const Actions = () => {
 
   return (
     <>
-      {gameCompleted && !openResultsModal ? (
-        <Container
-          disableGutters
-          className="flex-center"
-          sx={{flexDirection: "column"}}
-        >
-          <Button
-            size="large"
-            variant="outlined"
-            sx={{mb: 2, mt: 1}}
-            onClick={handleGetNewWord}
-          >
-            New Game
-          </Button>
+      <Container
+        disableGutters
+        className="flex-center"
+        sx={{flexDirection: "column"}}
+      >
+        {showNewGameButton ? (
+          <>
+            <Typography mb={1}>You completed this wordle</Typography>
+            <Button
+              size="large"
+              variant="outlined"
+              sx={{mb: 2, mt: 1}}
+              onClick={handleGetNewWord}
+            >
+              New Game
+            </Button>
+          </>
+        ) : null}
+        {showShareButton ? (
           <Button
             size="large"
             variant="outlined"
@@ -55,8 +66,8 @@ export const Actions = () => {
           >
             Share this wordle
           </Button>
-        </Container>
-      ) : null}
+        ) : null}
+      </Container>
     </>
   );
 };

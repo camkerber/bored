@@ -4,7 +4,7 @@ import {Wordle} from ".";
 import {CircularProgress} from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getCompletedWordles, useNavigateToWordlePath} from "@bored/utils";
+import {useNavigateToWordlePath} from "@bored/utils";
 
 export const WordleOutlet = () => {
   const params = useParams();
@@ -16,23 +16,8 @@ export const WordleOutlet = () => {
   useEffect(() => {
     if (data) {
       if (params?.wordValue && !wordIndex) {
-        const completions = getCompletedWordles();
-        let word = "";
-        Object.keys(data).forEach((key) => {
-          if (data[key] === params.wordValue) {
-            word = key;
-          }
-        });
-
-        if (completions.includes(word.toUpperCase())) {
-          // get random index because word was completed before
-          const idx = Math.floor(Math.random() * DICT_LENGTH);
-          navigateTo(idx.toString());
-          setWordIndex(idx.toString());
-        } else {
-          navigateTo(params?.wordValue);
-          setWordIndex(params?.wordValue);
-        }
+        navigateTo(params?.wordValue);
+        setWordIndex(params?.wordValue);
       } else {
         if (!wordIndex) {
           // get random index
