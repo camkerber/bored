@@ -3,8 +3,8 @@
   display: flex;
   flex-direction: row;
   overflow: scroll;
-  /* -ms-overflow-style: none;
-  scrollbar-width: none; */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   padding: 10px;
   margin: -10px;
   scroll-snap-type: x mandatory;
@@ -14,9 +14,9 @@
   }
 }
 
-/* .carousel-container::-webkit-scrollbar {
+.carousel-container::-webkit-scrollbar {
   display: none;
-} */
+}
 
 .card-container {
   min-width: 100%;
