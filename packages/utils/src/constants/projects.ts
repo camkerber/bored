@@ -23,6 +23,6 @@ export const PROJECTS_MAP: Record<Project, ProjectDetails> = {
     path: "wordle",
     action: "Click to play wordle",
     description:
-      "Based on the NYT game: Wordle. Players are given 6 attempts to guess a 5-letter word. The word will never be a name or something I wouldn't want on my résumé.",
+      "Based on the NYT game: Wordle. Players are given 6 attempts to guess a 5-letter word. There is a limited dictionary of words to guess from.",
   },
 };
