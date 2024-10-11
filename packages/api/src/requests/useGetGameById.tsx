@@ -1,10 +1,10 @@
 import {child, get} from "firebase/database";
 import {useCallback, useEffect, useState} from "react";
-import {useFirebaseContext} from "@bored/providers";
+import {useFirebaseContext} from "@camkerber/react-firebase-db";
 import {GameV2} from "@bored/utils";
 
 export const useGetGameById = (gameId: string) => {
-  const {camnectionsV2Ref} = useFirebaseContext();
+  const {dbRef} = useFirebaseContext();
   const [data, setData] = useState<GameV2 | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -16,7 +16,7 @@ export const useGetGameById = (gameId: string) => {
       setLoading(true);
       try {
         const snapshot = await get(
-          child(camnectionsV2Ref, `/games/${refetchId ?? gameId}`),
+          child(dbRef, `/camnections-v2/games/${refetchId ?? gameId}`),
         );
         if (snapshot.exists()) {
           setError(null);
@@ -32,13 +32,13 @@ export const useGetGameById = (gameId: string) => {
         setLoading(false);
       }
     },
-    [camnectionsV2Ref, gameId],
+    [dbRef, gameId],
   );
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getGameById();
-  }, [camnectionsV2Ref, getGameById, gameId]);
+  }, [dbRef, getGameById, gameId]);
 
   return {data, loading, error, refetch: getGameById};
 };

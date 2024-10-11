@@ -1,9 +1,9 @@
 import {child, update} from "firebase/database";
 import {useCallback, useState} from "react";
-import {useFirebaseContext} from "@bored/providers";
+import {useFirebaseContext} from "@camkerber/react-firebase-db";
 
 export const useEnterGameCreationPassword = () => {
-  const {camnectionsV2Ref} = useFirebaseContext();
+  const {dbRef} = useFirebaseContext();
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -12,10 +12,11 @@ export const useEnterGameCreationPassword = () => {
       setLoading(true);
       setError(null);
       try {
-        await update(child(camnectionsV2Ref, "/gameCreationSecrets"), {
+        await update(child(dbRef, "/camnections-v2/gameCreationSecrets"), {
           password: passwordGuess,
         });
         return true;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (_) {
         setError(new Error("Incorrect password"));
         return false;
@@ -23,7 +24,7 @@ export const useEnterGameCreationPassword = () => {
         setLoading(false);
       }
     },
-    [camnectionsV2Ref],
+    [dbRef],
   );
 
   return {enterWithPassword, loading, error};

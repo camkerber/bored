@@ -1,10 +1,10 @@
-import {get} from "firebase/database";
+import {child, get} from "firebase/database";
 import {useCallback, useEffect, useState} from "react";
-import {useFirebaseContext} from "@bored/providers";
+import {useFirebaseContext} from "@camkerber/react-firebase-db";
 import {WordleDictionary} from "@bored/utils";
 
 export const useGetWordleDictionary = () => {
-  const {wordleRef} = useFirebaseContext();
+  const {dbRef} = useFirebaseContext();
   const [data, setData] = useState<WordleDictionary | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -12,7 +12,7 @@ export const useGetWordleDictionary = () => {
   const getDictionary = useCallback(async () => {
     setLoading(true);
     try {
-      const snapshot = await get(wordleRef);
+      const snapshot = await get(child(dbRef, "/wordle"));
       if (snapshot.exists()) {
         setError(null);
         setData(snapshot.val() as WordleDictionary);
@@ -24,12 +24,12 @@ export const useGetWordleDictionary = () => {
     } finally {
       setLoading(false);
     }
-  }, [wordleRef]);
+  }, [dbRef]);
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getDictionary();
-  }, [wordleRef, getDictionary]);
+  }, [dbRef, getDictionary]);
 
   return {data, loading, error};
 };

@@ -1,6 +1,6 @@
 import {child, get} from "firebase/database";
 import {useCallback, useState} from "react";
-import {useFirebaseContext} from "@bored/providers";
+import {useFirebaseContext} from "@camkerber/react-firebase-db";
 import {
   clearCompletedGames,
   getCompletedGames,
@@ -8,7 +8,7 @@ import {
 } from "@bored/utils";
 
 export const useGetNewGame = () => {
-  const {camnectionsV2Ref} = useFirebaseContext();
+  const {dbRef} = useFirebaseContext();
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -19,7 +19,7 @@ export const useGetNewGame = () => {
       try {
         // get all game IDs
         // TODO: paginate this API
-        const idsSnapshot = await get(child(camnectionsV2Ref, "/gameIds"));
+        const idsSnapshot = await get(child(dbRef, "/camnections-v2/gameIds"));
         let newGameId = "";
         if (idsSnapshot.exists()) {
           const allGameIds = idsSnapshot.val() as string[];
@@ -45,7 +45,7 @@ export const useGetNewGame = () => {
         setLoading(false);
       }
     },
-    [camnectionsV2Ref],
+    [dbRef],
   );
 
   return {getNewGame, loading, error};

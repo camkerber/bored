@@ -18,7 +18,6 @@ const Category = ({color, category}: CategoryProps) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log("formResetForm:", formResetSignal);
     if (formResetSignal === "reset") {
       setError(null);
     }

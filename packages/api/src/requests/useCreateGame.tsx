@@ -1,6 +1,6 @@
 import {child, get, set} from "firebase/database";
 import {useCallback, useState} from "react";
-import {useFirebaseContext} from "@bored/providers";
+import {useFirebaseContext} from "@camkerber/react-firebase-db";
 import {generateId, GameV2} from "@bored/utils";
 
 interface CreateGameReturn {
@@ -9,7 +9,7 @@ interface CreateGameReturn {
 }
 
 export const useCreateGame = () => {
-  const {camnectionsV2Ref} = useFirebaseContext();
+  const {dbRef} = useFirebaseContext();
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -24,13 +24,16 @@ export const useCreateGame = () => {
       };
       try {
         await set(
-          child(camnectionsV2Ref, `/games/${newGameId}`),
+          child(dbRef, `/camnections-v2/games/${newGameId}`),
           createThisGame,
         );
-        const snapshot = await get(child(camnectionsV2Ref, "/gameIds"));
+        const snapshot = await get(child(dbRef, "/camnections-v2/gameIds"));
         if (snapshot.exists()) {
           const index = (snapshot.val() as string[]).length;
-          await set(child(camnectionsV2Ref, `/gameIds/${index}`), newGameId);
+          await set(
+            child(dbRef, `/camnections-v2/gameIds/${index}`),
+            newGameId,
+          );
         } else {
           throw new Error("Could not create a new game. Please try again.");
         }
@@ -44,7 +47,7 @@ export const useCreateGame = () => {
         setLoading(false);
       }
     },
-    [camnectionsV2Ref],
+    [dbRef],
   );
 
   return {createGame, loading, error};

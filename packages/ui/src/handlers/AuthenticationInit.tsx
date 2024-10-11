@@ -1,6 +1,6 @@
 import {CircularProgress, Typography} from "@mui/material";
 import {PropsWithChildren} from "react";
-import {useFirebaseContext} from "@bored/providers";
+import {useFirebaseContext} from "@camkerber/react-firebase-db";
 
 export const AuthenticationInit = ({children}: PropsWithChildren) => {
   const {initializing} = useFirebaseContext();

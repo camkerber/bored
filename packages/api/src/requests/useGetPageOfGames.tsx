@@ -8,11 +8,11 @@ import {
   startAt,
 } from "firebase/database";
 import {useCallback, useEffect, useState} from "react";
-import {useFirebaseContext} from "@bored/providers";
+import {useFirebaseContext} from "@camkerber/react-firebase-db";
 import {GameV2} from "@bored/utils";
 
 export const useGetPageOfGames = (pageLength: number) => {
-  const {camnectionsV2Ref} = useFirebaseContext();
+  const {dbRef} = useFirebaseContext();
 
   const [data, setData] = useState<GameV2[] | null>(null);
   const [error, setError] = useState<Error | null>(null);
@@ -27,7 +27,7 @@ export const useGetPageOfGames = (pageLength: number) => {
 
   useEffect(() => {
     (async function setup() {
-      const idsSnapshot = await get(child(camnectionsV2Ref, "/gameIds"));
+      const idsSnapshot = await get(child(dbRef, "/camnections-v2/gameIds"));
       if (idsSnapshot.exists()) {
         const allGameIds = idsSnapshot.val() as string[];
         setAllGamesLength(allGameIds.length);
@@ -57,13 +57,13 @@ export const useGetPageOfGames = (pageLength: number) => {
       let dataQuery: Query;
       if (!startKey) {
         dataQuery = query(
-          child(camnectionsV2Ref, `/games`),
+          child(dbRef, `/camnections-v2/games`),
           orderByKey(),
           limitToFirst(pageLength),
         );
       } else {
         dataQuery = query(
-          child(camnectionsV2Ref, `/games`),
+          child(dbRef, `/camnections-v2/games`),
           orderByKey(),
           startAt(startKey),
           limitToFirst(pageLength),
@@ -84,7 +84,7 @@ export const useGetPageOfGames = (pageLength: number) => {
       setPageEnd(pageEnd + pageLength);
       setLoading(false);
     }
-  }, [camnectionsV2Ref, pageEnd, pageLength, startKey]);
+  }, [dbRef, pageEnd, pageLength, startKey]);
 
   return {data, loading, error, getNextPage, canPageForward};
 };
