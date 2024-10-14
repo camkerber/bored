@@ -2,9 +2,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {IconButton, Tooltip} from "@mui/material";
 import {useMemo} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
-import "@bored/styles";
 
-const ReturnHome = () => {
+export const ReturnHome = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -29,5 +28,3 @@ const ReturnHome = () => {
     </>
   );
 };
-
-export default ReturnHome;

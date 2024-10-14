@@ -68,9 +68,6 @@ importers:
       '@bored/providers':
         specifier: workspace:*
         version: link:../providers
-      '@bored/styles':
-        specifier: workspace:*
-        version: link:../styles
       '@bored/ui':
         specifier: workspace:*
         version: link:../ui
@@ -113,9 +110,9 @@ importers:
 
   packages/home:
     devDependencies:
-      '@bored/styles':
+      '@bored/ui':
         specifier: workspace:*
-        version: link:../styles
+        version: link:../ui
       '@bored/utils':
         specifier: workspace:*
         version: link:../utils
@@ -194,9 +191,6 @@ importers:
       '@bored/providers':
         specifier: workspace:*
         version: link:../providers
-      '@bored/styles':
-        specifier: workspace:*
-        version: link:../styles
       '@bored/utils':
         specifier: workspace:*
         version: link:../utils
@@ -275,9 +269,6 @@ importers:
       '@bored/providers':
         specifier: workspace:*
         version: link:../providers
-      '@bored/styles':
-        specifier: workspace:*
-        version: link:../styles
       '@bored/ui':
         specifier: workspace:*
         version: link:../ui

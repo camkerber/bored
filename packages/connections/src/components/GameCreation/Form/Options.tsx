@@ -9,7 +9,7 @@ interface OptionsProps {
   category: CategoryV2;
 }
 
-const Options = ({color, category}: OptionsProps) => {
+export const Options = ({color, category}: OptionsProps) => {
   const [error, setError] = useState<string | null>(null);
   const [localOptions, setLocalOptions] = useState<string>("");
   const {newGame, updateGameForm, setFormFieldValid, formResetSignal} =
@@ -140,5 +140,3 @@ const Options = ({color, category}: OptionsProps) => {
     </>
   );
 };
-
-export default Options;

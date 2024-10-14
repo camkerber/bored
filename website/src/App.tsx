@@ -3,7 +3,7 @@ import {Header} from "@bored/ui";
 import {Outlet} from "react-router-dom";
 import "@bored/styles";
 
-const App = () => {
+export const App = () => {
   return (
     <>
       <Header />
@@ -13,5 +13,3 @@ const App = () => {
     </>
   );
 };
-
-export default App;

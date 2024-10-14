@@ -1,14 +1,13 @@
-import {Button, Grid} from "@mui/material";
+import {Button, Grid2} from "@mui/material";
 import {useConnectionsGameContext} from "@bored/providers";
 import {shareLinkOrText, useNavigateToConnectionsPath} from "@bored/utils";
-import "@bored/styles";
 import {useSnackbar} from "notistack";
 
 interface ActionsProps {
   onShareResults: () => void;
 }
 
-const Actions = ({onShareResults}: ActionsProps) => {
+export const Actions = ({onShareResults}: ActionsProps) => {
   const {
     submit,
     shuffleOptions,
@@ -40,14 +39,14 @@ const Actions = ({onShareResults}: ActionsProps) => {
 
   return (
     <>
-      <Grid
+      <Grid2
         container
         sx={{mt: 2, mb: 4}}
         spacing={1}
         rowGap={2}
         className="connections-actions-container"
       >
-        <Grid item xs={12} className="flex-center">
+        <Grid2 size={12} className="flex-center">
           <Button
             onClick={submit}
             variant="contained"
@@ -57,8 +56,8 @@ const Actions = ({onShareResults}: ActionsProps) => {
           >
             Submit
           </Button>
-        </Grid>
-        <Grid item xs={6} className="flex-center">
+        </Grid2>
+        <Grid2 size={6} className="flex-center">
           <Button
             onClick={shuffleOptions}
             variant="outlined"
@@ -68,8 +67,8 @@ const Actions = ({onShareResults}: ActionsProps) => {
           >
             Shuffle
           </Button>
-        </Grid>
-        <Grid item xs={6} className="flex-center">
+        </Grid2>
+        <Grid2 size={6} className="flex-center">
           <Button
             onClick={onShareResults}
             variant="outlined"
@@ -79,8 +78,8 @@ const Actions = ({onShareResults}: ActionsProps) => {
           >
             View Results
           </Button>
-        </Grid>
-        <Grid item xs={6} className="flex-center">
+        </Grid2>
+        <Grid2 size={6} className="flex-center">
           <Button
             onClick={() => navigateTo("create")}
             variant="outlined"
@@ -89,8 +88,8 @@ const Actions = ({onShareResults}: ActionsProps) => {
           >
             Create a Game
           </Button>
-        </Grid>
-        <Grid item xs={6} className="flex-center">
+        </Grid2>
+        <Grid2 size={6} className="flex-center">
           <Button
             onClick={() => navigateTo("archive")}
             variant="outlined"
@@ -99,8 +98,8 @@ const Actions = ({onShareResults}: ActionsProps) => {
           >
             Archives
           </Button>
-        </Grid>
-        <Grid item xs={12} className="flex-center">
+        </Grid2>
+        <Grid2 size={12} className="flex-center">
           <Button
             onClick={handleShareGame}
             variant="outlined"
@@ -109,10 +108,8 @@ const Actions = ({onShareResults}: ActionsProps) => {
           >
             Share This Game
           </Button>
-        </Grid>
-      </Grid>
+        </Grid2>
+      </Grid2>
     </>
   );
 };
-
-export default Actions;

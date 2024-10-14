@@ -1,12 +1,11 @@
 import CircleIcon from "@mui/icons-material/Circle";
 import {Box, Typography} from "@mui/material";
-import "@bored/styles";
 
 interface GuessCounterProps {
   incorrectGuessCount: number;
 }
 
-const GuessCounter = ({incorrectGuessCount}: GuessCounterProps) => {
+export const GuessCounter = ({incorrectGuessCount}: GuessCounterProps) => {
   return (
     <Box sx={{mt: 3, gap: 1}} className="flex-center">
       <Typography variant="body1">Mistakes remaining:</Typography>
@@ -16,5 +15,3 @@ const GuessCounter = ({incorrectGuessCount}: GuessCounterProps) => {
     </Box>
   );
 };
-
-export default GuessCounter;

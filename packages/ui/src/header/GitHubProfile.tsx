@@ -1,7 +1,7 @@
 import GitHubIcon from "@mui/icons-material/GitHub";
 import {IconButton, Tooltip} from "@mui/material";
 
-const GitHubProfile = () => {
+export const GitHubProfile = () => {
   return (
     <Tooltip title="Check out my GitHub" placement="bottom-end">
       <IconButton
@@ -14,5 +14,3 @@ const GitHubProfile = () => {
     </Tooltip>
   );
 };
-
-export default GitHubProfile;

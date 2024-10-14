@@ -1,5 +1,5 @@
 import {IntroContent} from "..";
-import {ProjectsCarousel} from "./carousel";
+import {ProjectsCarousel} from "@bored/ui";
 
 export const Home = () => {
   return (

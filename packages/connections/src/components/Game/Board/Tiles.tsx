@@ -1,5 +1,5 @@
 import {useConnectionsGameContext} from "@bored/providers";
-import {Button, Grid} from "@mui/material";
+import {Button, Grid2} from "@mui/material";
 
 export const Tiles = () => {
   const {options, selectOption, selections} = useConnectionsGameContext();
@@ -9,7 +9,7 @@ export const Tiles = () => {
       {options.map((option) => {
         const isSelected = selections.includes(option);
         return (
-          <Grid key={option} item xs={3}>
+          <Grid2 key={option} size={3}>
             <Button
               onClick={() => selectOption(option)}
               className="connections-tile"
@@ -19,7 +19,7 @@ export const Tiles = () => {
             >
               {option}
             </Button>
-          </Grid>
+          </Grid2>
         );
       })}
     </>

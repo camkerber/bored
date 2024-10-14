@@ -1,5 +1,5 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import App from "./App";
+import {App} from "./App";
 import {Home} from "@bored/home";
 import {ErrorPage} from "@bored/ui";
 import {PROJECTS_MAP} from "@bored/utils";

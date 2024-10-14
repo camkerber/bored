@@ -1,6 +1,5 @@
 import CloseIcon from "@mui/icons-material/Close";
 import {Box, IconButton, Modal as MuiModal, ModalProps} from "@mui/material";
-import "@bored/styles";
 
 interface BoredModalProps extends ModalProps {
   showCloseButton?: boolean;

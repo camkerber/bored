@@ -2,9 +2,8 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import {IconButton, Tooltip, useTheme} from "@mui/material";
 import {useColorModeContext} from "@bored/providers";
-import "@bored/styles";
 
-const ColorModeToggle = () => {
+export const ColorModeToggle = () => {
   const theme = useTheme();
   const colorMode = useColorModeContext();
 
@@ -28,5 +27,3 @@ const ColorModeToggle = () => {
     </Tooltip>
   );
 };
-
-export default ColorModeToggle;

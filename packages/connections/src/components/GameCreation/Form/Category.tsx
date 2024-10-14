@@ -12,7 +12,7 @@ interface CategoryProps {
   category: CategoryType;
 }
 
-const Category = ({color, category}: CategoryProps) => {
+export const Category = ({color, category}: CategoryProps) => {
   const {newGame, updateGameForm, setFormFieldValid, formResetSignal} =
     useCreateGameFormContext();
   const [error, setError] = useState<string | null>(null);
@@ -111,5 +111,3 @@ const Category = ({color, category}: CategoryProps) => {
     />
   );
 };
-
-export default Category;

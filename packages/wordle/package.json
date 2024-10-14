@@ -7,7 +7,6 @@
   "devDependencies": {
     "@bored/api": "workspace:*",
     "@bored/providers": "workspace:*",
-    "@bored/styles": "workspace:*",
     "@bored/ui": "workspace:*",
     "@bored/utils": "workspace:*",
     "@mui/icons-material": "^6.1.0",

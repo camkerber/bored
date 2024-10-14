@@ -1,19 +1,19 @@
-import {Grid, Paper} from "@mui/material";
+import {Grid2, Paper} from "@mui/material";
 import {useColorModeContext} from "@bored/providers";
 import {CategoryV2 as CategoryType} from "@bored/utils";
-import Category from "./Category";
-import Options from "./Options";
+import {Category} from "./Category";
+import {Options} from "./Options";
 import {COLOR_MAP, TEXT_FIELD_COLORS} from "../../../utils";
 
 interface ConnectionProps {
   category: CategoryType;
 }
 
-const Connection = ({category}: ConnectionProps) => {
+export const Connection = ({category}: ConnectionProps) => {
   const {mode} = useColorModeContext();
 
   return (
-    <Grid item xs={12}>
+    <Grid2 size={12}>
       <Paper
         sx={{
           p: 2,
@@ -29,8 +29,6 @@ const Connection = ({category}: ConnectionProps) => {
         <Category color={TEXT_FIELD_COLORS[category]} category={category} />
         <Options color={TEXT_FIELD_COLORS[category]} category={category} />
       </Paper>
-    </Grid>
+    </Grid2>
   );
 };
-
-export default Connection;

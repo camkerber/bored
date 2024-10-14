@@ -4,7 +4,7 @@ import {Navigate, useParams} from "react-router-dom";
 import {useGetGameById, useGetNewGame} from "@bored/api";
 import {useNavigateToConnectionsPath} from "@bored/utils";
 import {ErrorView} from "./ErrorView";
-import GameWrapper from "./GameWrapper";
+import {GameWrapper} from "./GameWrapper";
 import {Header} from "./Header";
 import {DEFAULT_GAME_ID} from "../../utils";
 import {ConnectionsGameProvider} from "@bored/providers";

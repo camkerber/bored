@@ -1,10 +1,10 @@
 import {useConnectionsGameContext} from "@bored/providers";
-import Actions from "./Actions";
+import {Actions} from "./Actions";
 import {Board} from "./Board";
-import GuessCounter from "./GuessCounter";
-import ShareResultsModal from "./ShareResultsModal";
+import {GuessCounter} from "./GuessCounter";
+import {ShareResultsModal} from "./ShareResultsModal";
 
-const GameWrapper = () => {
+export const GameWrapper = () => {
   const {showShareResultsModal, setShowShareResultsModal, incorrectGuessCount} =
     useConnectionsGameContext();
 
@@ -20,5 +20,3 @@ const GameWrapper = () => {
     </>
   );
 };
-
-export default GameWrapper;

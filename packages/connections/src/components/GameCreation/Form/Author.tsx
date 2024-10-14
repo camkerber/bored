@@ -1,9 +1,9 @@
-import {Grid, TextField} from "@mui/material";
+import {Grid2, TextField} from "@mui/material";
 import {ChangeEvent, FocusEvent, useEffect, useState} from "react";
 import {useCreateGameFormContext} from "@bored/providers";
 import {CreateGameFormActionType, GameFormField} from "@bored/utils";
 
-const Author = () => {
+export const Author = () => {
   const {newGame, updateGameForm, setFormFieldValid, formResetSignal} =
     useCreateGameFormContext();
   const [error, setError] = useState<string | null>(null);
@@ -59,7 +59,7 @@ const Author = () => {
   };
 
   return (
-    <Grid item xs={12}>
+    <Grid2 size={12}>
       <TextField
         id="game-author"
         variant="outlined"
@@ -72,8 +72,6 @@ const Author = () => {
         helperText={error}
         onBlur={handleBlur}
       />
-    </Grid>
+    </Grid2>
   );
 };
-
-export default Author;

@@ -1,7 +1,7 @@
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import {IconButton, Tooltip} from "@mui/material";
 
-const LinkedInProfile = () => {
+export const LinkedInProfile = () => {
   return (
     <Tooltip title="Connect with me on LinkedIn" placement="bottom-end">
       <IconButton
@@ -14,5 +14,3 @@ const LinkedInProfile = () => {
     </Tooltip>
   );
 };
-
-export default LinkedInProfile;

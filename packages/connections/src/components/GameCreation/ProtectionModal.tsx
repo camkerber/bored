@@ -8,7 +8,7 @@ interface ProtectionModalProps {
   onClose: (correctPassword: boolean) => void;
 }
 
-const ProtectionModal = ({open, onClose}: ProtectionModalProps) => {
+export const ProtectionModal = ({open, onClose}: ProtectionModalProps) => {
   const {enterWithPassword, error} = useEnterGameCreationPassword();
   const [passwordGuess, setPasswordGuess] = useState<string>("");
 
@@ -42,5 +42,3 @@ const ProtectionModal = ({open, onClose}: ProtectionModalProps) => {
     </Modal>
   );
 };
-
-export default ProtectionModal;

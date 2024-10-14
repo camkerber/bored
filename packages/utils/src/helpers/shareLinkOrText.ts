@@ -1,4 +1,4 @@
-import {copyToClipboard} from "./copy_to_clipboard";
+import {copyToClipboard} from "./copyToClipboard";
 import {isMobile} from "react-device-detect";
 
 type ShareLinkOrTextData = Omit<ShareData, "text"> & {text: string};

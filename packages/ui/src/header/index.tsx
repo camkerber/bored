@@ -1,8 +1,8 @@
 import {AppBar, Toolbar, Typography} from "@mui/material";
-import ColorModeToggle from "./ColorModeToggle";
-import GitHubProfile from "./GitHubProfile";
-import LinkedInProfile from "./LinkedInProfile";
-import ReturnHome from "./ReturnHome";
+import {ColorModeToggle} from "./ColorModeToggle";
+import {GitHubProfile} from "./GitHubProfile";
+import {LinkedInProfile} from "./LinkedInProfile";
+import {ReturnHome} from "./ReturnHome";
 
 export const Header = () => {
   return (

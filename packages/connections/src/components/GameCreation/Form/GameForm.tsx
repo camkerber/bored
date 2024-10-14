@@ -1,19 +1,19 @@
 import {
   Button,
   CircularProgress,
-  Grid,
+  Grid2,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import {useCreateGameFormContext} from "@bored/providers";
 import {CategoryV2, useNavigateToConnectionsPath} from "@bored/utils";
-import Author from "./Author";
-import Connection from "./Connection";
-import Title from "./Title";
+import {Author} from "./Author";
+import {Connection} from "./Connection";
+import {Title} from "./Title";
 import {useCreateGame} from "@bored/api";
 
-const GameForm = () => {
+export const GameForm = () => {
   const {formIsValid, newGame, resetForm} = useCreateGameFormContext();
 
   const navigateTo = useNavigateToConnectionsPath();
@@ -32,8 +32,8 @@ const GameForm = () => {
   };
 
   return (
-    <Grid item xs={largerScreen ? 6 : 12}>
-      <Grid container rowSpacing={4} mt={1} mb={4}>
+    <Grid2 size={largerScreen ? 6 : 12}>
+      <Grid2 container rowSpacing={4} mt={1} mb={4}>
         <Title />
         <Author />
         {Object.values(CategoryV2).map((category) => {
@@ -64,9 +64,7 @@ const GameForm = () => {
         >
           Reset inputs
         </Button>
-      </Grid>
-    </Grid>
+      </Grid2>
+    </Grid2>
   );
 };
-
-export default GameForm;

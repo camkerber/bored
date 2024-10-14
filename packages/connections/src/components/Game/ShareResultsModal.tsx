@@ -2,7 +2,6 @@ import {Button, Typography} from "@mui/material";
 import {useSnackbar} from "notistack";
 import {useMemo} from "react";
 import {useConnectionsGameContext} from "@bored/providers";
-import "@bored/styles";
 import {shareLinkOrText} from "@bored/utils";
 import {Modal} from "@bored/ui";
 import {isMobile} from "react-device-detect";
@@ -13,7 +12,7 @@ interface ShareResultsModalProps {
   onClose: () => void;
 }
 
-const ShareResultsModal = ({open, onClose}: ShareResultsModalProps) => {
+export const ShareResultsModal = ({open, onClose}: ShareResultsModalProps) => {
   const {enqueueSnackbar} = useSnackbar();
   const {shareableResults: results, activeGame} = useConnectionsGameContext();
 
@@ -62,5 +61,3 @@ const ShareResultsModal = ({open, onClose}: ShareResultsModalProps) => {
     </Modal>
   );
 };
-
-export default ShareResultsModal;

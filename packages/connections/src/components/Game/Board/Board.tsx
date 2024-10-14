@@ -1,15 +1,14 @@
-import {Grid} from "@mui/material";
-import "@bored/styles";
+import {Grid2} from "@mui/material";
 import {SolvedCategories} from "./SolvedCategories";
 import {Tiles} from "./Tiles";
 
 export const Board = () => {
   return (
     <div>
-      <Grid container spacing={1} className="connections-game-board">
+      <Grid2 container spacing={1} className="connections-game-board">
         <SolvedCategories />
         <Tiles />
-      </Grid>
+      </Grid2>
     </div>
   );
 };

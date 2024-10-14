@@ -1,10 +1,10 @@
-import {Container, Grid, Typography} from "@mui/material";
+import {Container, Grid2, Typography} from "@mui/material";
 import {useState} from "react";
 import {CreateGameFormProvider} from "@bored/providers";
 import {useNavigateToConnectionsPath} from "@bored/utils";
-import BoardPreview from "./BoardPreview";
-import GameForm from "./Form/GameForm";
-import ProtectionModal from "./ProtectionModal";
+import {BoardPreview} from "./BoardPreview";
+import {GameForm} from "./Form/GameForm";
+import {ProtectionModal} from "./ProtectionModal";
 
 export const GameCreator = () => {
   const [openProtectionModal, setOpenProtectionModal] = useState<boolean>(true);
@@ -26,10 +26,10 @@ export const GameCreator = () => {
       />
       <Container sx={{pl: 0, pr: 0}}>
         <Typography variant="h3">Create a Game</Typography>
-        <Grid container spacing={4}>
+        <Grid2 container spacing={4}>
           <GameForm />
           <BoardPreview />
-        </Grid>
+        </Grid2>
       </Container>
     </CreateGameFormProvider>
   );

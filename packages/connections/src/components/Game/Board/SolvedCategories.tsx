@@ -1,6 +1,6 @@
 import {useColorModeContext, useConnectionsGameContext} from "@bored/providers";
 import {CategoryV2} from "@bored/utils";
-import {Paper, Typography, Grid} from "@mui/material";
+import {Paper, Typography, Grid2} from "@mui/material";
 import {COLOR_MAP} from "../../../utils";
 
 export const SolvedCategories = () => {
@@ -22,7 +22,7 @@ export const SolvedCategories = () => {
     <>
       {solvedCategories.map((category) => {
         return (
-          <Grid key={category} item xs={12}>
+          <Grid2 key={category} size={12}>
             <Paper
               sx={{backgroundColor: COLOR_MAP[colorMode.mode][category]}}
               className="connections-revealed-category"
@@ -34,7 +34,7 @@ export const SolvedCategories = () => {
                 {joinAllOptions(category)}
               </Typography>
             </Paper>
-          </Grid>
+          </Grid2>
         );
       })}
     </>
