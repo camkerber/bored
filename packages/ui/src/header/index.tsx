@@ -1,5 +1,5 @@
 import {AppBar, Toolbar, Typography} from "@mui/material";
-import {ColorModeToggle} from "./ColorModeToggle";
+// import {ColorModeToggle} from "./ColorModeToggle";
 import {GitHubProfile} from "./GitHubProfile";
 import {LinkedInProfile} from "./LinkedInProfile";
 import {ReturnHome} from "./ReturnHome";
@@ -12,7 +12,7 @@ export const Header = () => {
         <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
           Cam is bored
         </Typography>
-        <ColorModeToggle />
+        {/* <ColorModeToggle /> */}
         <LinkedInProfile />
         <GitHubProfile />
       </Toolbar>

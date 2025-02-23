@@ -186,3 +186,47 @@
     font-size: 20px !important;
   }
 }
+
+.carousel-container {
+  max-width: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding: 10px;
+  margin: -10px;
+  scroll-snap-type: x mandatory;
+
+  @media (min-width: 800px) {
+    width: 67%;
+  }
+}
+
+.carousel-container::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-card-container {
+  min-width: 90%;
+  scroll-snap-align: center;
+}
+
+.carousel-card-container:first-of-type {
+  @media (min-width: 800px) {
+    margin-left: -10px;
+  }
+}
+
+.carousel-card-container:not(:last-of-type) {
+  margin-right: 10px;
+  @media (min-width: 800px) {
+    margin-right: 20px;
+  }
+}
+
+.carousel-selectors {
+  display: flex;
+  gap: 8px;
+  margin-top: 2em;
+}

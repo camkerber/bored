@@ -11,7 +11,8 @@ export const IntroContent = () => {
         </Typography>
         <br />
         <Typography variant="body1">
-          Scroll through the cards below and click to see one of my projects.
+          Scroll or swipe through the cards below and click to see one of my
+          projects.
         </Typography>
       </Paper>
     </>

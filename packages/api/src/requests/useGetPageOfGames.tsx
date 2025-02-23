@@ -22,7 +22,6 @@ export const useGetPageOfGames = (pageLength: number) => {
   const [pageEnd, setPageEnd] = useState<number>(pageLength);
 
   const [canPageForward, setCanPageForward] = useState<boolean>(false);
-  // const [canPageBackward, setCanPageBackward] = useState<boolean>(false);
   const [allGamesLength, setAllGamesLength] = useState<number>(0);
 
   useEffect(() => {

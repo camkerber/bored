@@ -1,2 +1,2 @@
 export * from "./Modal";
-export * from "./carousel";
+export * from "./ProjectsCarousel";
