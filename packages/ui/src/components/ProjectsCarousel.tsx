@@ -74,9 +74,11 @@ export const ProjectsCarousel = () => {
     const container = containerRef.current;
     if (container) {
       container.addEventListener("scrollend", handleScroll);
+      container.addEventListener("touchend", handleScroll); // mobile
 
       return () => {
         container.removeEventListener("scrollend", handleScroll);
+        container.removeEventListener("touchend", handleScroll);
       };
     }
   }, [handleScroll]);
