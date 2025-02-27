@@ -7,7 +7,7 @@ export const IntroContent = () => {
         <Typography variant="body1">
           Hi, my name is Cam and I created this repo as a home for different
           projects I created out of curiosity. In the top right you can find
-          links to my socials or toggle light/dark mode.
+          links to my socials.
         </Typography>
         <br />
         <Typography variant="body1">
