@@ -73,11 +73,11 @@ export const ProjectsCarousel = () => {
   useEffect(() => {
     const container = containerRef.current;
     if (container) {
-      container.addEventListener("scrollend", handleScroll);
+      container.addEventListener("scroll", handleScroll);
       container.addEventListener("touchmove", handleScroll); // mobile
 
       return () => {
-        container.removeEventListener("scrollend", handleScroll);
+        container.removeEventListener("scroll", handleScroll);
         container.removeEventListener("touchmove", handleScroll);
       };
     }
