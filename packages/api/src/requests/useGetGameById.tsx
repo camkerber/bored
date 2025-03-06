@@ -36,8 +36,7 @@ export const useGetGameById = (gameId: string) => {
   );
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getGameById();
+    void getGameById();
   }, [dbRef, getGameById, gameId]);
 
   return {data, loading, error, refetch: getGameById};

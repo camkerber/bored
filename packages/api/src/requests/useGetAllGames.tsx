@@ -1,23 +1,24 @@
 import {child, get} from "firebase/database";
 import {useCallback, useEffect, useState} from "react";
 import {useFirebaseContext} from "@camkerber/react-firebase-db";
-import {WordleDictionary} from "@bored/utils";
+import {GameV2} from "@bored/utils";
 
-export const useGetWordleDictionary = () => {
+export const useGetAllGames = () => {
   const {dbRef} = useFirebaseContext();
-  const [data, setData] = useState<WordleDictionary | null>(null);
+  const [data, setData] = useState<GameV2[] | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const getDictionary = useCallback(async () => {
+  const getAllGames = useCallback(async () => {
     setLoading(true);
     try {
-      const snapshot = await get(child(dbRef, "/wordle"));
-      if (snapshot.exists()) {
+      const snapshot = await get(child(dbRef, `/camnections-v2/games`));
+      const newData = Object.values(snapshot.val() as object) as GameV2[];
+      if (snapshot.exists() && newData) {
         setError(null);
-        setData(snapshot.val() as WordleDictionary);
+        setData(newData);
       } else {
-        throw new Error("Failed to get Wordle Dictionary from Firebase");
+        throw new Error("Games could not be found...");
       }
     } catch (error) {
       setError(error as Error);
@@ -27,8 +28,8 @@ export const useGetWordleDictionary = () => {
   }, [dbRef]);
 
   useEffect(() => {
-    void getDictionary();
-  }, [dbRef, getDictionary]);
+    void getAllGames();
+  }, [getAllGames]);
 
-  return {data, loading, error};
+  return {data, loading, error, getAllGames};
 };

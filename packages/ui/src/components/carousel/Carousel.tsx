@@ -1,0 +1,30 @@
+import {PropsWithChildren, RefObject} from "react";
+import {CarouselDots} from "./CarouselDots";
+
+interface CarouselProps extends PropsWithChildren {
+  containerRef: RefObject<HTMLDivElement>;
+  focusedItemId: string;
+  itemIds: string[];
+  onClickDot: (itemId: string, index: number) => void;
+}
+
+export const Carousel = ({
+  containerRef,
+  focusedItemId,
+  itemIds,
+  onClickDot,
+  children,
+}: CarouselProps) => {
+  return (
+    <>
+      <div className="carousel-container" ref={containerRef}>
+        {children}
+      </div>
+      <CarouselDots
+        focusedItemId={focusedItemId}
+        itemIds={itemIds}
+        onClickDot={onClickDot}
+      />
+    </>
+  );
+};
