@@ -5,7 +5,7 @@ export const GitHubProfile = () => {
   return (
     <Tooltip title="Check out my GitHub" placement="bottom-end">
       <IconButton
-        color="inherit"
+        color="secondary"
         href="https://github.com/camkerber"
         target="_blank"
       >

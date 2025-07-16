@@ -41,6 +41,7 @@ export const ProjectsCarousel = () => {
         focusedItemId={focusedItemId}
         itemIds={projectIds}
         onClickDot={handleDotClick}
+        dotsColor="primary"
       >
         {projectsMapValues.map((project, index) => (
           <Card

@@ -5,7 +5,7 @@ export const LinkedInProfile = () => {
   return (
     <Tooltip title="Connect with me on LinkedIn" placement="bottom-end">
       <IconButton
-        color="inherit"
+        color="secondary"
         href="https://www.linkedin.com/in/cameron-kerber/"
         target="_blank"
       >

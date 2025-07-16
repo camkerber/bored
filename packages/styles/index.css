@@ -19,7 +19,7 @@
 }
 
 .outlet-container {
-  max-width: 1280px !important;
+  max-width: 1200px !important;
   margin: 0 auto;
   display: flex !important;
   justify-content: center;
@@ -40,19 +40,20 @@
 }
 
 .connections-game-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   width: 100%;
-  aspect-ratio: 1 / 1;
-
+  gap: 8px;
+  width: 100%;
   @media (min-width: 700px) {
-    aspect-ratio: 5 / 3;
-    max-width: 800px;
+    width: 85%;
   }
 }
 
 .connections-tile {
   width: 100%;
   height: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 6 / 5;
   font-size: 0.75rem !important;
   overflow-wrap: anywhere;
   padding: 0px 2px 0px 2px !important;
@@ -92,14 +93,15 @@
 .connections-revealed-category {
   width: 100%;
   height: 100%;
-  aspect-ratio: 4 / 1;
   font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
+  margin-bottom: 8px;
+  aspect-ratio: 5 / 1;
   @media (min-width: 700px) {
+    width: 85%;
     aspect-ratio: 6 / 1;
   }
 }

@@ -1,18 +1,20 @@
 import {PropsWithChildren} from "react";
 import Lens from "@mui/icons-material/Lens";
 import TripOrigin from "@mui/icons-material/TripOrigin";
-import {IconButton} from "@mui/material";
+import {IconButton, IconButtonProps} from "@mui/material";
 
 interface CarouselDotsProps extends PropsWithChildren {
   focusedItemId: string;
   itemIds: string[];
   onClickDot: (itemId: string, index: number) => void;
+  color?: IconButtonProps["color"];
 }
 
 export const CarouselDots = ({
   focusedItemId,
   itemIds,
   onClickDot,
+  color,
 }: CarouselDotsProps) => {
   return (
     <div className="carousel-selectors">
@@ -21,6 +23,7 @@ export const CarouselDots = ({
           key={item}
           size="small"
           onClick={() => onClickDot(item, index)}
+          color={color}
         >
           {item === focusedItemId ? <Lens /> : <TripOrigin />}
         </IconButton>

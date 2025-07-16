@@ -1,14 +1,21 @@
-import {Grid2} from "@mui/material";
 import {SolvedCategories} from "./SolvedCategories";
 import {Tiles} from "./Tiles";
+import {useConnectionsGameContext} from "@bored/providers";
 
 export const Board = () => {
+  const {solvedCategories} = useConnectionsGameContext();
+
   return (
-    <div>
-      <Grid2 container spacing={1} className="connections-game-board">
-        <SolvedCategories />
+    <>
+      <SolvedCategories />
+      <div
+        className="connections-game-board"
+        style={{
+          gridTemplateRows: `repeat(${4 - solvedCategories.length}, 1fr)`,
+        }}
+      >
         <Tiles />
-      </Grid2>
-    </div>
+      </div>
+    </>
   );
 };

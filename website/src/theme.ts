@@ -5,12 +5,12 @@ const palette = {
   mode: "light",
   primary: {
     main: "#283618",
-    light: "#535E46",
+    light: "#606C38",
     dark: "#1C2510",
   },
   secondary: {
     main: "#bc6c25",
-    light: "#C98950",
+    light: "#DDA15E",
     dark: "#834B19",
   },
   background: {
