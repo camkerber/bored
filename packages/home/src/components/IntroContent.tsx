@@ -1,20 +1,24 @@
-import {Paper, Typography} from "@mui/material";
+import {Container, Typography} from "@mui/material";
 
 export const IntroContent = () => {
   return (
-    <>
-      <Paper className="paper-container" elevation={2}>
-        <Typography variant="body1">
-          Hi, my name is Cam and I created this repo as a home for different
-          projects I created out of curiosity. In the top right you can find
-          links to my socials.
-        </Typography>
-        <br />
-        <Typography variant="body1">
-          Scroll or swipe through the cards below and click to see one of my
-          projects.
-        </Typography>
-      </Paper>
-    </>
+    <Container
+      disableGutters
+      className="flex-column"
+      sx={{
+        mb: 4,
+      }}
+    >
+      <Typography variant="h5" sx={{mb: 1}}>
+        About
+      </Typography>
+      <Typography variant="body1">
+        Welcome! I am a frontend software engineer with 5 years of experience
+        building enterprise and consumer applications using TypeScript, React,
+        and GraphQL. In my freetime I enjoy coding for fun, so below are some
+        projects I built out of curiosity that you can scroll/swipe through and
+        click to view.
+      </Typography>
+    </Container>
   );
 };

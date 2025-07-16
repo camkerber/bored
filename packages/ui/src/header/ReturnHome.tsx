@@ -1,30 +1,28 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import {IconButton, Tooltip} from "@mui/material";
-import {useMemo} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
+import {
+  Button,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 export const ReturnHome = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-
-  const showReturnButton = useMemo(() => {
-    return location.pathname !== "/";
-  }, [location]);
+  const theme = useTheme();
+  const medScreen = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
-    <>
-      {showReturnButton ? (
-        <Tooltip title="Return to home page" placement="bottom-start">
-          <IconButton
-            sx={{mr: 1}}
-            onClick={() => navigate("/")}
-            color="inherit"
-            className="return-home"
-          >
-            <ArrowBackIcon />
-          </IconButton>
-        </Tooltip>
-      ) : null}
-    </>
+    <Tooltip title="Return to home page" placement="bottom-start">
+      <Button
+        sx={{mr: 1, gap: 1}}
+        onClick={() => navigate("/")}
+        color="inherit"
+      >
+        <ArrowBackIcon />
+        {medScreen ? <Typography variant="h4">Home</Typography> : null}
+      </Button>
+    </Tooltip>
   );
 };

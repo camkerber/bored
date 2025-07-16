@@ -1,5 +1,4 @@
 import {Paper, Typography, useTheme} from "@mui/material";
-import {useColorModeContext} from "@bored/providers";
 import {CharGuessStatus, WordleCharacter} from "@bored/utils";
 import {useMemo} from "react";
 
@@ -9,7 +8,6 @@ interface CharInputProps {
 
 export const CharInput = ({charObj}: CharInputProps) => {
   const theme = useTheme();
-  const {mode} = useColorModeContext();
 
   const backgroundColor = useMemo(() => {
     if (charObj.status === CharGuessStatus.Correct) {
@@ -19,11 +17,9 @@ export const CharInput = ({charObj}: CharInputProps) => {
     } else if (charObj.status === CharGuessStatus.NotInTheWord) {
       return theme.palette.text.disabled;
     } else {
-      return mode === "light"
-        ? theme.palette.grey[300]
-        : theme.palette.grey[900];
+      return theme.palette.grey[300];
     }
-  }, [charObj.status, mode, theme]);
+  }, [charObj.status, theme]);
 
   return (
     <Paper

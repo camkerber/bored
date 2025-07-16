@@ -2,19 +2,11 @@ import {CategoryV2, GameFormField} from "@bored/utils";
 
 export const DEFAULT_GAME_ID = "204";
 
-export const COLOR_MAP: Record<"light" | "dark", Record<CategoryV2, string>> = {
-  light: {
-    [CategoryV2.Yellow]: "#FFD700",
-    [CategoryV2.Green]: "success.light",
-    [CategoryV2.Blue]: "primary.light",
-    [CategoryV2.Purple]: "secondary.light",
-  },
-  dark: {
-    [CategoryV2.Yellow]: "#FFC000",
-    [CategoryV2.Green]: "success.main",
-    [CategoryV2.Blue]: "primary.main",
-    [CategoryV2.Purple]: "secondary.main",
-  },
+export const COLOR_MAP: Record<CategoryV2, string> = {
+  [CategoryV2.Yellow]: "#ffdb58",
+  [CategoryV2.Green]: "#50c878",
+  [CategoryV2.Blue]: "#468fea",
+  [CategoryV2.Purple]: "#b272e0",
 };
 
 export const CATEGORY_SQUARE_MAP: Record<CategoryV2, string> = {

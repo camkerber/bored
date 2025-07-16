@@ -1,11 +1,10 @@
-import {useColorModeContext, useConnectionsGameContext} from "@bored/providers";
+import {useConnectionsGameContext} from "@bored/providers";
 import {CategoryV2} from "@bored/utils";
 import {Paper, Typography, Grid2} from "@mui/material";
 import {COLOR_MAP} from "../../../utils";
 
 export const SolvedCategories = () => {
   const {solvedCategories, activeGame} = useConnectionsGameContext();
-  const colorMode = useColorModeContext();
 
   const getConnection = (category: CategoryV2) =>
     activeGame.connections.find(
@@ -24,13 +23,14 @@ export const SolvedCategories = () => {
         return (
           <Grid2 key={category} size={12}>
             <Paper
-              sx={{backgroundColor: COLOR_MAP[colorMode.mode][category]}}
+              sx={{backgroundColor: COLOR_MAP[category]}}
+              elevation={0}
               className="connections-revealed-category"
             >
-              <Typography variant="h6" sx={{textAlign: "center"}}>
+              <Typography variant="h6" sx={{textAlign: "center"}} color="black">
                 {getConnection(category)?.description?.toUpperCase()}
               </Typography>
-              <Typography variant="body2">
+              <Typography variant="body2" color="black">
                 {joinAllOptions(category)}
               </Typography>
             </Paper>
