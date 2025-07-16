@@ -1,6 +1,12 @@
 import {ProjectDetails, PROJECTS_MAP} from "@bored/utils";
 import {useNavigate} from "react-router-dom";
-import {Card, CardActionArea, CardContent, Typography} from "@mui/material";
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  Container,
+  Typography,
+} from "@mui/material";
 import {useMemo} from "react";
 import {Carousel} from "@bored/ui/src/components/carousel/Carousel";
 import {useCarousel} from "@bored/ui/src/components/carousel/useCarousel";
@@ -26,33 +32,38 @@ export const ProjectsCarousel = () => {
   };
 
   return (
-    <Carousel
-      containerRef={containerRef}
-      focusedItemId={focusedItemId}
-      itemIds={projectIds}
-      onClickDot={handleDotClick}
-    >
-      {projectsMapValues.map((project, index) => (
-        <Card
-          key={project.path}
-          elevation={3}
-          className="carousel-card-container"
-          id={project.name}
-          ref={(el) => (el ? (itemRefs.current[index] = el) : null)}
-        >
-          <CardActionArea
-            onClick={() => handleCardClick(project)}
-            sx={{height: "100%"}}
+    <Container disableGutters className="flex-column">
+      <Typography variant="h5" sx={{mb: 2}}>
+        Projects
+      </Typography>
+      <Carousel
+        containerRef={containerRef}
+        focusedItemId={focusedItemId}
+        itemIds={projectIds}
+        onClickDot={handleDotClick}
+      >
+        {projectsMapValues.map((project, index) => (
+          <Card
+            key={project.path}
+            elevation={0}
+            className="carousel-card-container"
+            id={project.name}
+            ref={(el) => (el ? (itemRefs.current[index] = el) : null)}
           >
-            <CardContent>
-              <Typography variant="h5" component="div">
-                {project.name}
-              </Typography>
-              <Typography variant="body2">{project.description}</Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      ))}
-    </Carousel>
+            <CardActionArea
+              onClick={() => handleCardClick(project)}
+              sx={{height: "100%"}}
+            >
+              <CardContent>
+                <Typography variant="h5" component="div">
+                  {project.name}
+                </Typography>
+                <Typography variant="body2">{project.description}</Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        ))}
+      </Carousel>
+    </Container>
   );
 };

@@ -1,8 +1,7 @@
 import {StrictMode} from "react";
 import {createRoot} from "react-dom/client";
 import {AppRouter} from "./AppRouter";
-import {ColorModeProvider} from "@bored/providers";
-import {CssBaseline} from "@mui/material";
+import {CssBaseline, ThemeProvider} from "@mui/material";
 import {SnackbarProvider} from "notistack";
 import {
   assignAppCheckDebugToken,
@@ -13,12 +12,15 @@ import {
   firebaseOptions,
   RECAPTCHA_SITE_KEY,
 } from "@bored/utils";
+import {buildTheme} from "./theme";
 
 assignAppCheckDebugToken(FIREBASE_APPCHECK_DEBUG_TOKEN);
 
+const muiTheme = buildTheme();
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ColorModeProvider>
+    <ThemeProvider theme={muiTheme}>
       <SnackbarProvider>
         <FirebaseProvider
           options={firebaseOptions}
@@ -29,6 +31,6 @@ createRoot(document.getElementById("root")!).render(
           <AppRouter />
         </FirebaseProvider>
       </SnackbarProvider>
-    </ColorModeProvider>
+    </ThemeProvider>
   </StrictMode>,
 );

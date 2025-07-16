@@ -1,5 +1,4 @@
 import {Grid2, Paper} from "@mui/material";
-import {useColorModeContext} from "@bored/providers";
 import {CategoryV2 as CategoryType} from "@bored/utils";
 import {Category} from "./Category";
 import {Options} from "./Options";
@@ -10,15 +9,13 @@ interface ConnectionProps {
 }
 
 export const Connection = ({category}: ConnectionProps) => {
-  const {mode} = useColorModeContext();
-
   return (
     <Grid2 size={12}>
       <Paper
         sx={{
           p: 2,
           border: "3px solid",
-          borderColor: COLOR_MAP[mode][category],
+          borderColor: COLOR_MAP[category],
           borderRadius: "8px",
           display: "flex",
           flexDirection: "column",

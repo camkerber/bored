@@ -53,6 +53,8 @@ export const Actions = ({onShareResults}: ActionsProps) => {
             size="large"
             className="connections-submit-button"
             disabled={!selectionsComplete || gameCompleted}
+            disableElevation
+            color="secondary"
           >
             Submit
           </Button>
@@ -64,6 +66,7 @@ export const Actions = ({onShareResults}: ActionsProps) => {
             size="large"
             className="connections-action-button"
             disabled={gameCompleted}
+            color="secondary"
           >
             Shuffle
           </Button>
@@ -75,6 +78,7 @@ export const Actions = ({onShareResults}: ActionsProps) => {
             size="large"
             className="connections-action-button"
             disabled={!gameCompleted}
+            color="secondary"
           >
             View Results
           </Button>
@@ -85,6 +89,7 @@ export const Actions = ({onShareResults}: ActionsProps) => {
             variant="outlined"
             size="large"
             className="connections-action-button"
+            color="secondary"
           >
             Create a Game
           </Button>
@@ -95,6 +100,7 @@ export const Actions = ({onShareResults}: ActionsProps) => {
             variant="outlined"
             size="large"
             className="connections-action-button"
+            color="secondary"
           >
             Archives
           </Button>
@@ -105,6 +111,7 @@ export const Actions = ({onShareResults}: ActionsProps) => {
             variant="outlined"
             size="large"
             className="connections-action-button"
+            color="secondary"
           >
             Share This Game
           </Button>

@@ -4,6 +4,20 @@
   align-items: center;
 }
 
+.flex-column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
 .outlet-container {
   max-width: 1280px !important;
   margin: 0 auto;
@@ -42,7 +56,7 @@
   font-size: 0.75rem !important;
   overflow-wrap: anywhere;
   padding: 0px 2px 0px 2px !important;
-
+  text-transform: lowercase !important;
   @media (min-width: 500px) {
     font-size: 0.9rem !important;
   }
@@ -210,6 +224,7 @@
 .carousel-card-container {
   min-width: 90%;
   scroll-snap-align: center;
+  border: 2px solid #535e46;
 }
 
 .carousel-card-container:first-of-type {
@@ -229,4 +244,16 @@
   display: flex;
   gap: 8px;
   margin-top: 2em;
+}
+
+.floating-link-buttons {
+  display: flex;
+  position: absolute;
+  top: unset;
+  bottom: 0;
+  right: 0;
+  @media (min-width: 500px) {
+    top: 0;
+    bottom: unset;
+  }
 }

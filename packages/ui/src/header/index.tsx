@@ -1,21 +1,42 @@
-import {AppBar, Toolbar, Typography} from "@mui/material";
-// import {ColorModeToggle} from "./ColorModeToggle";
+import {Container, Typography} from "@mui/material";
 import {GitHubProfile} from "./GitHubProfile";
 import {LinkedInProfile} from "./LinkedInProfile";
 import {ReturnHome} from "./ReturnHome";
+import {useMemo} from "react";
+import {useLocation} from "react-router-dom";
 
 export const Header = () => {
+  const location = useLocation();
+
+  const showReturnButton = useMemo(() => {
+    return location.pathname !== "/";
+  }, [location]);
+
   return (
-    <AppBar component="nav" position="static" sx={{mb: 3}}>
-      <Toolbar>
-        <ReturnHome />
-        <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-          Cam is bored
-        </Typography>
-        {/* <ColorModeToggle /> */}
+    <Container
+      component="nav"
+      className="flex-center"
+      sx={{
+        mb: 4,
+        mt: 1,
+      }}
+    >
+      <Container component="div" disableGutters sx={{flexGrow: 1}}>
+        {showReturnButton ? (
+          <ReturnHome />
+        ) : (
+          <>
+            <Typography variant="h2">Cam Kerber</Typography>
+            <Typography variant="h6" sx={{ml: 1}}>
+              Frontend Engineer
+            </Typography>
+          </>
+        )}
+      </Container>
+      <div className="floating-link-buttons">
         <LinkedInProfile />
         <GitHubProfile />
-      </Toolbar>
-    </AppBar>
+      </div>
+    </Container>
   );
 };
