@@ -52,6 +52,7 @@ export const Actions = () => {
               variant="outlined"
               sx={{mb: 2, mt: 1}}
               onClick={handleGetNewWord}
+              color="secondary"
             >
               New Game
             </Button>
@@ -63,6 +64,7 @@ export const Actions = () => {
             variant="outlined"
             sx={{mb: 3}}
             onClick={handleShare}
+            color="secondary"
           >
             Share this wordle
           </Button>

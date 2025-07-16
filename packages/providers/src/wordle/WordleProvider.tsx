@@ -73,7 +73,7 @@ export const WordleProvider = ({
   const [wordToGuess, setWordToGuess] = useState<string>("");
   const [guessCount, setGuessCount] = useState<number>(0);
   const [charCount, setCharCount] = useState<number>(0);
-  const [guesses, setGuesses] = useState<WordleBoard>(WORDLE_MAP);
+  const [guesses, setGuesses] = useState<WordleBoard>([...WORDLE_MAP]);
 
   const [gameCompleted, setGameCompleted] = useState<boolean>(false);
   const [openResultsModal, setOpenResultsModal] = useState<boolean>(false);
@@ -98,22 +98,13 @@ export const WordleProvider = ({
     }
   }, [wordleDict]);
 
-  const handleGetNewWord = useCallback(() => {
-    // reset
+  const resetGame = () => {
     setGuessCount(0);
     setCharCount(0);
     setGameCompleted(false);
     setCharsNotInWord([]);
     setGuessedWords([]);
     setGlobalCorrectLetters([]);
-
-    // find new game
-    const word = getRandomWord();
-    if (word) {
-      console.log(word.toUpperCase());
-      setWordToGuess(word.toUpperCase());
-      navigateTo(wordleDict[word]);
-    }
 
     setGuesses((prevState) => {
       prevState.forEach((row) => {
@@ -124,6 +115,17 @@ export const WordleProvider = ({
       });
       return prevState;
     });
+  };
+
+  const handleGetNewWord = useCallback(() => {
+    resetGame();
+    // find new game
+    const word = getRandomWord();
+    if (word) {
+      console.log(word.toUpperCase());
+      setWordToGuess(word.toUpperCase());
+      navigateTo(wordleDict[word]);
+    }
   }, [getRandomWord, navigateTo, wordleDict]);
 
   const handleGuess = useCallback(() => {
@@ -254,6 +256,7 @@ export const WordleProvider = ({
 
   const handleNewChar = useCallback(
     (char: string) => {
+      console.log("handling new char:", char);
       // game already complete
       if (guessCount === 6) {
         return;
@@ -308,6 +311,10 @@ export const WordleProvider = ({
             ? DELETE_STRING
             : key.toUpperCase();
 
+      if (char === SUBMIT_STRING) {
+        event.preventDefault();
+      }
+
       if (ALL_KEYS.includes(char)) {
         handleNewChar(char);
       }
@@ -335,6 +342,9 @@ export const WordleProvider = ({
       console.log(word.toUpperCase());
       setWordToGuess(word.toUpperCase());
     }
+    return () => {
+      resetGame();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
