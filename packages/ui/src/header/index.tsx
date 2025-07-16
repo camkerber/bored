@@ -33,10 +33,12 @@ export const Header = () => {
           </>
         )}
       </Container>
-      <div className="floating-link-buttons">
-        <LinkedInProfile />
-        <GitHubProfile />
-      </div>
+      {showReturnButton ? null : (
+        <div className="floating-link-buttons">
+          <LinkedInProfile />
+          <GitHubProfile />
+        </div>
+      )}
     </Container>
   );
 };
