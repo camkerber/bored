@@ -12,7 +12,7 @@ export const IntroContent = () => {
       <Typography variant="h5" sx={{mb: 1}}>
         About
       </Typography>
-      <Typography variant="body1">
+      <Typography variant="body1" sx={{fontSize: "18px", textAlign: "justify"}}>
         Welcome! I am a frontend software engineer with 5 years of experience
         building enterprise and consumer applications using TypeScript, React,
         and GraphQL. In my freetime I enjoy coding for fun, so below are some

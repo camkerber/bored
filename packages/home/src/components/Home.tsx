@@ -1,11 +1,11 @@
 import {IntroContent} from "..";
-import {ProjectsCarousel} from "@bored/ui";
+import {ProjectsAccordion} from "./ProjectsAccordion";
 
 export const Home = () => {
   return (
-    <>
+    <div className="home-container">
       <IntroContent />
-      <ProjectsCarousel />
-    </>
+      <ProjectsAccordion />
+    </div>
   );
 };

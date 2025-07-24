@@ -8,8 +8,9 @@ export const LinkedInProfile = () => {
         color="secondary"
         href="https://www.linkedin.com/in/cameron-kerber/"
         target="_blank"
+        size="large"
       >
-        <LinkedInIcon />
+        <LinkedInIcon fontSize="large" />
       </IconButton>
     </Tooltip>
   );

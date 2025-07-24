@@ -4,18 +4,14 @@ import {createTheme, PaletteOptions, ThemeOptions} from "@mui/material/styles";
 const palette = {
   mode: "light",
   primary: {
-    main: "#283618",
-    light: "#606C38",
-    dark: "#1C2510",
+    main: "#0f214d",
   },
   secondary: {
-    main: "#bc6c25",
-    light: "#DDA15E",
-    dark: "#834B19",
+    main: "#283f22",
   },
   background: {
-    default: "#fefae0",
-    paper: "#fefae0",
+    default: "#ffffff",
+    paper: "#ffffff",
   },
 };
 
@@ -24,36 +20,30 @@ const castedPalette = palette as PaletteOptions;
 const themeOptions: ThemeOptions = {
   palette: castedPalette,
   typography: {
-    fontFamily: "Noto Serif JP",
+    fontFamily: "Space Grotesk",
     h1: {
-      fontFamily: "Gloock",
-      fontWeight: 900,
+      fontWeight: 700,
       color: palette.primary.main,
     },
     h2: {
-      fontFamily: "Gloock",
-      fontWeight: 900,
+      fontWeight: 700,
       color: palette.primary.main,
     },
     h3: {
-      fontFamily: "Gloock",
-      fontWeight: 900,
+      fontWeight: 700,
       color: palette.primary.main,
     },
     h4: {
-      fontFamily: "Gloock",
-      fontWeight: 900,
+      fontWeight: 700,
       color: palette.primary.main,
     },
     h5: {
-      fontFamily: "Gloock",
-      fontWeight: 900,
-      color: palette.primary.light,
+      fontWeight: 500,
+      color: palette.primary.main,
     },
     h6: {
-      fontFamily: "Gloock",
       fontWeight: 300,
-      color: palette.primary.light,
+      color: palette.primary.main,
     },
   },
   components: {
@@ -71,6 +61,19 @@ const themeOptions: ThemeOptions = {
         root: {
           borderRadius: 0,
           borderWidth: "2px",
+          "&.MuiAccordion-root:first-of-type": {
+            borderRadius: 0,
+          },
+        },
+      },
+    },
+    MuiAccordion: {
+      styleOverrides: {
+        root: {
+          borderTop: `2px solid ${palette.primary.main}`,
+          // "&.Mui-expanded": {
+          //   margin: 0,
+          // },
         },
       },
     },

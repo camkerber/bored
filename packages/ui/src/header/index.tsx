@@ -1,4 +1,4 @@
-import {Container, Typography} from "@mui/material";
+import {Container, Typography, useMediaQuery, useTheme} from "@mui/material";
 import {GitHubProfile} from "./GitHubProfile";
 import {LinkedInProfile} from "./LinkedInProfile";
 import {ReturnHome} from "./ReturnHome";
@@ -7,6 +7,8 @@ import {useLocation} from "react-router-dom";
 
 export const Header = () => {
   const location = useLocation();
+  const theme = useTheme();
+  const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const showReturnButton = useMemo(() => {
     return location.pathname !== "/";
@@ -17,7 +19,7 @@ export const Header = () => {
       component="nav"
       className="flex-center"
       sx={{
-        mb: 4,
+        mb: smallScreen && showReturnButton ? 1 : 4,
         mt: 1,
       }}
     >

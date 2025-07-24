@@ -25,6 +25,21 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  @media (max-width: 600px) {
+    margin-bottom: 80px;
+  }
+}
+
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+
+  /* @media (min-width: 600px) {
+    flex-direction: row;
+  } */
 }
 
 .paper-container {
@@ -43,10 +58,11 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   width: 100%;
-  gap: 8px;
+  gap: 4px;
   width: 100%;
   @media (min-width: 700px) {
-    width: 85%;
+    width: 70%;
+    gap: 8px;
   }
 }
 
@@ -156,6 +172,25 @@
   }
 }
 
+.wordle-game-board {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  width: 100%;
+  gap: 4px;
+  margin-bottom: 8px;
+
+  @media (min-width: 450px) {
+    gap: 8px;
+    width: 400px;
+  }
+
+  @media (min-width: 700px) {
+    width: 400px;
+    gap: 8px;
+  }
+}
+
 .wordle-guess-container {
   display: flex;
   flex-direction: row;
@@ -226,7 +261,7 @@
 .carousel-card-container {
   min-width: 90%;
   scroll-snap-align: center;
-  border: 2px solid #535e46;
+  border: 2px solid #0f214d;
 }
 
 .carousel-card-container:first-of-type {
@@ -250,10 +285,12 @@
 
 .floating-link-buttons {
   display: flex;
-  position: absolute;
+  position: fixed;
   top: unset;
   bottom: 0;
   right: 0;
+  z-index: 1000;
+  margin: 4px;
   @media (min-width: 500px) {
     top: 0;
     bottom: unset;

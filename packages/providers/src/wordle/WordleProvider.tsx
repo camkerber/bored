@@ -256,7 +256,6 @@ export const WordleProvider = ({
 
   const handleNewChar = useCallback(
     (char: string) => {
-      console.log("handling new char:", char);
       // game already complete
       if (guessCount === 6) {
         return;

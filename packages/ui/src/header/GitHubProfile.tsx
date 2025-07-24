@@ -8,8 +8,9 @@ export const GitHubProfile = () => {
         color="secondary"
         href="https://github.com/camkerber"
         target="_blank"
+        size="large"
       >
-        <GitHubIcon />
+        <GitHubIcon fontSize="large" />
       </IconButton>
     </Tooltip>
   );
