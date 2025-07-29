@@ -16,8 +16,7 @@ export const IntroContent = () => {
         Welcome! I am a frontend software engineer with 5 years of experience
         building enterprise and consumer applications using TypeScript, React,
         and GraphQL. In my freetime I enjoy coding for fun, so below are some
-        projects I built out of curiosity that you can scroll/swipe through and
-        click to view.
+        projects I built out of curiosity that you can check out.
       </Typography>
     </Container>
   );

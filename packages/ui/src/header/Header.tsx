@@ -14,6 +14,14 @@ export const Header = () => {
     return location.pathname !== "/";
   }, [location]);
 
+  const hideHeader = useMemo(() => {
+    return location.pathname === "/library";
+  }, [location]);
+
+  if (hideHeader) {
+    return null;
+  }
+
   return (
     <Container
       component="nav"

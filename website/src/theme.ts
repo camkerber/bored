@@ -71,9 +71,9 @@ const themeOptions: ThemeOptions = {
       styleOverrides: {
         root: {
           borderTop: `2px solid ${palette.primary.main}`,
-          // "&.Mui-expanded": {
-          //   margin: 0,
-          // },
+          "&.Mui-expanded": {
+            marginTop: 0,
+          },
         },
       },
     },
