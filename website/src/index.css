@@ -1,0 +1,285 @@
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.outlet {
+  max-width: 1200px !important;
+  margin: 0 auto;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  @media (max-width: 600px) {
+    margin-bottom: 80px;
+  }
+}
+
+.outlet-std-web {
+  max-width: 800px !important;
+  align-items: baseline;
+}
+
+.paper-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 2em;
+  margin-bottom: 2em;
+
+  @media (min-width: 800px) {
+    width: 67%;
+  }
+}
+
+.connections-game-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  gap: 4px;
+  width: 100%;
+  @media (min-width: 700px) {
+    width: 70%;
+    gap: 8px;
+  }
+}
+
+.connections-tile {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 6 / 5;
+  font-size: 0.75rem !important;
+  overflow-wrap: anywhere;
+  padding: 0px 2px 0px 2px !important;
+  text-transform: lowercase !important;
+  @media (min-width: 500px) {
+    font-size: 0.9rem !important;
+  }
+
+  @media (min-width: 700px) {
+    font-size: 1.2rem !important;
+    aspect-ratio: 5 / 3;
+  }
+}
+
+.connections-actions-container {
+  justify-content: center;
+  align-items: center;
+  max-width: 750px;
+
+  @media (min-width: 500px) {
+    flex-direction: row;
+  }
+}
+
+.connections-action-button {
+  width: 100%;
+}
+
+.connections-submit-button {
+  width: 100%;
+
+  @media (min-width: 500px) {
+    max-width: 300px;
+  }
+}
+
+.connections-revealed-category {
+  width: 100%;
+  height: 100%;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 8px;
+  aspect-ratio: 5 / 1;
+  @media (min-width: 700px) {
+    width: 70%;
+    aspect-ratio: 6 / 1;
+  }
+}
+
+.share-results-content {
+  text-align: center;
+  margin: 0;
+}
+
+.bored-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  box-shadow: 24;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  @media (min-width: 600px) {
+    width: 500px;
+  }
+}
+
+.bored-modal-close-button {
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  margin: 5px !important;
+}
+
+.archives-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.games-paper {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.wordle-guess-board-container {
+  width: 100%;
+
+  @media (min-width: 450px) {
+    width: 400px;
+  }
+}
+
+.wordle-game-board {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  width: 100%;
+  gap: 4px;
+  margin-bottom: 8px;
+
+  @media (min-width: 450px) {
+    gap: 8px;
+    width: 400px;
+  }
+
+  @media (min-width: 700px) {
+    width: 400px;
+    gap: 8px;
+  }
+}
+
+.wordle-guess-container {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.wordle-tile {
+  height: 60px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (min-width: 450px) {
+    height: 80px;
+  }
+}
+
+.keyboard-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.keyboard-char {
+  min-width: 20px !important;
+  padding: 15px !important;
+  font-size: 12px !important;
+
+  @media (min-width: 580px) {
+    padding: 20px !important;
+    font-size: 20px !important;
+  }
+}
+
+.carousel-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding: 10px;
+  margin: -10px;
+  scroll-snap-type: x mandatory;
+}
+
+.carousel-container::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-card-container {
+  min-width: 85%;
+  scroll-snap-align: center;
+  border: 2px solid #0f214d;
+
+  @media (min-width: 800px) {
+    min-width: 75%;
+  }
+}
+
+.carousel-card-container:not(:last-of-type) {
+  margin-right: 10px;
+  @media (min-width: 800px) {
+    margin-right: 20px;
+  }
+}
+
+.carousel-selectors {
+  display: flex;
+  gap: 8px;
+  margin-top: 2em;
+}
+
+.floating-link-buttons {
+  display: flex;
+  position: fixed;
+  top: unset;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+  margin: 4px;
+  @media (min-width: 500px) {
+    top: 0;
+    bottom: unset;
+  }
+}

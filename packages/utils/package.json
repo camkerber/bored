@@ -1,0 +1,25 @@
+{
+  "name": "@bored/utils",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "sideEffects": false,
+  "peerDependencies": {
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-device-detect": "^2.2.3",
+    "react-router-dom": "^6.26.2"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^8.57.0",
+    "prettier": "^3.3.3",
+    "react": "^19.2.5",
+    "react-device-detect": "^2.2.3",
+    "react-dom": "^19.2.5",
+    "react-router-dom": "^6.26.2",
+    "typescript": "^6.0.3"
+  }
+}

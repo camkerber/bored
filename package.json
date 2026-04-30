@@ -1,0 +1,21 @@
+{
+  "name": "bored",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "pnpm --filter website build",
+    "dev": "pnpm --filter website dev",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "prettier": "prettier . --write"
+  },
+  "author": "Cameron Kerber",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.5.0",
+    "@typescript-eslint/parser": "^8.5.0",
+    "eslint-plugin-react": "^7.36.1",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.4.11",
+    "prettier": "^3.3.3"
+  }
+}

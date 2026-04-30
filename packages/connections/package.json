@@ -1,0 +1,24 @@
+{
+  "name": "@bored/connections",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "devDependencies": {
+    "@bored/api": "workspace:*",
+    "@bored/providers": "workspace:*",
+    "@bored/ui": "workspace:*",
+    "@bored/utils": "workspace:*",
+    "@mui/icons-material": "^6.1.0",
+    "@mui/material": "^6.1.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^8.57.0",
+    "notistack": "^3.0.2",
+    "react": "^19.2.5",
+    "react-device-detect": "^2.2.3",
+    "react-dom": "^19.2.5",
+    "react-router-dom": "^6.26.2",
+    "typescript": "^6.0.3"
+  }
+}

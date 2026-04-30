@@ -1,0 +1,21 @@
+{
+  "name": "@bored/api",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "devDependencies": {
+    "@bored/providers": "workspace:*",
+    "@bored/utils": "workspace:*",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^8.57.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.8"
+  },
+  "dependencies": {
+    "swr": "^2.4.1"
+  }
+}
