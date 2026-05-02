@@ -1,2 +1,4 @@
 export * from "./Archive";
-export * from "./components";
+export * from "./GameButton";
+export * from "./GamesList";
+export * from "./ListHeader";

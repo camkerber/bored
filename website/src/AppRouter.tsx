@@ -4,7 +4,7 @@ import {Home} from "@bored/ui";
 import {ErrorPage, withSuspense} from "@bored/ui";
 import {PROJECTS_MAP} from "@bored/utils";
 import {Connections, Archive} from "@bored/connections";
-import {WordleOutlet} from "@bored/wordle";
+import {Wordle} from "@bored/wordle";
 import {Spotify, SpotifyCallback} from "@bored/spotify";
 
 const router = createBrowserRouter([
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
       },
       {
         path: `${PROJECTS_MAP.wordle.path}/:wordValue?`,
-        element: withSuspense(<WordleOutlet />),
+        element: withSuspense(<Wordle />),
       },
       {
         path: `${PROJECTS_MAP.spotify.path}`,

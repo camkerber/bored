@@ -1,5 +1,5 @@
 import {useCallback} from "react";
-import {useConnectionsGameContext} from "@bored/providers";
+import {useConnectionsGameContext} from "../../context";
 import {Actions} from "./Actions";
 import {Board} from "./Board";
 import {GuessCounter} from "./GuessCounter";

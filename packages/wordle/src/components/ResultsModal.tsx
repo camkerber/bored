@@ -3,7 +3,8 @@ import {shareLinkOrText, CharGuessStatus} from "@bored/utils";
 import {Button, Typography} from "@mui/material";
 import {useSnackbar} from "notistack";
 import {isMobile} from "react-device-detect";
-import {useWordleContext, CHAR_STATUS_SQUARE_MAP} from "@bored/providers";
+import {useWordleContext} from "../context";
+import {CHAR_STATUS_SQUARE_MAP} from "../utils";
 
 export const ResultsModal = () => {
   const {

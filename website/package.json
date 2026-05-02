@@ -12,7 +12,6 @@
   "dependencies": {
     "@babel/core": "^7.29.0",
     "@bored/connections": "workspace:*",
-    "@bored/providers": "workspace:*",
     "@bored/ui": "workspace:*",
     "@bored/utils": "workspace:*",
     "@bored/spotify": "workspace:*",

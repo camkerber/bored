@@ -1,5 +1,5 @@
 import {CharInput} from "./CharInput";
-import {useWordleContext} from "@bored/providers";
+import {useWordleContext} from "../context";
 import React from "react";
 
 export const GuessBoard = () => {

@@ -1,5 +1,5 @@
 import {Box, Button, Stack, Typography} from "@mui/material";
-import {useSpotifyAuth} from "../useSpotifyAuth";
+import {useSpotifyAuth} from "../context";
 
 export const SpotifyLogin = () => {
   const {login, isInitializing} = useSpotifyAuth();

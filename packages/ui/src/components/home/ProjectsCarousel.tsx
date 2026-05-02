@@ -7,7 +7,7 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import {Carousel, useCarousel} from "./carousel";
+import {Carousel, useCarousel} from "../carousel";
 
 const PROJECTS_VALUES = Object.values(PROJECTS_MAP);
 const PROJECT_IDS = PROJECTS_VALUES.map((project) => project.name);

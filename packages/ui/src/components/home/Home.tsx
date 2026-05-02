@@ -1,4 +1,3 @@
-// import {Box} from "@mui/material";
 import {Header} from "./header";
 import {ProjectsCarousel} from "./ProjectsCarousel";
 

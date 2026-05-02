@@ -1,4 +1,4 @@
-import {KEYBOARD_ROW_1, KEYBOARD_ROW_2, KEYBOARD_ROW_3} from "@bored/providers";
+import {KEYBOARD_ROW_1, KEYBOARD_ROW_2, KEYBOARD_ROW_3} from "../utils";
 import {KeyboardRow} from "./KeyboardRow";
 
 export const Keyboard = () => {

@@ -1,7 +1,7 @@
 import {Box, Typography} from "@mui/material";
 import {SpotifyTimeRange} from "@bored/utils";
 import {useGetSpotifyTopArtists} from "@bored/api";
-import {useSpotifyAuth} from "../useSpotifyAuth";
+import {useSpotifyAuth} from "../context";
 import {ArtistCard} from "./ArtistCard";
 
 interface TopArtistsListProps {

@@ -33,9 +33,6 @@ importers:
         specifier: ^2.4.1
         version: 2.4.1(react@19.2.5)
     devDependencies:
-      '@bored/providers':
-        specifier: workspace:*
-        version: link:../providers
       '@bored/utils':
         specifier: workspace:*
         version: link:../utils
@@ -66,9 +63,6 @@ importers:
       '@bored/api':
         specifier: workspace:*
         version: link:../api
-      '@bored/providers':
-        specifier: workspace:*
-        version: link:../providers
       '@bored/ui':
         specifier: workspace:*
         version: link:../ui
@@ -99,42 +93,6 @@ importers:
       react-device-detect:
         specifier: ^2.2.3
         version: 2.2.3(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      react-dom:
-        specifier: ^19.2.5
-        version: 19.2.5(react@19.2.5)
-      react-router-dom:
-        specifier: ^6.26.2
-        version: 6.26.2(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      typescript:
-        specifier: ^6.0.3
-        version: 6.0.3
-
-  packages/providers:
-    devDependencies:
-      '@bored/utils':
-        specifier: workspace:*
-        version: link:../utils
-      '@mui/material':
-        specifier: ^6.1.0
-        version: 6.1.0(@emotion/react@11.13.3(@types/react@19.2.14)(react@19.2.5))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@19.2.14)(react@19.2.5))(@types/react@19.2.14)(react@19.2.5))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      '@types/react':
-        specifier: ^19.2.14
-        version: 19.2.14
-      '@types/react-dom':
-        specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.14)
-      eslint:
-        specifier: ^8.57.0
-        version: 8.57.0
-      notistack:
-        specifier: ^3.0.2
-        version: 3.0.2(csstype@3.2.3)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      prettier:
-        specifier: ^3.3.3
-        version: 3.3.3
-      react:
-        specifier: ^19.2.5
-        version: 19.2.5
       react-dom:
         specifier: ^19.2.5
         version: 19.2.5(react@19.2.5)
@@ -186,9 +144,6 @@ importers:
 
   packages/ui:
     devDependencies:
-      '@bored/providers':
-        specifier: workspace:*
-        version: link:../providers
       '@bored/utils':
         specifier: workspace:*
         version: link:../utils
@@ -255,9 +210,6 @@ importers:
       '@bored/api':
         specifier: workspace:*
         version: link:../api
-      '@bored/providers':
-        specifier: workspace:*
-        version: link:../providers
       '@bored/ui':
         specifier: workspace:*
         version: link:../ui
@@ -306,9 +258,6 @@ importers:
       '@bored/connections':
         specifier: workspace:*
         version: link:../packages/connections
-      '@bored/providers':
-        specifier: workspace:*
-        version: link:../packages/providers
       '@bored/spotify':
         specifier: workspace:*
         version: link:../packages/spotify

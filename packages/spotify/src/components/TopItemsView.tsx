@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import {SpotifyTimeRange, SpotifyTopItemKind} from "@bored/utils";
 import {Suspense, useState} from "react";
-import {useSpotifyAuth} from "../useSpotifyAuth";
+import {useSpotifyAuth} from "../context";
 import {TimeRangeToggle} from "./TimeRangeToggle";
 import {TopArtistsList} from "./TopArtistsList";
 import {TopTracksList} from "./TopTracksList";

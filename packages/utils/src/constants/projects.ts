@@ -35,6 +35,6 @@ export const PROJECTS_MAP: Record<Project, ProjectDetails> = {
     pathIsHref: false,
     action: "Click to see your top Spotify artists/songs",
     description:
-      "Utilizes the Spotify Web API to find your top artists and songs over specified time periods. Spotify now requires me to manually register users, so this project is essentially dead :(",
+      "Utilizes the Spotify Web API to find your top artists and songs. Spotify now requires manual registration of just 5 users, so this project is essentially dead :(",
   },
 };

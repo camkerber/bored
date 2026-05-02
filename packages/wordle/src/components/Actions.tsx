@@ -1,4 +1,4 @@
-import {useWordleContext} from "@bored/providers";
+import {useWordleContext} from "../context";
 import {getCompletedWordles, shareLinkOrText} from "@bored/utils";
 import {Button, Container, Typography} from "@mui/material";
 import {useSnackbar} from "notistack";

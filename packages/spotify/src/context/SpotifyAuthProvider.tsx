@@ -11,7 +11,7 @@ import {
   getValidAccessToken,
   logout as logoutClient,
   refreshTokensIfNeeded,
-} from "./auth/spotifyAuthClient";
+} from "../auth";
 export interface SpotifyAuthValue {
   isAuthenticated: boolean;
   accessToken: string | null;

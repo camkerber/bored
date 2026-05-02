@@ -6,7 +6,6 @@
   "main": "./src/index.ts",
   "devDependencies": {
     "@bored/api": "workspace:*",
-    "@bored/providers": "workspace:*",
     "@bored/ui": "workspace:*",
     "@bored/utils": "workspace:*",
     "@mui/icons-material": "^6.1.0",

@@ -1,5 +1,5 @@
 import {Button, Grid2} from "@mui/material";
-import {useConnectionsGameContext} from "@bored/providers";
+import {useConnectionsGameContext} from "../../context";
 import {shareLinkOrText, useNavigateToConnectionsPath} from "@bored/utils";
 import {useSnackbar} from "notistack";
 

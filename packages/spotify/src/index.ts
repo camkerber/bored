@@ -1,3 +1,4 @@
 export * from "./components";
-export * from "./SpotifyAuthProvider";
-export * from "./useSpotifyAuth";
+export * from "./auth";
+export * from "./context";
+export * from "./utils";

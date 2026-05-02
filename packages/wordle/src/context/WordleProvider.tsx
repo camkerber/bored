@@ -1,13 +1,13 @@
 import {
-  WordleDictionary,
-  WordleGame as WordleBoard,
-  WordleGuess,
-  CharGuessStatus,
   getCompletedWordles,
   setCompletedWordles,
   getRandomArrayItem,
   clearWordleCompletions,
   useNavigateToWordlePath,
+  WordleDictionary,
+  WordleGame as WordleBoard,
+  WordleGuess,
+  CharGuessStatus,
 } from "@bored/utils";
 import {useSnackbar} from "notistack";
 import {
@@ -18,7 +18,7 @@ import {
   useRef,
   useState,
 } from "react";
-import {DELETE_STRING, SUBMIT_STRING, ALL_KEYS, DICT_LENGTH} from "./constants";
+import {DELETE_STRING, SUBMIT_STRING, ALL_KEYS, DICT_LENGTH} from "../utils";
 
 export interface WordleGameContext {
   charsNotInWord: ReadonlySet<string>;
@@ -116,7 +116,11 @@ const markRowCorrect = (guess: WordleGuess): WordleGuess => [
   {...guess[4], status: CharGuessStatus.Correct},
 ];
 
-const replaceRow = (board: WordleBoard, index: number, row: WordleGuess): WordleBoard => {
+const replaceRow = (
+  board: WordleBoard,
+  index: number,
+  row: WordleGuess,
+): WordleBoard => {
   const next = [...board] as WordleBoard;
   next[index] = row;
   return next;

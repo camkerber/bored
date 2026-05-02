@@ -1,6 +1,6 @@
 import {Box, CircularProgress} from "@mui/material";
-import {SpotifyAuthProvider} from "../SpotifyAuthProvider";
-import {useSpotifyAuth} from "../useSpotifyAuth";
+import {SpotifyAuthProvider} from "../context";
+import {useSpotifyAuth} from "../context";
 import {SpotifyLogin} from "./SpotifyLogin";
 import {TopItemsView} from "./TopItemsView";
 

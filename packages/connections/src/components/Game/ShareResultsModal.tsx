@@ -1,7 +1,7 @@
 import {Button, Typography} from "@mui/material";
 import {useSnackbar} from "notistack";
 import {useMemo} from "react";
-import {useConnectionsGameContext} from "@bored/providers";
+import {useConnectionsGameContext} from "../../context";
 import {shareLinkOrText} from "@bored/utils";
 import {Modal} from "@bored/ui";
 import {isMobile} from "react-device-detect";

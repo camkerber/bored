@@ -1,6 +1,6 @@
 import {useGetAllGames} from "@bored/api";
 import {Container} from "@mui/material";
-import {ListHeader, GamesList} from "./components";
+import {ListHeader, GamesList} from "../GameArchives";
 
 export const Archive = () => {
   const {data} = useGetAllGames();

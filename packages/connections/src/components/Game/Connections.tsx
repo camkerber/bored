@@ -3,7 +3,7 @@ import {useGetGameById} from "@bored/api";
 import {GameWrapper} from "./GameWrapper";
 import {Header} from "./Header";
 import {DEFAULT_GAME_ID} from "../../utils";
-import {ConnectionsGameProvider} from "@bored/providers";
+import {ConnectionsGameProvider} from "../../context";
 
 interface GameProps {
   gameId: string;

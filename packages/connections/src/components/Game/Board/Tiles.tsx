@@ -1,5 +1,5 @@
 import {memo, useCallback, useMemo} from "react";
-import {useConnectionsGameContext} from "@bored/providers";
+import {useConnectionsGameContext} from "../../../context";
 import {Button} from "@mui/material";
 
 interface TileProps {

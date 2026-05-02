@@ -1,4 +1,4 @@
-import {useConnectionsGameContext} from "@bored/providers";
+import {useConnectionsGameContext} from "../../../context";
 import {Paper, Typography, useMediaQuery, useTheme} from "@mui/material";
 import {COLOR_MAP} from "../../../utils";
 

@@ -1,7 +1,7 @@
 import {Box, Typography} from "@mui/material";
 import {SpotifyTimeRange} from "@bored/utils";
 import {useGetSpotifyTopTracks} from "@bored/api";
-import {useSpotifyAuth} from "../useSpotifyAuth";
+import {useSpotifyAuth} from "../context";
 import {TrackCard} from "./TrackCard";
 
 interface TopTracksListProps {
@@ -9,10 +9,7 @@ interface TopTracksListProps {
   limit?: number;
 }
 
-export const TopTracksList = ({
-  timeRange,
-  limit = 20,
-}: TopTracksListProps) => {
+export const TopTracksList = ({timeRange, limit = 20}: TopTracksListProps) => {
   const {getValidAccessToken, isAuthenticated} = useSpotifyAuth();
   const {data} = useGetSpotifyTopTracks({
     timeRange,

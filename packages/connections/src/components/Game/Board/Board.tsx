@@ -1,6 +1,6 @@
 import {SolvedCategories} from "./SolvedCategories";
 import {Tiles} from "./Tiles";
-import {useConnectionsGameContext} from "@bored/providers";
+import {useConnectionsGameContext} from "../../../context";
 
 export const Board = () => {
   const {solvedCategories} = useConnectionsGameContext();

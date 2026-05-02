@@ -1,9 +1,6 @@
 import {Button} from "@mui/material";
-import {
-  DELETE_STRING,
-  DELETE_UNICODE,
-  useWordleContext,
-} from "@bored/providers";
+import {DELETE_STRING, DELETE_UNICODE} from "../utils";
+import {useWordleContext} from "../context";
 
 interface KeyboardRowProps {
   keyboardRow: string[];
