@@ -9,7 +9,7 @@ export const Header = () => {
       <Typography variant="h2">Cam Kerber</Typography>
       <Box
         sx={{
-          gap: 1,
+          gap: 0.5,
           display: "flex",
           alignItems: "center",
           justifyContent: "flex-start",
