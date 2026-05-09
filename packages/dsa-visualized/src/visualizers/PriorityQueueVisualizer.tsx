@@ -32,7 +32,7 @@ export const PriorityQueueVisualizer = () => {
   const [priorityInput, setPriorityInput] = useState("");
   const [lastResult, setLastResult] = useState("—");
 
-  const sync = () => setItems(readPq(pqRef.current));
+  const sync = () => setItems(readPq(pqRef.current!));
 
   const handleEnqueue = () => {
     const v = Number.parseInt(valueInput, 10);

@@ -41,7 +41,7 @@ export const RingBufferVisualizer = () => {
   const [input, setInput] = useState("");
   const [lastResult, setLastResult] = useState("—");
 
-  const sync = () => setSnap(readSnapshot(rbRef.current));
+  const sync = () => setSnap(readSnapshot(rbRef.current!));
 
   const handleEnqueue = () => {
     const v = Number.parseInt(input, 10);

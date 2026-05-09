@@ -86,7 +86,7 @@ const HeapVisualizerInner = ({kind}: Props) => {
     kind: PositionedNode["highlight"];
   }>({idx: -1, kind: "default"});
 
-  const sync = () => setArr(readArray(heapRef.current));
+  const sync = () => setArr(readArray(heapRef.current!));
 
   const flash = (idx: number, kindHl: PositionedNode["highlight"]) => {
     setHighlight({idx, kind: kindHl});
@@ -98,7 +98,7 @@ const HeapVisualizerInner = ({kind}: Props) => {
     if (Number.isNaN(v)) return;
     heapRef.current!.push(v);
     sync();
-    const next = readArray(heapRef.current);
+    const next = readArray(heapRef.current!);
     flash(next.indexOf(v), "added");
     setInput("");
   };
