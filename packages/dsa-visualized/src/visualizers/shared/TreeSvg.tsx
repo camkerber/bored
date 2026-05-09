@@ -42,7 +42,6 @@ export const TreeSvg = ({nodes, width, height, nodeRadius = 18}: Props) => (
       border: "1px solid",
       borderColor: "divider",
       borderRadius: 2,
-      overflowX: "auto",
     }}
   >
     {nodes.length === 0 ? (
@@ -60,9 +59,15 @@ export const TreeSvg = ({nodes, width, height, nodeRadius = 18}: Props) => (
       </Box>
     ) : (
       <svg
-        width={width}
-        height={height}
-        style={{display: "block", margin: "0 auto"}}
+        viewBox={`0 0 ${width} ${height}`}
+        preserveAspectRatio="xMidYMid meet"
+        style={{
+          display: "block",
+          width: "100%",
+          maxWidth: width,
+          height: "auto",
+          margin: "0 auto",
+        }}
       >
         {nodes.map((n) =>
           n.parentX !== undefined && n.parentY !== undefined ? (
