@@ -28,6 +28,8 @@ export interface ConnectionsGame {
   shareableResults: Category[]; // every 4 elements is one guess
   showShareResultsModal: boolean;
   setShowShareResultsModal: (show: boolean) => void;
+  shakeAnimation: boolean;
+  flashCategory: Category | null;
 }
 
 export const ConnectionsGameContext = createContext<
@@ -63,6 +65,8 @@ export const ConnectionsGameProvider = ({
   const [shareableResults, setShareableResults] = useState<Category[]>([]);
   const [showShareResultsModal, setShowShareResultsModal] =
     useState<boolean>(false);
+  const [shakeAnimation, setShakeAnimation] = useState<boolean>(false);
+  const [flashCategory, setFlashCategory] = useState<Category | null>(null);
 
   const shuffleOptions = useCallback(() => {
     setOptions((prevOptions) => shuffleArray(prevOptions));
@@ -115,7 +119,7 @@ export const ConnectionsGameProvider = ({
       [Category.Purple]: 0,
     };
 
-    const guessKey = [...selections].sort().join("\u0000");
+    const guessKey = [...selections].sort().join(" ");
     if (pastGuesses.includes(guessKey)) {
       enqueueSnackbar("You've already made that guess", {
         key: "duplicate-guess",
@@ -159,10 +163,16 @@ export const ConnectionsGameProvider = ({
     };
 
     if (bestCount === 4) {
-      handleCompletedCategory(bestCategory);
+      setFlashCategory(bestCategory);
+      setTimeout(() => {
+        setFlashCategory(null);
+        handleCompletedCategory(bestCategory);
+      }, 600);
     } else if (bestCount === 3) {
       const newCount = incorrectGuessCount + 1;
       setIncorrectGuessCount(newCount);
+      setShakeAnimation(true);
+      setTimeout(() => setShakeAnimation(false), 500);
       enqueueSnackbar("One away...", {
         key: "one-away",
         variant: "info",
@@ -173,6 +183,8 @@ export const ConnectionsGameProvider = ({
     } else {
       const newCount = incorrectGuessCount + 1;
       setIncorrectGuessCount(newCount);
+      setShakeAnimation(true);
+      setTimeout(() => setShakeAnimation(false), 500);
       enqueueSnackbar("Not quite...", {
         key: "not-quite",
         variant: "info",
@@ -207,6 +219,8 @@ export const ConnectionsGameProvider = ({
       shareableResults,
       showShareResultsModal,
       setShowShareResultsModal,
+      shakeAnimation,
+      flashCategory,
     }),
     [
       game,
@@ -221,6 +235,8 @@ export const ConnectionsGameProvider = ({
       showShareResultsModal,
       shuffleOptions,
       solvedCategories,
+      shakeAnimation,
+      flashCategory,
     ],
   );
 

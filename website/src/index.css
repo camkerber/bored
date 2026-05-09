@@ -77,6 +77,29 @@
   }
 }
 
+@keyframes connections-tile-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(6px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+.connections-tile-shake {
+  animation: connections-tile-shake 0.5s ease-in-out;
+}
+
 .connections-actions-container {
   justify-content: center;
   align-items: center;
@@ -109,9 +132,23 @@
   flex-direction: column;
   margin-bottom: 8px;
   aspect-ratio: 5 / 1;
+  transform-origin: center;
+  animation: connections-revealed-grow 400ms cubic-bezier(0.34, 1.56, 0.64, 1)
+    both;
   @media (min-width: 700px) {
     width: 70%;
     aspect-ratio: 6 / 1;
+  }
+}
+
+@keyframes connections-revealed-grow {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 
@@ -172,6 +209,7 @@
   width: 100%;
   gap: 4px;
   margin-bottom: 8px;
+  perspective: 800px;
 
   @media (min-width: 450px) {
     gap: 8px;
@@ -197,9 +235,34 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  backface-visibility: hidden;
 
   @media (min-width: 450px) {
     height: 80px;
+  }
+}
+
+.wordle-tile-flipping {
+  animation: wordle-tile-flip 500ms ease-in-out both;
+  animation-delay: var(--flip-delay, 0ms);
+}
+
+@keyframes wordle-tile-flip {
+  0% {
+    transform: rotateX(0);
+    background-color: var(--flip-initial-bg);
+  }
+  49.99% {
+    transform: rotateX(90deg);
+    background-color: var(--flip-initial-bg);
+  }
+  50% {
+    transform: rotateX(90deg);
+    background-color: var(--flip-final-bg);
+  }
+  100% {
+    transform: rotateX(0);
+    background-color: var(--flip-final-bg);
   }
 }
 

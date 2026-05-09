@@ -216,7 +216,7 @@ export const WordleProvider = ({
       setOpenResultsModal(true);
       setGameCompleted(true);
       finishTimerRef.current = null;
-    }, 1000);
+    }, 1800);
   };
 
   useEffect(

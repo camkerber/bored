@@ -10,7 +10,7 @@ export const GuessBoard = () => {
       {guesses.map((guessRow, rowIndex) => (
         <React.Fragment key={rowIndex}>
           {guessRow.map((char, charIndex) => (
-            <CharInput key={charIndex} charObj={char} />
+            <CharInput key={charIndex} charObj={char} charIndex={charIndex} />
           ))}
         </React.Fragment>
       ))}
