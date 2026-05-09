@@ -3,6 +3,7 @@ import Container from "@mui/material/Container";
 import {Outlet, useLocation} from "react-router-dom";
 import {ReturnHome} from "@bored/ui";
 import {Box, useMediaQuery, useTheme} from "@mui/material";
+import {useMemo} from "react";
 
 export const App = () => {
   const location = useLocation();
@@ -10,9 +11,17 @@ export const App = () => {
   const theme = useTheme();
   const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const showReturnHome = useMemo(
+    () =>
+      !isHomePage &&
+      !location.pathname.includes("algorithm") &&
+      !location.pathname.includes("data-structure"),
+    [isHomePage, location.pathname],
+  );
+
   return (
     <>
-      {!isHomePage ? (
+      {showReturnHome ? (
         <Box sx={{p: 1}}>
           <ReturnHome />
         </Box>

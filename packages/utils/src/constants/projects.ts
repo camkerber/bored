@@ -20,7 +20,7 @@ export const PROJECTS_MAP: Record<Project, ProjectDetails> = {
     pathIsHref: false,
     action: "Click to explore data structures and algorithms",
     description:
-      "Interactive visualizations of the algorithms and data structures published in my @camkerber/typescript-dsa package. Step through sorts, queues, and more.",
+      "Interactive visualizations of the algorithms and data structures published in my @camkerber/typescript-dsa package.",
   },
   [Project.Connections]: {
     name: "Connections",

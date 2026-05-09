@@ -84,7 +84,7 @@ const Section = ({
 
 export const DsaLanding = () => {
   return (
-    <Box sx={{maxWidth: 1100, mx: "auto", px: 2, py: 3}}>
+    <Box sx={{maxWidth: 1100, mx: "auto", px: 2, pb: 3}}>
       <Typography variant="h4" component="h1" sx={{fontWeight: 600}}>
         DSA Visualized
       </Typography>
