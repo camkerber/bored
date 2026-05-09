@@ -27,14 +27,17 @@ const readSnapshot = (rb: RingBuffer<number>): Snapshot => {
 };
 
 export const RingBufferVisualizer = () => {
-  const rbRef = useRef<RingBuffer<number>>(new RingBuffer<number>(CAPACITY));
-  const initRef = useRef(false);
-  if (!initRef.current) {
-    [10, 20, 30].forEach((v) => rbRef.current.enqueue(v));
-    initRef.current = true;
+  const rbRef = useRef<RingBuffer<number> | null>(null);
+  if (rbRef.current == null) {
+    const rb = (rbRef.current = new RingBuffer<number>(CAPACITY));
+    [10, 20, 30].forEach((v) => rb.enqueue(v));
   }
 
-  const [snap, setSnap] = useState<Snapshot>(() => readSnapshot(rbRef.current));
+  const [snap, setSnap] = useState<Snapshot>(() => {
+    const rb = new RingBuffer<number>(CAPACITY);
+    [10, 20, 30].forEach((v) => rb.enqueue(v));
+    return readSnapshot(rb);
+  });
   const [input, setInput] = useState("");
   const [lastResult, setLastResult] = useState("—");
 
@@ -44,25 +47,25 @@ export const RingBufferVisualizer = () => {
     const v = Number.parseInt(input, 10);
     if (Number.isNaN(v)) return;
     const wasFull = snap.length === CAPACITY;
-    rbRef.current.enqueue(v);
+    rbRef.current!.enqueue(v);
     sync();
     setLastResult(wasFull ? `enqueue ${v} (overwrote oldest)` : `enqueue ${v}`);
     setInput("");
   };
 
   const handleDequeue = () => {
-    const v = rbRef.current.dequeue();
+    const v = rbRef.current!.dequeue();
     sync();
     setLastResult(`dequeue → ${v ?? "undefined"}`);
   };
 
   const handlePeek = () => {
-    const v = rbRef.current.peek();
+    const v = rbRef.current!.peek();
     setLastResult(`peek → ${v ?? "undefined"}`);
   };
 
   const handleClear = () => {
-    rbRef.current.clear();
+    rbRef.current!.clear();
     sync();
     setLastResult("cleared");
   };

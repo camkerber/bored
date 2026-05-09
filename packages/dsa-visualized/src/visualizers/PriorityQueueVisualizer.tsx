@@ -17,14 +17,17 @@ const readPq = (pq: PriorityQueue<number>): Item[] =>
   (pq as unknown as {heap: {heap: Item[]}}).heap.heap.map((n) => ({...n}));
 
 export const PriorityQueueVisualizer = () => {
-  const pqRef = useRef<PriorityQueue<number>>(new PriorityQueue<number>(true));
-  const initRef = useRef(false);
-  if (!initRef.current) {
-    SEED.forEach((s) => pqRef.current.enqueue(s.value, s.priority));
-    initRef.current = true;
+  const pqRef = useRef<PriorityQueue<number> | null>(null);
+  if (pqRef.current == null) {
+    const pq = (pqRef.current = new PriorityQueue<number>(true));
+    SEED.forEach((s) => pq.enqueue(s.value, s.priority));
   }
 
-  const [items, setItems] = useState<Item[]>(() => readPq(pqRef.current));
+  const [items, setItems] = useState<Item[]>(() => {
+    const pq = new PriorityQueue<number>(true);
+    SEED.forEach((s) => pq.enqueue(s.value, s.priority));
+    return readPq(pq);
+  });
   const [valueInput, setValueInput] = useState("");
   const [priorityInput, setPriorityInput] = useState("");
   const [lastResult, setLastResult] = useState("—");
@@ -35,20 +38,20 @@ export const PriorityQueueVisualizer = () => {
     const v = Number.parseInt(valueInput, 10);
     const p = Number.parseInt(priorityInput, 10);
     if (Number.isNaN(v) || Number.isNaN(p)) return;
-    pqRef.current.enqueue(v, p);
+    pqRef.current!.enqueue(v, p);
     sync();
     setValueInput("");
     setPriorityInput("");
   };
 
   const handleDequeue = () => {
-    const v = pqRef.current.dequeue();
+    const v = pqRef.current!.dequeue();
     setLastResult(`dequeue → ${v ?? "undefined"}`);
     sync();
   };
 
   const handlePeek = () => {
-    const v = pqRef.current.peek();
+    const v = pqRef.current!.peek();
     setLastResult(`peek → ${v ?? "undefined"}`);
   };
 

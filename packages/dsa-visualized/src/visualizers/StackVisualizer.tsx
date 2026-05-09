@@ -16,11 +16,10 @@ type Highlight = "top" | "added" | "removed" | null;
 const SEED = [1, 2, 3];
 
 export const StackVisualizer = () => {
-  const stackRef = useRef<Stack<number>>(new Stack<number>());
-  const initRef = useRef(false);
-  if (!initRef.current) {
-    SEED.forEach((v) => stackRef.current.push(v));
-    initRef.current = true;
+  const stackRef = useRef<Stack<number> | null>(null);
+  if (stackRef.current == null) {
+    const stack = (stackRef.current = new Stack<number>());
+    SEED.forEach((v) => stack.push(v));
   }
 
   const [items, setItems] = useState<number[]>([...SEED]);
@@ -40,7 +39,7 @@ export const StackVisualizer = () => {
   const handlePush = () => {
     const v = Number.parseInt(input, 10);
     if (Number.isNaN(v)) return;
-    stackRef.current.push(v);
+    stackRef.current!.push(v);
     setItems((prev) => {
       const next = [...prev, v];
       flash(next.length - 1, "added");
@@ -50,7 +49,7 @@ export const StackVisualizer = () => {
   };
 
   const handlePop = () => {
-    const popped = stackRef.current.pop();
+    const popped = stackRef.current!.pop();
     setLastPopped(popped);
     if (popped === undefined) return;
     flash(items.length - 1, "removed");
@@ -58,13 +57,13 @@ export const StackVisualizer = () => {
   };
 
   const handlePeek = () => {
-    const v = stackRef.current.peek();
+    const v = stackRef.current!.peek();
     setLastPeeked(v);
     if (v !== undefined) flash(items.length - 1, "top");
   };
 
   const handleClear = () => {
-    stackRef.current.clear();
+    stackRef.current!.clear();
     setItems([]);
     setLastPopped(undefined);
     setLastPeeked(undefined);

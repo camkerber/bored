@@ -87,13 +87,10 @@ const layout = (
 const SEED = [50, 30, 70, 20, 40, 60, 80];
 
 export const BinarySearchTreeVisualizer = () => {
-  const bstRef = useRef<BinarySearchTree<number>>(
-    new BinarySearchTree<number>(),
-  );
-  const initRef = useRef(false);
-  if (!initRef.current) {
-    SEED.forEach((v) => bstRef.current.insert(v));
-    initRef.current = true;
+  const bstRef = useRef<BinarySearchTree<number> | null>(null);
+  if (bstRef.current == null) {
+    const bst = (bstRef.current = new BinarySearchTree<number>());
+    SEED.forEach((v) => bst.insert(v));
   }
 
   const [root, setRoot] = useState<MirrorNode | undefined>(() =>
@@ -116,7 +113,7 @@ export const BinarySearchTreeVisualizer = () => {
   const handleInsert = () => {
     const v = Number.parseInt(input, 10);
     if (Number.isNaN(v)) return;
-    bstRef.current.insert(v);
+    bstRef.current!.insert(v);
     setRoot((prev) => insertMirror(prev, v));
     flash(v, "added");
     setInput("");
@@ -125,7 +122,7 @@ export const BinarySearchTreeVisualizer = () => {
   const handleRemove = () => {
     const v = Number.parseInt(input, 10);
     if (Number.isNaN(v)) return;
-    const removed = bstRef.current.remove(v);
+    const removed = bstRef.current!.remove(v);
     if (removed) {
       flash(v, "removed");
       window.setTimeout(() => setRoot((prev) => removeMirror(prev, v)), 250);
@@ -137,13 +134,13 @@ export const BinarySearchTreeVisualizer = () => {
   };
 
   const handleFindMin = () => {
-    const v = bstRef.current.findMin();
+    const v = bstRef.current!.findMin();
     setLastResult(`findMin → ${v ?? "undefined"}`);
     if (v !== undefined) flash(v, "found");
   };
 
   const handleFindMax = () => {
-    const v = bstRef.current.findMax();
+    const v = bstRef.current!.findMax();
     setLastResult(`findMax → ${v ?? "undefined"}`);
     if (v !== undefined) flash(v, "found");
   };
@@ -182,7 +179,7 @@ export const BinarySearchTreeVisualizer = () => {
         variant="caption"
         sx={{display: "block", mt: 2, color: "text.secondary"}}
       >
-        {lastResult} · size: {bstRef.current.size}
+        {lastResult} · size: {nodes.length}
       </Typography>
     </Box>
   );

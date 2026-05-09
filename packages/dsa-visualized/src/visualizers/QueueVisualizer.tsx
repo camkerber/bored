@@ -11,11 +11,10 @@ type Highlight = "head" | "tail" | "removed" | null;
 const SEED = [3, 7, 1];
 
 export const QueueVisualizer = () => {
-  const queueRef = useRef<Queue<number>>(new Queue<number>());
-  const initRef = useRef(false);
-  if (!initRef.current) {
-    SEED.forEach((v) => queueRef.current.enqueue(v));
-    initRef.current = true;
+  const queueRef = useRef<Queue<number> | null>(null);
+  if (queueRef.current == null) {
+    const queue = (queueRef.current = new Queue<number>());
+    SEED.forEach((v) => queue.enqueue(v));
   }
 
   const [items, setItems] = useState<number[]>([...SEED]);
@@ -37,7 +36,7 @@ export const QueueVisualizer = () => {
   const handleEnqueue = () => {
     const value = Number.parseInt(input, 10);
     if (Number.isNaN(value)) return;
-    queueRef.current.enqueue(value);
+    queueRef.current!.enqueue(value);
     setItems((prev) => {
       const next = [...prev, value];
       flashHighlight(next.length - 1, "tail");
@@ -47,7 +46,7 @@ export const QueueVisualizer = () => {
   };
 
   const handleDequeue = () => {
-    const dequeued = queueRef.current.dequeue();
+    const dequeued = queueRef.current!.dequeue();
     setLastDequeued(dequeued);
     if (dequeued === undefined) return;
     flashHighlight(0, "removed");
@@ -57,7 +56,7 @@ export const QueueVisualizer = () => {
   };
 
   const handlePeek = () => {
-    const value = queueRef.current.peek();
+    const value = queueRef.current!.peek();
     setLastPeeked(value);
     if (value !== undefined) {
       flashHighlight(0, "head");
@@ -65,7 +64,7 @@ export const QueueVisualizer = () => {
   };
 
   const handleClear = () => {
-    queueRef.current.clear();
+    queueRef.current!.clear();
     setItems([]);
     setLastDequeued(undefined);
     setLastPeeked(undefined);

@@ -33,13 +33,10 @@ const NodeBox = ({value, color}: {value: number; color: string}) => (
 );
 
 export const LinkedListVisualizer = ({doubly = false}: Props) => {
-  const listRef = useRef<LinkedList<number>>(
-    doubly ? new DoublyLinkedList<number>() : new LinkedList<number>(),
-  );
-  const initRef = useRef(false);
-  if (!initRef.current) {
-    SEED.forEach((v) => listRef.current.append(v));
-    initRef.current = true;
+  const listRef = useRef<LinkedList<number> | null>(null);
+  if (listRef.current == null) {
+    const list = (listRef.current = doubly ? new DoublyLinkedList<number>() : new LinkedList<number>());
+    SEED.forEach((v) => list.append(v));
   }
 
   const [items, setItems] = useState<number[]>([...SEED]);
@@ -66,7 +63,7 @@ export const LinkedListVisualizer = ({doubly = false}: Props) => {
   const handlePrepend = () => {
     const v = parseValue();
     if (Number.isNaN(v)) return;
-    listRef.current.prepend(v);
+    listRef.current!.prepend(v);
     setItems((prev) => {
       flash(0, "added");
       return [v, ...prev];
@@ -77,7 +74,7 @@ export const LinkedListVisualizer = ({doubly = false}: Props) => {
   const handleAppend = () => {
     const v = parseValue();
     if (Number.isNaN(v)) return;
-    listRef.current.append(v);
+    listRef.current!.append(v);
     setItems((prev) => {
       flash(prev.length, "added");
       return [...prev, v];
@@ -91,7 +88,7 @@ export const LinkedListVisualizer = ({doubly = false}: Props) => {
     if (Number.isNaN(v) || Number.isNaN(idx)) return;
     if (idx < 0 || idx > items.length) return;
     try {
-      listRef.current.insertAt(v, idx);
+      listRef.current!.insertAt(v, idx);
       setItems((prev) => {
         const next = [...prev.slice(0, idx), v, ...prev.slice(idx)];
         flash(idx, "added");
@@ -108,7 +105,7 @@ export const LinkedListVisualizer = ({doubly = false}: Props) => {
     if (Number.isNaN(v)) return;
     const targetIdx = items.indexOf(v);
     try {
-      const removed = listRef.current.remove(v);
+      const removed = listRef.current!.remove(v);
       setLastResult(`remove(${v}) → ${removed ?? "undefined"}`);
       if (targetIdx >= 0) {
         flash(targetIdx, "removed");
@@ -125,7 +122,7 @@ export const LinkedListVisualizer = ({doubly = false}: Props) => {
   const handleGet = () => {
     const idx = parseIndex();
     if (Number.isNaN(idx)) return;
-    const v = listRef.current.get(idx);
+    const v = listRef.current!.get(idx);
     setLastResult(`get(${idx}) → ${v ?? "undefined"}`);
     if (v !== undefined) flash(idx, "got");
   };

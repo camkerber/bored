@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
 
 interface Options<F> {
   buildFrames: () => F[];
@@ -30,9 +30,12 @@ export function useStepRunner<F>({
   const [isPlaying, setIsPlaying] = useState(false);
   const [speedMs, setSpeedMs] = useState(initialSpeedMs);
   const buildRef = useRef(buildFrames);
-  buildRef.current = buildFrames;
+  useLayoutEffect(() => {
+    buildRef.current = buildFrames;
+  });
 
   const isFinished = index >= frames.length - 1;
+  const isActuallyPlaying = isPlaying && !isFinished;
 
   const step = useCallback(() => {
     setIndex((i) => Math.min(i + 1, frames.length - 1));
@@ -63,23 +66,19 @@ export function useStepRunner<F>({
   }, []);
 
   useEffect(() => {
-    if (!isPlaying) return;
-    if (isFinished) {
-      setIsPlaying(false);
-      return;
-    }
+    if (!isActuallyPlaying) return;
     const id = window.setTimeout(() => {
       setIndex((i) => Math.min(i + 1, frames.length - 1));
     }, speedMs);
     return () => window.clearTimeout(id);
-  }, [isPlaying, isFinished, index, speedMs, frames.length]);
+  }, [isActuallyPlaying, index, speedMs, frames.length]);
 
   return useMemo(
     () => ({
       frame: frames[index],
       index,
       total: frames.length,
-      isPlaying,
+      isPlaying: isActuallyPlaying,
       isFinished,
       speedMs,
       step,
@@ -93,7 +92,7 @@ export function useStepRunner<F>({
     [
       frames,
       index,
-      isPlaying,
+      isActuallyPlaying,
       isFinished,
       speedMs,
       step,

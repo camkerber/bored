@@ -108,15 +108,14 @@ const layoutTrie = (
 const SEED_WORDS = ["cat", "car", "dog"];
 
 export const TrieVisualizer = () => {
-  const trieRef = useRef<Trie>(new Trie());
-  const [root, setRoot] = useState<MirrorNode>(() => {
-    let r = createNode("·");
-    SEED_WORDS.forEach((w) => {
-      trieRef.current.add(w);
-      r = addToMirror(r, w);
-    });
-    return r;
-  });
+  const trieRef = useRef<Trie | null>(null);
+  if (trieRef.current == null) {
+    const trie = (trieRef.current = new Trie());
+    SEED_WORDS.forEach((w) => trie.add(w));
+  }
+  const [root, setRoot] = useState<MirrorNode>(() =>
+    SEED_WORDS.reduce((r, w) => addToMirror(r, w), createNode("·")),
+  );
   const [input, setInput] = useState("");
   const [lastResult, setLastResult] = useState("—");
   const [highlightPath, setHighlightPath] = useState<Set<string>>(new Set());
@@ -124,7 +123,7 @@ export const TrieVisualizer = () => {
   const handleAdd = () => {
     const w = input.trim().toLowerCase();
     if (!w) return;
-    trieRef.current.add(w);
+    trieRef.current!.add(w);
     setRoot((prev) => addToMirror(prev, w));
     const path = new Set<string>();
     let acc = "";
@@ -141,7 +140,7 @@ export const TrieVisualizer = () => {
   const handleFind = () => {
     const w = input.trim().toLowerCase();
     if (!w) return;
-    const found = trieRef.current.find(w);
+    const found = trieRef.current!.find(w);
     setLastResult(`find("${w}") → ${found}`);
     if (found) {
       const path = new Set<string>();

@@ -76,8 +76,9 @@ const labelFor = (kind: HeapKind) =>
   kind === "min" ? "Min Heap" : kind === "max" ? "Max Heap" : "Heap";
 
 const HeapVisualizerInner = ({kind}: Props) => {
-  const heapRef = useRef<Heap<number>>(makeHeap(kind, SEED_BY_KIND[kind]));
-  const [arr, setArr] = useState<number[]>(() => readArray(heapRef.current));
+  const heapRef = useRef<Heap<number> | null>(null);
+  if (heapRef.current == null) heapRef.current = makeHeap(kind, SEED_BY_KIND[kind]);
+  const [arr, setArr] = useState<number[]>(() => readArray(makeHeap(kind, SEED_BY_KIND[kind])));
   const [input, setInput] = useState("");
   const [lastResult, setLastResult] = useState("—");
   const [highlight, setHighlight] = useState<{
@@ -95,7 +96,7 @@ const HeapVisualizerInner = ({kind}: Props) => {
   const handlePush = () => {
     const v = Number.parseInt(input, 10);
     if (Number.isNaN(v)) return;
-    heapRef.current.push(v);
+    heapRef.current!.push(v);
     sync();
     const next = readArray(heapRef.current);
     flash(next.indexOf(v), "added");
@@ -105,14 +106,14 @@ const HeapVisualizerInner = ({kind}: Props) => {
   const handlePop = () => {
     flash(0, "removed");
     window.setTimeout(() => {
-      const popped = heapRef.current.pop();
+      const popped = heapRef.current!.pop();
       setLastResult(`pop → ${popped ?? "undefined"}`);
       sync();
     }, 250);
   };
 
   const handlePeek = () => {
-    const v = heapRef.current.peek();
+    const v = heapRef.current!.peek();
     setLastResult(`peek → ${v ?? "undefined"}`);
     if (arr.length > 0) flash(0, "found");
   };
@@ -122,7 +123,7 @@ const HeapVisualizerInner = ({kind}: Props) => {
       {length: 6},
       () => Math.floor(Math.random() * 90) + 5,
     );
-    heapRef.current.heapify(fresh);
+    heapRef.current!.heapify(fresh);
     sync();
     setLastResult(`heapified ${fresh.join(", ")}`);
   };
