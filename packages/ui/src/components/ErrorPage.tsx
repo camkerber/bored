@@ -10,7 +10,9 @@ export const ErrorPage = () => {
 
   return (
     <>
-      <Typography variant="body1">Sorry, an unhandled error occurred.</Typography>
+      <Typography variant="body1">
+        Sorry, an unhandled error occurred.
+      </Typography>
       <Typography variant="h6" color="error.main" mt={10}>
         {error.message}
       </Typography>

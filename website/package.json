@@ -12,6 +12,7 @@
   "dependencies": {
     "@babel/core": "^7.29.0",
     "@bored/connections": "workspace:*",
+    "@bored/dsa-visualized": "workspace:*",
     "@bored/ui": "workspace:*",
     "@bored/utils": "workspace:*",
     "@bored/spotify": "workspace:*",
@@ -26,6 +27,7 @@
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-router-dom": "^6.26.2",
+    "tslib": "^2.8.1",
     "typescript": "^6.0.3"
   },
   "devDependencies": {

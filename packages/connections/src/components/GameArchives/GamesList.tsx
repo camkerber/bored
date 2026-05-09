@@ -9,10 +9,7 @@ interface GamesProps {
 }
 
 export const GamesList = ({games, resultsCleared}: GamesProps) => {
-  const completedGameIds = useMemo(
-    () => new Set(getCompletedGames()),
-    [],
-  );
+  const completedGameIds = useMemo(() => new Set(getCompletedGames()), []);
 
   if (!games) {
     return null;

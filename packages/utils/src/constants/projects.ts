@@ -2,6 +2,7 @@ enum Project {
   Connections = "connections",
   Wordle = "wordle",
   Spotify = "spotify",
+  Dsa = "dsa",
 }
 
 export interface ProjectDetails {
@@ -13,6 +14,14 @@ export interface ProjectDetails {
 }
 
 export const PROJECTS_MAP: Record<Project, ProjectDetails> = {
+  [Project.Dsa]: {
+    name: "Data Structures + Algorithms",
+    path: Project.Dsa,
+    pathIsHref: false,
+    action: "Click to explore data structures and algorithms",
+    description:
+      "Interactive visualizations of the algorithms and data structures published in my @camkerber/typescript-dsa package. Step through sorts, queues, and more.",
+  },
   [Project.Connections]: {
     name: "Connections",
     path: Project.Connections,

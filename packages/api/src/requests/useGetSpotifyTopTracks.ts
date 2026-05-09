@@ -27,5 +27,10 @@ export const useGetSpotifyTopTracks = ({
     {suspense: true},
   );
 
-  return {data: data as SpotifyTopTracksPage, refetch: mutate, error, isLoading};
+  return {
+    data: data as SpotifyTopTracksPage,
+    refetch: mutate,
+    error,
+    isLoading,
+  };
 };

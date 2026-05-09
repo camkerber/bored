@@ -33,7 +33,10 @@ async function apiGetInner<T>(path: string, init: RequestInit): Promise<T> {
   return (raw as SuccessEnvelope<T>).data;
 }
 
-export async function apiGet<T>(path: string, signal?: AbortSignal): Promise<T> {
+export async function apiGet<T>(
+  path: string,
+  signal?: AbortSignal,
+): Promise<T> {
   return apiGetInner<T>(path, {signal});
 }
 

@@ -1,11 +1,5 @@
 import {useDebounce} from "@bored/utils";
-import {
-  RefObject,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import {RefObject, useCallback, useEffect, useRef, useState} from "react";
 
 interface CarouselArgs {
   defaultFocusedItemId: string;

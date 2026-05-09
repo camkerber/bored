@@ -27,5 +27,10 @@ export const useGetSpotifyTopArtists = ({
     {suspense: true},
   );
 
-  return {data: data as SpotifyTopArtistsPage, refetch: mutate, error, isLoading};
+  return {
+    data: data as SpotifyTopArtistsPage,
+    refetch: mutate,
+    error,
+    isLoading,
+  };
 };
