@@ -22,7 +22,7 @@ export const Actions = ({onShareResults}: ActionsProps) => {
   const handleShareGame = async () => {
     await shareLinkOrText(
       {
-        title: "Cam is bored: Connections",
+        title: "Connections",
         text: activeGame.title,
         url: window.location.href,
       },

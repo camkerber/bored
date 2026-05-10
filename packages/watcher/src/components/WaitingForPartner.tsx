@@ -1,5 +1,7 @@
 import {Box, Button, CircularProgress, Stack, Typography} from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import {shareLinkOrText} from "@bored/utils";
+import {useSnackbar} from "notistack";
 
 export interface WaitingForPartnerProps {
   title: string;
@@ -12,9 +14,25 @@ export const WaitingForPartner = ({
   message,
   shareCode,
 }: WaitingForPartnerProps) => {
-  const handleCopy = () => {
+  const {enqueueSnackbar} = useSnackbar();
+
+  const handleShareCode = async () => {
     if (shareCode) {
-      void navigator.clipboard?.writeText(shareCode);
+      await shareLinkOrText(
+        {
+          title: "What are we watching?",
+          text: `Join my session with this code: ${shareCode}`,
+          url: window.location.href,
+        },
+        () =>
+          enqueueSnackbar("Link copied to clipboard", {
+            variant: "success",
+          }),
+        () =>
+          enqueueSnackbar("Failed to copy link. Please try again.", {
+            variant: "error",
+          }),
+      );
     }
   };
 
@@ -44,9 +62,9 @@ export const WaitingForPartner = ({
             >
               {shareCode}
             </Typography>
-            <Button onClick={handleCopy} sx={{mt: 1}}>
+            <Button onClick={handleShareCode} sx={{mt: 1}}>
               <ContentCopyIcon />
-              Copy
+              Share Code
             </Button>
           </Box>
         ) : null}

@@ -277,6 +277,9 @@ importers:
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
+      notistack:
+        specifier: ^3.0.2
+        version: 3.0.2(csstype@3.2.3)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       react:
         specifier: ^19.2.5
         version: 19.2.5
