@@ -3,6 +3,7 @@ enum Project {
   Wordle = "wordle",
   Spotify = "spotify",
   Dsa = "dsa",
+  Watcher = "watcher",
 }
 
 export interface ProjectDetails {
@@ -14,6 +15,14 @@ export interface ProjectDetails {
 }
 
 export const PROJECTS_MAP: Record<Project, ProjectDetails> = {
+  [Project.Watcher]: {
+    name: "What are we watching?",
+    path: Project.Watcher,
+    pathIsHref: false,
+    action: "Click to find a movie or show to watch together",
+    description:
+      "Two people add movies or shows, swipe through the combined list, and find what to watch together.",
+  },
   [Project.Dsa]: {
     name: "Data Structures + Algorithms",
     path: Project.Dsa,

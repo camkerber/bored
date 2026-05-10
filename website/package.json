@@ -16,6 +16,7 @@
     "@bored/ui": "workspace:*",
     "@bored/utils": "workspace:*",
     "@bored/spotify": "workspace:*",
+    "@bored/watcher": "workspace:*",
     "@bored/wordle": "workspace:*",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",

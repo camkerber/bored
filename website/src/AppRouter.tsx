@@ -6,6 +6,7 @@ import {PROJECTS_MAP} from "@bored/utils";
 import {Connections, Archive} from "@bored/connections";
 import {Wordle} from "@bored/wordle";
 import {Spotify, SpotifyCallback} from "@bored/spotify";
+import {Watcher} from "@bored/watcher";
 import {
   DsaLanding,
   DsaAlgorithm,
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: `${PROJECTS_MAP.dsa.path}/data-structure/:slug`,
         element: withSuspense(<DsaDataStructure />),
+      },
+      {
+        path: `${PROJECTS_MAP.watcher.path}`,
+        element: withSuspense(<Watcher />),
       },
     ],
   },
