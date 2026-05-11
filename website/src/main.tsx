@@ -4,6 +4,7 @@ import {AppRouter} from "./AppRouter";
 import CssBaseline from "@mui/material/CssBaseline";
 import {ThemeProvider} from "@mui/material/styles";
 import {SnackbarProvider} from "notistack";
+import {Analytics} from "@vercel/analytics/react";
 import {theme} from "./theme";
 
 createRoot(document.getElementById("root")!).render(
@@ -12,6 +13,7 @@ createRoot(document.getElementById("root")!).render(
       <SnackbarProvider>
         <CssBaseline />
         <AppRouter />
+        <Analytics />
       </SnackbarProvider>
     </ThemeProvider>
   </StrictMode>,
