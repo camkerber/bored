@@ -165,7 +165,7 @@ export const SessionForm = ({waiting}: {waiting: boolean}) => {
                   <Autocomplete
                     freeSolo
                     value={serviceField.value ?? ""}
-                    options={STREAMING_SERVICES as readonly string[]}
+                    options={STREAMING_SERVICES}
                     onChange={(_e, value) => serviceField.onChange(value ?? "")}
                     onInputChange={(_e, value) => serviceField.onChange(value)}
                     renderInput={(params) => (
