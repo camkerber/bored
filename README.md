@@ -118,4 +118,4 @@ pnpm prettier    # format the repo
 
 ## Environment
 
-`website/.env.local` holds `VITE_API_URL` (defaults to `http://localhost:3000`), `VITE_SPOTIFY_CLIENT_ID`, and `VITE_SPOTIFY_REDIRECT_URI`. The backend lives in the sibling repo at [/Users/cam/Repos/bored-backend](../bored-backend).
+`website/.env.local` holds `VITE_API_URL` (defaults to `http://localhost:3000`), `VITE_SPOTIFY_CLIENT_ID`, and `VITE_SPOTIFY_REDIRECT_URI`. The backend lives in the sibling repo at [/bored-backend](../bored-backend).
