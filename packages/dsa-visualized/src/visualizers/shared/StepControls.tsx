@@ -77,7 +77,7 @@ export const StepControls = ({runner, onShuffle, caption}: Props) => (
         value={400 - runner.speedMs}
         min={50}
         max={380}
-        onChange={(_, v) => runner.setSpeedMs(400 - (v as number))}
+        onChange={(_, v) => runner.setSpeedMs(400 - v)}
       />
     </Box>
     <Typography

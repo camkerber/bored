@@ -77,8 +77,11 @@ const labelFor = (kind: HeapKind) =>
 
 const HeapVisualizerInner = ({kind}: Props) => {
   const heapRef = useRef<Heap<number> | null>(null);
-  if (heapRef.current == null) heapRef.current = makeHeap(kind, SEED_BY_KIND[kind]);
-  const [arr, setArr] = useState<number[]>(() => readArray(makeHeap(kind, SEED_BY_KIND[kind])));
+  if (heapRef.current == null)
+    heapRef.current = makeHeap(kind, SEED_BY_KIND[kind]);
+  const [arr, setArr] = useState<number[]>(() =>
+    readArray(makeHeap(kind, SEED_BY_KIND[kind])),
+  );
   const [input, setInput] = useState("");
   const [lastResult, setLastResult] = useState("—");
   const [highlight, setHighlight] = useState<{

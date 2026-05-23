@@ -36,7 +36,13 @@ export const ModePicker = ({onCancel}: ModePickerProps) => {
   return (
     <Box sx={{display: "flex", justifyContent: "center", mt: 6, px: 2}}>
       <Stack spacing={3} sx={{width: "100%", maxWidth: 480}}>
-        <Typography variant="h5" component="h2" textAlign="center">
+        <Typography
+          variant="h5"
+          component="h2"
+          sx={{
+            textAlign: "center",
+          }}
+        >
           Who&apos;s adding movies/shows?
         </Typography>
         {error ? <Alert severity="error">{error}</Alert> : null}
@@ -47,7 +53,12 @@ export const ModePicker = ({onCancel}: ModePickerProps) => {
           >
             <CardContent>
               <Typography variant="h6">Both of us</Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "text.secondary",
+                }}
+              >
                 Each person adds 1–5 options. You&apos;ll get a code right away
                 to share.
               </Typography>
@@ -61,7 +72,12 @@ export const ModePicker = ({onCancel}: ModePickerProps) => {
           >
             <CardContent>
               <Typography variant="h6">Just me</Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "text.secondary",
+                }}
+              >
                 You add 2–10 options now. Share the code afterwards so your
                 partner can join straight to swiping.
               </Typography>

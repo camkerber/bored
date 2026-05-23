@@ -8,7 +8,13 @@ interface BoredModalProps extends ModalProps {
 export const Modal = ({showCloseButton = false, ...rest}: BoredModalProps) => {
   return (
     <MuiModal {...rest}>
-      <Box p={4} className="bored-modal" bgcolor="background.paper">
+      <Box
+        className="bored-modal"
+        sx={{
+          p: 4,
+          bgcolor: "background.paper",
+        }}
+      >
         <>
           {showCloseButton ? (
             <IconButton

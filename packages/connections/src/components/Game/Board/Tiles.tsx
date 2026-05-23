@@ -20,8 +20,7 @@ const Tile = memo(function Tile({
 }: TileProps) {
   const handleClick = useCallback(() => onSelect(option), [onSelect, option]);
   const className =
-    "connections-tile" +
-    (isSelected && shake ? " connections-tile-shake" : "");
+    "connections-tile" + (isSelected && shake ? " connections-tile-shake" : "");
   const style = flashColor
     ? {backgroundColor: flashColor, color: "black"}
     : undefined;

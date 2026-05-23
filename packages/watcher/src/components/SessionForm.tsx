@@ -12,8 +12,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/DeleteOutline";
-import AddIcon from "@mui/icons-material/AddCircleOutline";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import AddIcon from "@mui/icons-material/AddCircleOutlined";
 import {markWatcherReady, submitWatcherEntries} from "@bored/api";
 import {useWatcherSessionContext} from "../context";
 import {STREAMING_SERVICES} from "../utils/streamingServices";
@@ -92,10 +92,22 @@ export const SessionForm = ({waiting}: {waiting: boolean}) => {
         spacing={3}
         sx={{width: "100%", maxWidth: 560}}
       >
-        <Typography variant="h5" component="h2" textAlign="center">
+        <Typography
+          variant="h5"
+          component="h2"
+          sx={{
+            textAlign: "center",
+          }}
+        >
           Add your movies / shows
         </Typography>
-        <Typography variant="body2" color="text.secondary" textAlign="center">
+        <Typography
+          variant="body2"
+          sx={{
+            color: "text.secondary",
+            textAlign: "center",
+          }}
+        >
           {formMode === "solo-entry"
             ? `You're filling this out solo — add ${min}–${max} options.`
             : `You and your partner each add ${min}–${max} options.`}
@@ -110,7 +122,13 @@ export const SessionForm = ({waiting}: {waiting: boolean}) => {
               spacing={1.5}
               sx={{p: 2, border: 1, borderColor: "divider", borderRadius: 1}}
             >
-              <Stack direction="row" alignItems="center" spacing={1}>
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{
+                  alignItems: "center",
+                }}
+              >
                 <Typography variant="subtitle2" sx={{flex: 1}}>
                   Movie/Show {index + 1}
                 </Typography>
@@ -181,7 +199,6 @@ export const SessionForm = ({waiting}: {waiting: boolean}) => {
           Ready to match!
         </Button>
       </Stack>
-
       <Backdrop
         open={waiting || submitting}
         sx={{

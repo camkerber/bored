@@ -14,7 +14,18 @@ export const DsaPageShell = ({title, description, chips, children}: Props) => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{width: "100%", maxWidth: 960, mx: "auto", px: 2, py: 3, minWidth: 0, overflowX: "hidden", boxSizing: "border-box"}}>
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: 960,
+        mx: "auto",
+        px: 2,
+        py: 3,
+        minWidth: 0,
+        overflowX: "hidden",
+        boxSizing: "border-box",
+      }}
+    >
       <Button
         size="small"
         startIcon={<ArrowBackIcon />}

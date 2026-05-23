@@ -78,7 +78,12 @@ export const Results = () => {
       <Stack spacing={3}>
         {error ? <Alert severity="error">{error}</Alert> : null}
         {count === 1 ? (
-          <Stack spacing={2} alignItems="center">
+          <Stack
+            spacing={2}
+            sx={{
+              alignItems: "center",
+            }}
+          >
             <Typography variant="h5">It&apos;s a match!</Typography>
             <Card elevation={4} sx={{width: "100%", borderRadius: 3}}>
               <CardContent sx={{p: 3}}>
@@ -102,7 +107,12 @@ export const Results = () => {
           </Stack>
         ) : count > 1 ? (
           <Stack spacing={2}>
-            <Typography variant="h5" textAlign="center">
+            <Typography
+              variant="h5"
+              sx={{
+                textAlign: "center",
+              }}
+            >
               You both liked {count} options
             </Typography>
             <Stack spacing={1.5}>
@@ -116,8 +126,10 @@ export const Results = () => {
                     {entry.description ? (
                       <Typography
                         variant="body2"
-                        color="text.secondary"
-                        sx={{mt: 1}}
+                        sx={{
+                          color: "text.secondary",
+                          mt: 1,
+                        }}
                       >
                         {entry.description}
                       </Typography>
@@ -136,9 +148,19 @@ export const Results = () => {
             </Button>
           </Stack>
         ) : (
-          <Stack spacing={2} alignItems="center">
+          <Stack
+            spacing={2}
+            sx={{
+              alignItems: "center",
+            }}
+          >
             <Typography variant="h5">No matches</Typography>
-            <Typography color="text.secondary" textAlign="center">
+            <Typography
+              sx={{
+                color: "text.secondary",
+                textAlign: "center",
+              }}
+            >
               Looks like you both need to be a little less picky. Want another
               pass?
             </Typography>

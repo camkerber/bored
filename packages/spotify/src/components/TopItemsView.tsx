@@ -30,16 +30,17 @@ export const TopItemsView = () => {
       <Stack
         direction={{xs: "column", sm: "row"}}
         spacing={2}
-        alignItems={{xs: "flex-start", sm: "center"}}
-        justifyContent="space-between"
-        sx={{mb: 2}}
+        sx={{
+          alignItems: {xs: "flex-start", sm: "center"},
+          justifyContent: "space-between",
+          mb: 2,
+        }}
       >
         <Typography variant="h5">Your Spotify Charts</Typography>
         <Button onClick={logout} size="small">
           Sign out
         </Button>
       </Stack>
-
       <Tabs
         value={kind}
         onChange={(_, next: SpotifyTopItemKind) => setKind(next)}
@@ -48,11 +49,9 @@ export const TopItemsView = () => {
         <Tab value="artists" label="Artists" />
         <Tab value="tracks" label="Songs" />
       </Tabs>
-
       <Box sx={{mb: 3}}>
         <TimeRangeToggle value={timeRange} onChange={setTimeRange} />
       </Box>
-
       <Suspense fallback={<SuspenseFallback />}>
         {kind === "artists" ? (
           <TopArtistsList timeRange={timeRange} />

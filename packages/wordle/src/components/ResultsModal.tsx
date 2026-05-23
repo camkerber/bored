@@ -50,7 +50,12 @@ export const ResultsModal = () => {
       showCloseButton
     >
       <>
-        <Typography variant="h6" mb={2}>
+        <Typography
+          variant="h6"
+          sx={{
+            mb: 2,
+          }}
+        >
           Wordle Completed!
         </Typography>
         <pre id="camnections-results" className="share-results-content">

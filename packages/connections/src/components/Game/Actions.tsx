@@ -1,4 +1,4 @@
-import {Button, Grid2} from "@mui/material";
+import {Button, Grid} from "@mui/material";
 import {useConnectionsGameContext} from "../../context";
 import {shareLinkOrText, useNavigateToConnectionsPath} from "@bored/utils";
 import {useSnackbar} from "notistack";
@@ -39,14 +39,17 @@ export const Actions = ({onShareResults}: ActionsProps) => {
 
   return (
     <>
-      <Grid2
+      <Grid
         container
-        sx={{mt: 2, mb: 4}}
         spacing={1}
-        rowGap={2}
         className="connections-actions-container"
+        sx={{
+          rowGap: 2,
+          mt: 2,
+          mb: 4,
+        }}
       >
-        <Grid2 size={12} className="flex-center">
+        <Grid size={12} className="flex-center">
           <Button
             onClick={submit}
             variant="contained"
@@ -58,8 +61,8 @@ export const Actions = ({onShareResults}: ActionsProps) => {
           >
             Submit
           </Button>
-        </Grid2>
-        <Grid2 size={6} className="flex-center">
+        </Grid>
+        <Grid size={6} className="flex-center">
           <Button
             onClick={shuffleOptions}
             variant="outlined"
@@ -70,8 +73,8 @@ export const Actions = ({onShareResults}: ActionsProps) => {
           >
             Shuffle
           </Button>
-        </Grid2>
-        <Grid2 size={6} className="flex-center">
+        </Grid>
+        <Grid size={6} className="flex-center">
           <Button
             onClick={onShareResults}
             variant="outlined"
@@ -82,8 +85,8 @@ export const Actions = ({onShareResults}: ActionsProps) => {
           >
             View Results
           </Button>
-        </Grid2>
-        <Grid2 size={6} className="flex-center">
+        </Grid>
+        <Grid size={6} className="flex-center">
           <Button
             onClick={() => navigateTo("archive")}
             variant="outlined"
@@ -93,8 +96,8 @@ export const Actions = ({onShareResults}: ActionsProps) => {
           >
             Archives
           </Button>
-        </Grid2>
-        <Grid2 size={6} className="flex-center">
+        </Grid>
+        <Grid size={6} className="flex-center">
           <Button
             onClick={handleShareGame}
             variant="outlined"
@@ -104,8 +107,8 @@ export const Actions = ({onShareResults}: ActionsProps) => {
           >
             Share This Game
           </Button>
-        </Grid2>
-      </Grid2>
+        </Grid>
+      </Grid>
     </>
   );
 };

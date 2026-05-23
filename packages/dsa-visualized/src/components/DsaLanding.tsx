@@ -54,9 +54,11 @@ const Section = ({
                 <CardContent>
                   <Stack
                     direction="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    sx={{mb: 1}}
+                    sx={{
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      mb: 1,
+                    }}
                   >
                     <Typography variant="h6" component="div">
                       {entry.name}
@@ -69,7 +71,12 @@ const Section = ({
                     />
                   </Stack>
                   {chip && <Chip label={chip} size="small" sx={{mb: 1}} />}
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: "text.secondary",
+                    }}
+                  >
                     {entry.description}
                   </Typography>
                 </CardContent>

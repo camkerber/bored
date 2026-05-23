@@ -46,7 +46,13 @@ export const Actions = () => {
       >
         {showNewGameButton ? (
           <>
-            <Typography mb={1}>You completed this wordle</Typography>
+            <Typography
+              sx={{
+                mb: 1,
+              }}
+            >
+              You completed this wordle
+            </Typography>
             <Button
               size="large"
               variant="outlined"

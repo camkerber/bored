@@ -123,7 +123,14 @@ export const QuickSelectVisualizer = () => {
 
   return (
     <Box>
-      <Stack direction="row" spacing={1} alignItems="center" sx={{mb: 2}}>
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{
+          alignItems: "center",
+          mb: 2,
+        }}
+      >
         <TextField
           size="small"
           label="k (0-indexed)"
@@ -132,7 +139,12 @@ export const QuickSelectVisualizer = () => {
           onChange={(e) => setKInput(e.target.value)}
           sx={{width: 140}}
         />
-        <Typography variant="caption" color="text.secondary">
+        <Typography
+          variant="caption"
+          sx={{
+            color: "text.secondary",
+          }}
+        >
           Yellow column is target index k. Edit k then press Reset.
         </Typography>
       </Stack>

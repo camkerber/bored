@@ -44,7 +44,12 @@ export const DsaDataStructure = () => {
                 {op.description}
               </Typography>
               {op.complexity && (
-                <Typography variant="caption" color="text.secondary">
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: "text.secondary",
+                  }}
+                >
                   {op.complexity}
                 </Typography>
               )}

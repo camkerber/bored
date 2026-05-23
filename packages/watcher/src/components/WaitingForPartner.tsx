@@ -40,19 +40,32 @@ export const WaitingForPartner = ({
     <Box sx={{display: "flex", justifyContent: "center", mt: 6, px: 2}}>
       <Stack
         spacing={3}
-        sx={{maxWidth: 420, textAlign: "center"}}
-        alignItems="center"
+        sx={{
+          alignItems: "center",
+          maxWidth: 420,
+          textAlign: "center",
+        }}
       >
         <CircularProgress />
         <Typography variant="h5" component="h2">
           {title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography
+          variant="body2"
+          sx={{
+            color: "text.secondary",
+          }}
+        >
           {message}
         </Typography>
         {shareCode ? (
           <Box>
-            <Typography variant="overline" color="text.secondary">
+            <Typography
+              variant="overline"
+              sx={{
+                color: "text.secondary",
+              }}
+            >
               Share this code
             </Typography>
             <Typography

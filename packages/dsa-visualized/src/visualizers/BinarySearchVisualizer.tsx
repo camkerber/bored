@@ -71,7 +71,14 @@ export const BinarySearchVisualizer = () => {
 
   return (
     <Box>
-      <Stack direction="row" spacing={1} alignItems="center" sx={{mb: 2}}>
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{
+          alignItems: "center",
+          mb: 2,
+        }}
+      >
         <TextField
           size="small"
           label="target"
@@ -80,7 +87,12 @@ export const BinarySearchVisualizer = () => {
           onChange={(e) => setTargetInput(e.target.value)}
           sx={{width: 120}}
         />
-        <Typography variant="caption" color="text.secondary">
+        <Typography
+          variant="caption"
+          sx={{
+            color: "text.secondary",
+          }}
+        >
           Edit target then press Reset / Play.
         </Typography>
       </Stack>

@@ -69,7 +69,12 @@ export const SwipeCard = ({entry, onDecide, flash}: SwipeCardProps) => {
               />
             ) : null}
             {entry.description ? (
-              <Typography variant="body1" color="text.secondary">
+              <Typography
+                variant="body1"
+                sx={{
+                  color: "text.secondary",
+                }}
+              >
                 {entry.description}
               </Typography>
             ) : null}
@@ -108,8 +113,20 @@ export const SwipeCard = ({entry, onDecide, flash}: SwipeCardProps) => {
           NOPE
         </motion.div>
       </motion.div>
-      <Stack direction="row" justifyContent="center" sx={{mt: 2}} spacing={1}>
-        <Typography variant="caption" color="text.secondary">
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{
+          justifyContent: "center",
+          mt: 2,
+        }}
+      >
+        <Typography
+          variant="caption"
+          sx={{
+            color: "text.secondary",
+          }}
+        >
           Swipe left to skip · swipe right to like
         </Typography>
       </Stack>

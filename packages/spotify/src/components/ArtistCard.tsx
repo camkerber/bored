@@ -55,7 +55,13 @@ export const ArtistCard = ({artist, rank}: ArtistCardProps) => {
             {artist.name}
           </Typography>
           {topGenre ? (
-            <Typography variant="caption" color="text.secondary" noWrap>
+            <Typography
+              variant="caption"
+              noWrap
+              sx={{
+                color: "text.secondary",
+              }}
+            >
               {topGenre}
             </Typography>
           ) : null}

@@ -11,7 +11,12 @@ export const Landing = ({onStart, onJoin}: LandingProps) => (
       <Typography variant="h4" component="h1">
         What are we watching?
       </Typography>
-      <Typography variant="body1" color="text.secondary">
+      <Typography
+        variant="body1"
+        sx={{
+          color: "text.secondary",
+        }}
+      >
         Pick a movie or show together. Start a session and share the code, or
         join a session your partner already started.
       </Typography>

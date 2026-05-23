@@ -78,7 +78,14 @@ const DeckRound = ({
 
   if (finished) {
     return (
-      <Stack spacing={2} alignItems="center" sx={{mt: 6, px: 2}}>
+      <Stack
+        spacing={2}
+        sx={{
+          alignItems: "center",
+          mt: 6,
+          px: 2,
+        }}
+      >
         {submitState.kind === "submitting" ? <CircularProgress /> : null}
         <Typography variant="h6">
           {submitState.kind === "submitting"
@@ -104,8 +111,18 @@ const DeckRound = ({
   const current = entries[index];
   return (
     <Box sx={{mt: 4, px: 2, pb: 6}}>
-      <Stack spacing={2} alignItems="center">
-        <Typography variant="overline" color="text.secondary">
+      <Stack
+        spacing={2}
+        sx={{
+          alignItems: "center",
+        }}
+      >
+        <Typography
+          variant="overline"
+          sx={{
+            color: "text.secondary",
+          }}
+        >
           {index + 1} of {entries.length}
         </Typography>
         <SwipeCard entry={current} onDecide={decide} flash={flash} />

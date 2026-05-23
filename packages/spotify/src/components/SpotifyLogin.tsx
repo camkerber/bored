@@ -6,9 +6,20 @@ export const SpotifyLogin = () => {
 
   return (
     <Box sx={{display: "flex", justifyContent: "center", py: 6}}>
-      <Stack spacing={2} alignItems="center">
+      <Stack
+        spacing={2}
+        sx={{
+          alignItems: "center",
+        }}
+      >
         <Typography variant="h5">Your Spotify Charts</Typography>
-        <Typography variant="body2" color="text.secondary" textAlign="center">
+        <Typography
+          variant="body2"
+          sx={{
+            color: "text.secondary",
+            textAlign: "center",
+          }}
+        >
           Sign in with Spotify to see your top artists.
         </Typography>
         <Button

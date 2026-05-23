@@ -35,7 +35,9 @@ const NodeBox = ({value, color}: {value: number; color: string}) => (
 export const LinkedListVisualizer = ({doubly = false}: Props) => {
   const listRef = useRef<LinkedList<number> | null>(null);
   if (listRef.current == null) {
-    const list = (listRef.current = doubly ? new DoublyLinkedList<number>() : new LinkedList<number>());
+    const list = (listRef.current = doubly
+      ? new DoublyLinkedList<number>()
+      : new LinkedList<number>());
     SEED.forEach((v) => list.append(v));
   }
 

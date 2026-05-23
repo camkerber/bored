@@ -20,7 +20,13 @@ export const TopTracksList = ({timeRange, limit = 20}: TopTracksListProps) => {
 
   if (!data?.items.length) {
     return (
-      <Typography variant="body2" color="text.secondary" sx={{mt: 4}}>
+      <Typography
+        variant="body2"
+        sx={{
+          color: "text.secondary",
+          mt: 4,
+        }}
+      >
         No top songs found for this time range yet.
       </Typography>
     );
@@ -45,8 +51,12 @@ export const TopTracksList = ({timeRange, limit = 20}: TopTracksListProps) => {
       </Box>
       <Typography
         variant="caption"
-        color="text.secondary"
-        sx={{display: "block", mt: 3, textAlign: "center"}}
+        sx={{
+          color: "text.secondary",
+          display: "block",
+          mt: 3,
+          textAlign: "center",
+        }}
       >
         Powered by Spotify
       </Typography>

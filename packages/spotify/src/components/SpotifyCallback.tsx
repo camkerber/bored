@@ -41,7 +41,12 @@ export const SpotifyCallback = () => {
       {errorMessage ? (
         <>
           <Typography variant="h6">Login failed</Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography
+            variant="body2"
+            sx={{
+              color: "text.secondary",
+            }}
+          >
             {errorMessage}
           </Typography>
           <Typography
@@ -55,7 +60,12 @@ export const SpotifyCallback = () => {
       ) : (
         <>
           <CircularProgress />
-          <Typography variant="body2" color="text.secondary">
+          <Typography
+            variant="body2"
+            sx={{
+              color: "text.secondary",
+            }}
+          >
             Finishing sign-in...
           </Typography>
         </>

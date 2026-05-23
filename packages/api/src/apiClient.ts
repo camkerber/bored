@@ -40,7 +40,8 @@ async function apiRequest<T>(path: string, init: RequestInit): Promise<T> {
   const res = await fetch(`${BASE_URL}${path}`, init);
   const raw: unknown = await res.json().catch(() => null);
 
-  if (!isEnvelope(raw)) throw new ApiError(res.status, `Invalid response: ${res.status}`);
+  if (!isEnvelope(raw))
+    throw new ApiError(res.status, `Invalid response: ${res.status}`);
   if (raw.success === false) {
     const err = raw as ErrorEnvelope;
     throw new ApiError(

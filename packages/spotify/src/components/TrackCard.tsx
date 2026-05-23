@@ -55,7 +55,13 @@ export const TrackCard = ({track, rank}: TrackCardProps) => {
             {track.name}
           </Typography>
           {artistNames ? (
-            <Typography variant="caption" color="text.secondary" noWrap>
+            <Typography
+              variant="caption"
+              noWrap
+              sx={{
+                color: "text.secondary",
+              }}
+            >
               {artistNames}
             </Typography>
           ) : null}

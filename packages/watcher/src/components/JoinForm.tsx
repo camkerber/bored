@@ -37,7 +37,13 @@ export const JoinForm = ({onCancel}: JoinFormProps) => {
         spacing={3}
         sx={{width: "100%", maxWidth: 360}}
       >
-        <Typography variant="h5" component="h2" textAlign="center">
+        <Typography
+          variant="h5"
+          component="h2"
+          sx={{
+            textAlign: "center",
+          }}
+        >
           Join a session
         </Typography>
         {error ? <Alert severity="error">{error}</Alert> : null}
@@ -47,11 +53,19 @@ export const JoinForm = ({onCancel}: JoinFormProps) => {
           onChange={(e) =>
             setCode(e.target.value.replace(/\D/g, "").slice(0, 5))
           }
-          inputProps={{inputMode: "numeric", pattern: "[0-9]*", maxLength: 5}}
           autoFocus
           fullWidth
+          slotProps={{
+            htmlInput: {inputMode: "numeric", pattern: "[0-9]*", maxLength: 5},
+          }}
         />
-        <Stack direction="row" spacing={2} justifyContent="flex-end">
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{
+            justifyContent: "flex-end",
+          }}
+        >
           <Button onClick={onCancel} disabled={submitting}>
             Cancel
           </Button>

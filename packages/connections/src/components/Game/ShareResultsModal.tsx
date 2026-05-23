@@ -48,7 +48,12 @@ export const ShareResultsModal = ({open, onClose}: ShareResultsModalProps) => {
   return (
     <Modal open={open} onClose={onClose} showCloseButton>
       <>
-        <Typography variant="h6" mb={2}>
+        <Typography
+          variant="h6"
+          sx={{
+            mb: 2,
+          }}
+        >
           Share your results
         </Typography>
         <pre id="camnections-results" className="share-results-content">
