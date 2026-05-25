@@ -8,6 +8,7 @@ interface CarouselProps extends PropsWithChildren {
   itemIds: string[];
   onClickDot: (itemId: string, index: number) => void;
   dotsColor?: IconButtonProps["color"];
+  dotsTooltipLabels?: Record<string, string>;
 }
 
 export const Carousel = ({
@@ -16,6 +17,7 @@ export const Carousel = ({
   itemIds,
   onClickDot,
   dotsColor,
+  dotsTooltipLabels,
   children,
 }: CarouselProps) => {
   return (
@@ -28,6 +30,7 @@ export const Carousel = ({
         itemIds={itemIds}
         onClickDot={onClickDot}
         color={dotsColor}
+        tooltipLabels={dotsTooltipLabels}
       />
     </>
   );

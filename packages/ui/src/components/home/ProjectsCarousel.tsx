@@ -11,6 +11,9 @@ import {Carousel, useCarousel} from "../carousel";
 
 const PROJECTS_VALUES = Object.values(PROJECTS_MAP);
 const PROJECT_IDS = PROJECTS_VALUES.map((project) => project.name);
+const PROJECT_DOT_LABELS = Object.fromEntries(
+  PROJECTS_VALUES.map((project) => [project.name, project.name]),
+);
 
 export const ProjectsCarousel = () => {
   const navigate = useNavigate();
@@ -35,6 +38,7 @@ export const ProjectsCarousel = () => {
         itemIds={PROJECT_IDS}
         onClickDot={handleDotClick}
         dotsColor="primary"
+        dotsTooltipLabels={PROJECT_DOT_LABELS}
       >
         {PROJECTS_VALUES.map((project, index) => (
           <Card
