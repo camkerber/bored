@@ -4,6 +4,7 @@ enum Project {
   Spotify = "spotify",
   Dsa = "dsa",
   Watcher = "watcher",
+  Bingo = "bingo",
 }
 
 export interface ProjectDetails {
@@ -15,6 +16,14 @@ export interface ProjectDetails {
 }
 
 export const PROJECTS_MAP: Record<Project, ProjectDetails> = {
+  [Project.Bingo]: {
+    name: "Bingo",
+    path: Project.Bingo,
+    pathIsHref: false,
+    action: "Click to create a bingo board",
+    description:
+      "Build a custom 5x5 bingo board and share an interactive copy — each player gets their own randomized board and marks spaces as they go.",
+  },
   [Project.Watcher]: {
     name: "What are we watching?",
     path: Project.Watcher,

@@ -8,6 +8,12 @@ import {Wordle} from "@bored/wordle";
 import {Spotify, SpotifyCallback} from "@bored/spotify";
 import {Watcher} from "@bored/watcher";
 import {
+  Bingo,
+  BingoBoardRoute,
+  BingoExpired,
+  UserBoardScreen,
+} from "@bored/bingo";
+import {
   DsaLanding,
   DsaAlgorithm,
   DsaDataStructure,
@@ -58,6 +64,22 @@ const router = createBrowserRouter([
       {
         path: `${PROJECTS_MAP.watcher.path}`,
         element: withSuspense(<Watcher />),
+      },
+      {
+        path: `${PROJECTS_MAP.bingo.path}`,
+        element: withSuspense(<Bingo />),
+      },
+      {
+        path: `${PROJECTS_MAP.bingo.path}/expired`,
+        element: withSuspense(<BingoExpired />),
+      },
+      {
+        path: `${PROJECTS_MAP.bingo.path}/:boardId`,
+        element: withSuspense(<BingoBoardRoute />),
+      },
+      {
+        path: `${PROJECTS_MAP.bingo.path}/:boardId/user/:userId`,
+        element: withSuspense(<UserBoardScreen />),
       },
     ],
   },

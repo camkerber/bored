@@ -5,3 +5,4 @@ export * from "./useGetSpotifyTopArtists";
 export * from "./useGetSpotifyTopTracks";
 export * from "./useApiPollingQuery";
 export * from "./useWatcherRequests";
+export * from "./useBingoRequests";
