@@ -1,6 +1,6 @@
-import {useRef, useState} from "react";
+import {useState} from "react";
 import {Box, Button, Stack, TextField, Typography} from "@mui/material";
-import {BinarySearchTree} from "@camkerber/typescript-dsa/data-structures";
+import {useFlashHighlight} from "../hooks/useFlashHighlight";
 import {TreeSvg, type PositionedNode} from "./shared/TreeSvg";
 
 interface MirrorNode {
@@ -39,6 +39,31 @@ const removeMirror = (
     left: root.left,
     right: removeMirror(root.right, successor.value),
   };
+};
+
+const containsMirror = (
+  root: MirrorNode | undefined,
+  value: number,
+): boolean => {
+  if (!root) return false;
+  if (value === root.value) return true;
+  return value < root.value
+    ? containsMirror(root.left, value)
+    : containsMirror(root.right, value);
+};
+
+const findMinValue = (root: MirrorNode | undefined): number | undefined => {
+  if (!root) return undefined;
+  let node = root;
+  while (node.left) node = node.left;
+  return node.value;
+};
+
+const findMaxValue = (root: MirrorNode | undefined): number | undefined => {
+  if (!root) return undefined;
+  let node = root;
+  while (node.right) node = node.right;
+  return node.value;
 };
 
 const collectDepth = (root: MirrorNode | undefined): number => {
@@ -85,64 +110,52 @@ const layout = (
 };
 
 const SEED = [50, 30, 70, 20, 40, 60, 80];
+const EMPTY_HIGHLIGHT: Map<number, PositionedNode["highlight"]> = new Map();
+
+const seedRoot = (): MirrorNode | undefined =>
+  SEED.reduce<MirrorNode | undefined>(
+    (acc, v) => insertMirror(acc, v),
+    undefined,
+  );
 
 export const BinarySearchTreeVisualizer = () => {
-  const bstRef = useRef<BinarySearchTree<number> | null>(null);
-  if (bstRef.current == null) {
-    const bst = (bstRef.current = new BinarySearchTree<number>());
-    SEED.forEach((v) => bst.insert(v));
-  }
-
-  const [root, setRoot] = useState<MirrorNode | undefined>(() =>
-    SEED.reduce<MirrorNode | undefined>(
-      (acc, v) => insertMirror(acc, v),
-      undefined,
-    ),
-  );
+  const [root, setRoot] = useState<MirrorNode | undefined>(seedRoot);
   const [input, setInput] = useState("");
-  const [highlight, setHighlight] = useState<
-    Map<number, PositionedNode["highlight"]>
-  >(new Map());
+  const [highlight, flashHighlight] = useFlashHighlight(EMPTY_HIGHLIGHT, 800);
   const [lastResult, setLastResult] = useState("—");
-
-  const flash = (value: number, kind: PositionedNode["highlight"]) => {
-    setHighlight(new Map([[value, kind]]));
-    window.setTimeout(() => setHighlight(new Map()), 800);
-  };
 
   const handleInsert = () => {
     const v = Number.parseInt(input, 10);
     if (Number.isNaN(v)) return;
-    bstRef.current!.insert(v);
     setRoot((prev) => insertMirror(prev, v));
-    flash(v, "added");
+    flashHighlight(new Map([[v, "added"]]));
     setInput("");
   };
 
   const handleRemove = () => {
     const v = Number.parseInt(input, 10);
     if (Number.isNaN(v)) return;
-    const removed = bstRef.current!.remove(v);
-    if (removed) {
-      flash(v, "removed");
-      window.setTimeout(() => setRoot((prev) => removeMirror(prev, v)), 250);
-      setLastResult(`removed ${v}`);
-    } else {
+    if (!containsMirror(root, v)) {
       setLastResult(`${v} not found`);
+      setInput("");
+      return;
     }
+    setLastResult(`removed ${v}`);
+    flashHighlight(new Map([[v, "removed"]]));
+    window.setTimeout(() => setRoot((prev) => removeMirror(prev, v)), 250);
     setInput("");
   };
 
   const handleFindMin = () => {
-    const v = bstRef.current!.findMin();
+    const v = findMinValue(root);
     setLastResult(`findMin → ${v ?? "undefined"}`);
-    if (v !== undefined) flash(v, "found");
+    if (v !== undefined) flashHighlight(new Map([[v, "found"]]));
   };
 
   const handleFindMax = () => {
-    const v = bstRef.current!.findMax();
+    const v = findMaxValue(root);
     setLastResult(`findMax → ${v ?? "undefined"}`);
-    if (v !== undefined) flash(v, "found");
+    if (v !== undefined) flashHighlight(new Map([[v, "found"]]));
   };
 
   const {nodes, width, height} = layout(root, highlight);

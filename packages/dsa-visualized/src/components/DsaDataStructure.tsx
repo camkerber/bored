@@ -1,5 +1,6 @@
+import {Suspense} from "react";
 import {Navigate, useParams} from "react-router-dom";
-import {Box, Stack, Typography} from "@mui/material";
+import {Box, CircularProgress, Stack, Typography} from "@mui/material";
 import {DATA_STRUCTURES} from "../registry";
 import {DsaPageShell} from "./DsaPageShell";
 import {ComingSoon} from "./ComingSoon";
@@ -16,7 +17,13 @@ export const DsaDataStructure = () => {
 
   return (
     <DsaPageShell title={entry.name} description={entry.description}>
-      {Visualizer ? <Visualizer /> : <ComingSoon />}
+      {Visualizer ? (
+        <Suspense fallback={<CircularProgress size={32} />}>
+          <Visualizer />
+        </Suspense>
+      ) : (
+        <ComingSoon />
+      )}
       <Box sx={{mt: 4}}>
         <Typography variant="h6" sx={{fontWeight: 600, mb: 1}}>
           Operations

@@ -1,4 +1,6 @@
 import {Box} from "@mui/material";
+import {HIGHLIGHT_COLORS} from "./colors";
+import {VisualizerPanel} from "./VisualizerPanel";
 
 export interface TreeNode {
   id: string;
@@ -24,26 +26,18 @@ const colorFor = (h: TreeNode["highlight"]) => {
   switch (h) {
     case "found":
     case "added":
-      return "#4caf50";
+      return HIGHLIGHT_COLORS.added;
     case "removed":
-      return "#f44336";
+      return HIGHLIGHT_COLORS.removed;
     case "path":
-      return "#ff9800";
+      return HIGHLIGHT_COLORS.active;
     default:
-      return "#90caf9";
+      return HIGHLIGHT_COLORS.default;
   }
 };
 
 export const TreeSvg = ({nodes, width, height, nodeRadius = 18}: Props) => (
-  <Box
-    sx={{
-      p: 2,
-      backgroundColor: "background.default",
-      border: "1px solid",
-      borderColor: "divider",
-      borderRadius: 2,
-    }}
-  >
+  <VisualizerPanel>
     {nodes.length === 0 ? (
       <Box
         sx={{
@@ -77,7 +71,7 @@ export const TreeSvg = ({nodes, width, height, nodeRadius = 18}: Props) => (
               y1={n.parentY}
               x2={n.x}
               y2={n.y}
-              stroke="#90a4ae"
+              stroke={HIGHLIGHT_COLORS.edge}
               strokeWidth={1.5}
             />
           ) : null,
@@ -89,7 +83,7 @@ export const TreeSvg = ({nodes, width, height, nodeRadius = 18}: Props) => (
               cy={n.y}
               r={nodeRadius}
               fill={colorFor(n.highlight)}
-              stroke="#37474f"
+              stroke={HIGHLIGHT_COLORS.nodeStroke}
               strokeWidth={1}
               style={{transition: "fill 250ms ease"}}
             />
@@ -100,7 +94,7 @@ export const TreeSvg = ({nodes, width, height, nodeRadius = 18}: Props) => (
               dominantBaseline="central"
               fontSize={12}
               fontWeight={700}
-              fill="rgba(0,0,0,0.85)"
+              fill={HIGHLIGHT_COLORS.text}
             >
               {n.label}
             </text>
@@ -108,5 +102,5 @@ export const TreeSvg = ({nodes, width, height, nodeRadius = 18}: Props) => (
         ))}
       </svg>
     )}
-  </Box>
+  </VisualizerPanel>
 );

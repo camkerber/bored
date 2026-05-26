@@ -1,16 +1,17 @@
-import {useRef, useState} from "react";
+import {useState} from "react";
 import {Box, Button, Stack, TextField, Typography} from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import {
-  LinkedList,
-  DoublyLinkedList,
-} from "@camkerber/typescript-dsa/data-structures";
+import {useFlashHighlight} from "../hooks/useFlashHighlight";
+import {HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
 
 interface Props {
   doubly?: boolean;
 }
 
 const SEED = [10, 20, 30];
+
+type FlashKind = "added" | "removed" | "got" | null;
+const NEUTRAL: {idx: number; kind: FlashKind} = {idx: -1, kind: null};
 
 const NodeBox = ({value, color}: {value: number; color: string}) => (
   <Box
@@ -22,7 +23,7 @@ const NodeBox = ({value, color}: {value: number; color: string}) => (
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      color: "rgba(0,0,0,0.85)",
+      color: HIGHLIGHT_COLORS.text,
       fontWeight: 700,
       transition: "background-color 200ms ease",
       flexShrink: 0,
@@ -33,31 +34,11 @@ const NodeBox = ({value, color}: {value: number; color: string}) => (
 );
 
 export const LinkedListVisualizer = ({doubly = false}: Props) => {
-  const listRef = useRef<LinkedList<number> | null>(null);
-  if (listRef.current == null) {
-    const list = (listRef.current = doubly
-      ? new DoublyLinkedList<number>()
-      : new LinkedList<number>());
-    SEED.forEach((v) => list.append(v));
-  }
-
-  const [items, setItems] = useState<number[]>([...SEED]);
+  const [items, setItems] = useState<number[]>(() => [...SEED]);
   const [valueInput, setValueInput] = useState("");
   const [indexInput, setIndexInput] = useState("0");
-  const [highlightIdx, setHighlightIdx] = useState(-1);
-  const [highlightKind, setHighlightKind] = useState<
-    "added" | "removed" | "got" | null
-  >(null);
+  const [highlight, flashHighlight] = useFlashHighlight(NEUTRAL, 800);
   const [lastResult, setLastResult] = useState<string>("—");
-
-  const flash = (idx: number, kind: "added" | "removed" | "got") => {
-    setHighlightIdx(idx);
-    setHighlightKind(kind);
-    window.setTimeout(() => {
-      setHighlightIdx(-1);
-      setHighlightKind(null);
-    }, 800);
-  };
 
   const parseValue = () => Number.parseInt(valueInput, 10);
   const parseIndex = () => Number.parseInt(indexInput, 10);
@@ -65,22 +46,16 @@ export const LinkedListVisualizer = ({doubly = false}: Props) => {
   const handlePrepend = () => {
     const v = parseValue();
     if (Number.isNaN(v)) return;
-    listRef.current!.prepend(v);
-    setItems((prev) => {
-      flash(0, "added");
-      return [v, ...prev];
-    });
+    setItems((prev) => [v, ...prev]);
+    flashHighlight({idx: 0, kind: "added"});
     setValueInput("");
   };
 
   const handleAppend = () => {
     const v = parseValue();
     if (Number.isNaN(v)) return;
-    listRef.current!.append(v);
-    setItems((prev) => {
-      flash(prev.length, "added");
-      return [...prev, v];
-    });
+    setItems((prev) => [...prev, v]);
+    flashHighlight({idx: items.length, kind: "added"});
     setValueInput("");
   };
 
@@ -88,68 +63,56 @@ export const LinkedListVisualizer = ({doubly = false}: Props) => {
     const v = parseValue();
     const idx = parseIndex();
     if (Number.isNaN(v) || Number.isNaN(idx)) return;
-    if (idx < 0 || idx > items.length) return;
-    try {
-      listRef.current!.insertAt(v, idx);
-      setItems((prev) => {
-        const next = [...prev.slice(0, idx), v, ...prev.slice(idx)];
-        flash(idx, "added");
-        return next;
-      });
-      setValueInput("");
-    } catch {
+    if (idx < 0 || idx > items.length) {
       setLastResult("insertAt out of bounds");
+      return;
     }
+    setItems((prev) => [...prev.slice(0, idx), v, ...prev.slice(idx)]);
+    flashHighlight({idx, kind: "added"});
+    setValueInput("");
   };
 
   const handleRemove = () => {
     const v = parseValue();
     if (Number.isNaN(v)) return;
     const targetIdx = items.indexOf(v);
-    try {
-      const removed = listRef.current!.remove(v);
-      setLastResult(`remove(${v}) → ${removed ?? "undefined"}`);
-      if (targetIdx >= 0) {
-        flash(targetIdx, "removed");
-        window.setTimeout(() => {
-          setItems((prev) => prev.filter((_, i) => i !== targetIdx));
-        }, 250);
-      }
-      setValueInput("");
-    } catch {
+    if (targetIdx < 0) {
       setLastResult(`remove(${v}) → not found`);
+      setValueInput("");
+      return;
     }
+    setLastResult(`remove(${v}) → ${v}`);
+    flashHighlight({idx: targetIdx, kind: "removed"});
+    window.setTimeout(() => {
+      setItems((prev) => prev.filter((_, i) => i !== targetIdx));
+    }, 250);
+    setValueInput("");
   };
 
   const handleGet = () => {
     const idx = parseIndex();
     if (Number.isNaN(idx)) return;
-    const v = listRef.current!.get(idx);
+    const v = idx >= 0 && idx < items.length ? items[idx] : undefined;
     setLastResult(`get(${idx}) → ${v ?? "undefined"}`);
-    if (v !== undefined) flash(idx, "got");
+    if (v !== undefined) flashHighlight({idx, kind: "got"});
   };
 
   const slotColor = (idx: number) => {
-    if (highlightIdx !== idx) return "#90caf9";
-    if (highlightKind === "added") return "#4caf50";
-    if (highlightKind === "removed") return "#f44336";
-    if (highlightKind === "got") return "#ff9800";
-    return "#90caf9";
+    if (highlight.idx !== idx) return HIGHLIGHT_COLORS.default;
+    if (highlight.kind === "added") return HIGHLIGHT_COLORS.added;
+    if (highlight.kind === "removed") return HIGHLIGHT_COLORS.removed;
+    if (highlight.kind === "got") return HIGHLIGHT_COLORS.active;
+    return HIGHLIGHT_COLORS.default;
   };
 
   return (
     <Box>
-      <Box
+      <VisualizerPanel
         sx={{
           display: "flex",
           alignItems: "center",
           gap: 0.5,
           minHeight: 100,
-          p: 2,
-          backgroundColor: "background.default",
-          border: "1px solid",
-          borderColor: "divider",
-          borderRadius: 2,
           overflowX: "auto",
         }}
       >
@@ -189,7 +152,7 @@ export const LinkedListVisualizer = ({doubly = false}: Props) => {
             </Box>
           ))
         )}
-      </Box>
+      </VisualizerPanel>
 
       <Stack
         direction="row"

@@ -1,70 +1,50 @@
-import {useRef, useState} from "react";
+import {useState} from "react";
 import {Box, Button, Stack, TextField, Typography} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
-import {Queue} from "@camkerber/typescript-dsa/data-structures";
+import {useFlashHighlight} from "../hooks/useFlashHighlight";
+import {HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
 
 type Highlight = "head" | "tail" | "removed" | null;
 
 const SEED = [3, 7, 1];
+const NEUTRAL: {idx: number; kind: Highlight} = {idx: -1, kind: null};
 
 export const QueueVisualizer = () => {
-  const queueRef = useRef<Queue<number> | null>(null);
-  if (queueRef.current == null) {
-    const queue = (queueRef.current = new Queue<number>());
-    SEED.forEach((v) => queue.enqueue(v));
-  }
-
-  const [items, setItems] = useState<number[]>([...SEED]);
+  const [items, setItems] = useState<number[]>(() => [...SEED]);
   const [input, setInput] = useState("");
-  const [highlight, setHighlight] = useState<{idx: number; kind: Highlight}>({
-    idx: -1,
-    kind: null,
-  });
+  const [highlight, flashHighlight] = useFlashHighlight(NEUTRAL, 700);
   const [lastDequeued, setLastDequeued] = useState<number | undefined>(
     undefined,
   );
   const [lastPeeked, setLastPeeked] = useState<number | undefined>(undefined);
 
-  const flashHighlight = (idx: number, kind: Highlight) => {
-    setHighlight({idx, kind});
-    window.setTimeout(() => setHighlight({idx: -1, kind: null}), 700);
-  };
-
   const handleEnqueue = () => {
     const value = Number.parseInt(input, 10);
     if (Number.isNaN(value)) return;
-    queueRef.current!.enqueue(value);
-    setItems((prev) => {
-      const next = [...prev, value];
-      flashHighlight(next.length - 1, "tail");
-      return next;
-    });
+    setItems((prev) => [...prev, value]);
+    flashHighlight({idx: items.length, kind: "tail"});
     setInput("");
   };
 
   const handleDequeue = () => {
-    const dequeued = queueRef.current!.dequeue();
+    if (items.length === 0) return;
+    const dequeued = items[0];
     setLastDequeued(dequeued);
-    if (dequeued === undefined) return;
-    flashHighlight(0, "removed");
-    window.setTimeout(() => {
-      setItems((prev) => prev.slice(1));
-    }, 250);
+    flashHighlight({idx: 0, kind: "removed"});
+    window.setTimeout(() => setItems((prev) => prev.slice(1)), 250);
   };
 
   const handlePeek = () => {
-    const value = queueRef.current!.peek();
+    if (items.length === 0) return;
+    const value = items[0];
     setLastPeeked(value);
-    if (value !== undefined) {
-      flashHighlight(0, "head");
-    }
+    flashHighlight({idx: 0, kind: "head"});
   };
 
   const handleClear = () => {
-    queueRef.current!.clear();
     setItems([]);
     setLastDequeued(undefined);
     setLastPeeked(undefined);
@@ -74,29 +54,24 @@ export const QueueVisualizer = () => {
     if (highlight.idx === idx) {
       switch (highlight.kind) {
         case "head":
-          return "#ff9800";
+          return HIGHLIGHT_COLORS.active;
         case "tail":
-          return "#4caf50";
+          return HIGHLIGHT_COLORS.added;
         case "removed":
-          return "#f44336";
+          return HIGHLIGHT_COLORS.removed;
       }
     }
-    return "#90caf9";
+    return HIGHLIGHT_COLORS.default;
   };
 
   return (
     <Box>
-      <Box
+      <VisualizerPanel
         sx={{
           display: "flex",
           alignItems: "center",
           gap: 1,
           minHeight: 120,
-          p: 2,
-          backgroundColor: "background.default",
-          border: "1px solid",
-          borderColor: "divider",
-          borderRadius: 2,
           overflowX: "auto",
         }}
       >
@@ -122,7 +97,7 @@ export const QueueVisualizer = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                color: "rgba(0,0,0,0.85)",
+                color: HIGHLIGHT_COLORS.text,
                 fontWeight: 700,
                 transition: "background-color 200ms ease",
               }}
@@ -134,7 +109,7 @@ export const QueueVisualizer = () => {
         <Typography variant="overline" sx={{color: "text.secondary", ml: 1}}>
           back
         </Typography>
-      </Box>
+      </VisualizerPanel>
 
       <Stack
         direction="row"

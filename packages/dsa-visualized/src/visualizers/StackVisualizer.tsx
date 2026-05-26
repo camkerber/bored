@@ -1,69 +1,47 @@
-import {useRef, useState} from "react";
-import {
-  Box,
-  Button,
-  Stack as MStack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import {useState} from "react";
+import {Box, Button, Stack, TextField, Typography} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
-import {Stack} from "@camkerber/typescript-dsa/data-structures";
+import {useFlashHighlight} from "../hooks/useFlashHighlight";
+import {HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
 
 type Highlight = "top" | "added" | "removed" | null;
 const SEED = [1, 2, 3];
+const NEUTRAL: {idx: number; kind: Highlight} = {idx: -1, kind: null};
 
 export const StackVisualizer = () => {
-  const stackRef = useRef<Stack<number> | null>(null);
-  if (stackRef.current == null) {
-    const stack = (stackRef.current = new Stack<number>());
-    SEED.forEach((v) => stack.push(v));
-  }
-
-  const [items, setItems] = useState<number[]>([...SEED]);
+  const [items, setItems] = useState<number[]>(() => [...SEED]);
   const [input, setInput] = useState("");
-  const [highlight, setHighlight] = useState<{idx: number; kind: Highlight}>({
-    idx: -1,
-    kind: null,
-  });
+  const [highlight, flashHighlight] = useFlashHighlight(NEUTRAL, 700);
   const [lastPopped, setLastPopped] = useState<number | undefined>();
   const [lastPeeked, setLastPeeked] = useState<number | undefined>();
-
-  const flash = (idx: number, kind: Highlight) => {
-    setHighlight({idx, kind});
-    window.setTimeout(() => setHighlight({idx: -1, kind: null}), 700);
-  };
 
   const handlePush = () => {
     const v = Number.parseInt(input, 10);
     if (Number.isNaN(v)) return;
-    stackRef.current!.push(v);
-    setItems((prev) => {
-      const next = [...prev, v];
-      flash(next.length - 1, "added");
-      return next;
-    });
+    setItems((prev) => [...prev, v]);
+    flashHighlight({idx: items.length, kind: "added"});
     setInput("");
   };
 
   const handlePop = () => {
-    const popped = stackRef.current!.pop();
+    if (items.length === 0) return;
+    const popped = items[items.length - 1];
     setLastPopped(popped);
-    if (popped === undefined) return;
-    flash(items.length - 1, "removed");
+    flashHighlight({idx: items.length - 1, kind: "removed"});
     window.setTimeout(() => setItems((prev) => prev.slice(0, -1)), 250);
   };
 
   const handlePeek = () => {
-    const v = stackRef.current!.peek();
+    if (items.length === 0) return;
+    const v = items[items.length - 1];
     setLastPeeked(v);
-    if (v !== undefined) flash(items.length - 1, "top");
+    flashHighlight({idx: items.length - 1, kind: "top"});
   };
 
   const handleClear = () => {
-    stackRef.current!.clear();
     setItems([]);
     setLastPopped(undefined);
     setLastPeeked(undefined);
@@ -71,16 +49,16 @@ export const StackVisualizer = () => {
 
   const slotColor = (idx: number) => {
     if (highlight.idx === idx) {
-      if (highlight.kind === "top") return "#ff9800";
-      if (highlight.kind === "added") return "#4caf50";
-      if (highlight.kind === "removed") return "#f44336";
+      if (highlight.kind === "top") return HIGHLIGHT_COLORS.active;
+      if (highlight.kind === "added") return HIGHLIGHT_COLORS.added;
+      if (highlight.kind === "removed") return HIGHLIGHT_COLORS.removed;
     }
-    return "#90caf9";
+    return HIGHLIGHT_COLORS.default;
   };
 
   return (
     <Box>
-      <Box
+      <VisualizerPanel
         sx={{
           display: "flex",
           flexDirection: "column-reverse",
@@ -88,11 +66,6 @@ export const StackVisualizer = () => {
           justifyContent: "flex-start",
           gap: 1,
           minHeight: 240,
-          p: 2,
-          backgroundColor: "background.default",
-          border: "1px solid",
-          borderColor: "divider",
-          borderRadius: 2,
         }}
       >
         <Typography variant="overline" sx={{color: "text.secondary"}}>
@@ -117,7 +90,7 @@ export const StackVisualizer = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                color: "rgba(0,0,0,0.85)",
+                color: HIGHLIGHT_COLORS.text,
                 fontWeight: 700,
                 transition: "background-color 200ms ease",
               }}
@@ -129,9 +102,9 @@ export const StackVisualizer = () => {
         <Typography variant="overline" sx={{color: "text.secondary"}}>
           top
         </Typography>
-      </Box>
+      </VisualizerPanel>
 
-      <MStack
+      <Stack
         direction="row"
         sx={{mt: 2, flexWrap: "wrap", alignItems: "center", gap: 1}}
       >
@@ -176,9 +149,9 @@ export const StackVisualizer = () => {
         >
           Clear
         </Button>
-      </MStack>
+      </Stack>
 
-      <MStack direction="row" spacing={3} sx={{mt: 2, color: "text.secondary"}}>
+      <Stack direction="row" spacing={3} sx={{mt: 2, color: "text.secondary"}}>
         <Typography variant="caption">length: {items.length}</Typography>
         <Typography variant="caption">
           last popped: {lastPopped ?? "—"}
@@ -186,7 +159,7 @@ export const StackVisualizer = () => {
         <Typography variant="caption">
           last peeked: {lastPeeked ?? "—"}
         </Typography>
-      </MStack>
+      </Stack>
     </Box>
   );
 };

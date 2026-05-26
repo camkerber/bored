@@ -1,0 +1,16 @@
+export const HIGHLIGHT_COLORS = {
+  default: "#90caf9",
+  settled: "#4caf50",
+  added: "#4caf50",
+  found: "#4caf50",
+  removed: "#f44336",
+  active: "#ff9800",
+  pivot: "#ba68c8",
+  compare: "#f44336",
+  target: "#ffd54f",
+  outside: "#cfd8dc",
+  surface: "#eceff1",
+  text: "rgba(0,0,0,0.85)",
+  edge: "#90a4ae",
+  nodeStroke: "#37474f",
+} as const;

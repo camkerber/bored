@@ -1,17 +1,61 @@
-import {
-  QueueVisualizer,
-  StackVisualizer,
-  LinkedListVisualizer,
-  DoublyLinkedListVisualizer,
-  BinarySearchTreeVisualizer,
-  HeapVisualizer,
-  MinHeapVisualizer,
-  MaxHeapVisualizer,
-  PriorityQueueVisualizer,
-  RingBufferVisualizer,
-  TrieVisualizer,
-} from "../visualizers";
+import {lazy} from "react";
 import type {DataStructureEntry} from "./types";
+
+const QueueVisualizer = lazy(() =>
+  import("../visualizers/QueueVisualizer").then((m) => ({
+    default: m.QueueVisualizer,
+  })),
+);
+const StackVisualizer = lazy(() =>
+  import("../visualizers/StackVisualizer").then((m) => ({
+    default: m.StackVisualizer,
+  })),
+);
+const LinkedListVisualizer = lazy(() =>
+  import("../visualizers/LinkedListVisualizer").then((m) => ({
+    default: m.LinkedListVisualizer,
+  })),
+);
+const DoublyLinkedListVisualizer = lazy(() =>
+  import("../visualizers/LinkedListVisualizer").then((m) => ({
+    default: m.DoublyLinkedListVisualizer,
+  })),
+);
+const BinarySearchTreeVisualizer = lazy(() =>
+  import("../visualizers/BinarySearchTreeVisualizer").then((m) => ({
+    default: m.BinarySearchTreeVisualizer,
+  })),
+);
+const HeapVisualizer = lazy(() =>
+  import("../visualizers/HeapVisualizer").then((m) => ({
+    default: m.HeapVisualizer,
+  })),
+);
+const MinHeapVisualizer = lazy(() =>
+  import("../visualizers/HeapVisualizer").then((m) => ({
+    default: m.MinHeapVisualizer,
+  })),
+);
+const MaxHeapVisualizer = lazy(() =>
+  import("../visualizers/HeapVisualizer").then((m) => ({
+    default: m.MaxHeapVisualizer,
+  })),
+);
+const PriorityQueueVisualizer = lazy(() =>
+  import("../visualizers/PriorityQueueVisualizer").then((m) => ({
+    default: m.PriorityQueueVisualizer,
+  })),
+);
+const RingBufferVisualizer = lazy(() =>
+  import("../visualizers/RingBufferVisualizer").then((m) => ({
+    default: m.RingBufferVisualizer,
+  })),
+);
+const TrieVisualizer = lazy(() =>
+  import("../visualizers/TrieVisualizer").then((m) => ({
+    default: m.TrieVisualizer,
+  })),
+);
 
 export const DATA_STRUCTURES: Record<string, DataStructureEntry> = {
   queue: {

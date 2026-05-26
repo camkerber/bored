@@ -1,7 +1,12 @@
 import {useCallback, useState} from "react";
 import {Box} from "@mui/material";
 import {useStepRunner} from "../hooks/useStepRunner";
-import {SortBars, StepControls, randomArray} from "./shared";
+import {
+  HIGHLIGHT_COLORS,
+  SortBars,
+  StepControls,
+  randomArray,
+} from "./shared";
 
 interface Frame {
   values: number[];
@@ -63,11 +68,11 @@ export const BubbleSortVisualizer = () => {
   const f = runner.frame;
 
   const colorFor = (idx: number) => {
-    if (f.done) return "#4caf50";
-    if (idx >= f.settledFromIndex) return "#4caf50";
+    if (f.done) return HIGHLIGHT_COLORS.settled;
+    if (idx >= f.settledFromIndex) return HIGHLIGHT_COLORS.settled;
     if (idx === f.j || idx === f.j + 1)
-      return f.swapped ? "#f44336" : "#ff9800";
-    return "#90caf9";
+      return f.swapped ? HIGHLIGHT_COLORS.compare : HIGHLIGHT_COLORS.active;
+    return HIGHLIGHT_COLORS.default;
   };
 
   return (

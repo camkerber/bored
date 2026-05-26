@@ -1,6 +1,6 @@
-import {useMemo, useRef, useState} from "react";
+import {useState} from "react";
 import {Box, Button, Stack, TextField, Typography} from "@mui/material";
-import {Trie} from "@camkerber/typescript-dsa/data-structures";
+import {useFlashHighlight} from "../hooks/useFlashHighlight";
 import {TreeSvg, type PositionedNode} from "./shared/TreeSvg";
 
 interface MirrorNode {
@@ -18,8 +18,7 @@ const createNode = (char: string): MirrorNode => ({
 const addToMirror = (root: MirrorNode, word: string): MirrorNode => {
   if (word.length === 0) {
     if (!root.isEnd) {
-      const next = {...root, isEnd: true, children: new Map(root.children)};
-      return next;
+      return {...root, isEnd: true, children: new Map(root.children)};
     }
     return root;
   }
@@ -28,6 +27,16 @@ const addToMirror = (root: MirrorNode, word: string): MirrorNode => {
   const child = newChildren.get(head) ?? createNode(head);
   newChildren.set(head, addToMirror(child, rest.join("")));
   return {...root, children: newChildren};
+};
+
+const findInMirror = (root: MirrorNode, word: string): boolean => {
+  let node = root;
+  for (const c of word) {
+    const next = node.children.get(c);
+    if (!next) return false;
+    node = next;
+  }
+  return node.isEnd;
 };
 
 const collectWidth = (node: MirrorNode): number => {
@@ -106,33 +115,35 @@ const layoutTrie = (
 };
 
 const SEED_WORDS = ["cat", "car", "dog"];
+const EMPTY_PATH: Set<string> = new Set();
+
+const seedRoot = (): MirrorNode =>
+  SEED_WORDS.reduce((r, w) => addToMirror(r, w), createNode("·"));
+
+const pathSet = (word: string): Set<string> => {
+  const set = new Set<string>();
+  let acc = "";
+  for (const c of word) {
+    acc += c;
+    set.add(acc);
+  }
+  return set;
+};
 
 export const TrieVisualizer = () => {
-  const trieRef = useRef<Trie | null>(null);
-  if (trieRef.current == null) {
-    const trie = (trieRef.current = new Trie());
-    SEED_WORDS.forEach((w) => trie.add(w));
-  }
-  const [root, setRoot] = useState<MirrorNode>(() =>
-    SEED_WORDS.reduce((r, w) => addToMirror(r, w), createNode("·")),
-  );
+  const [root, setRoot] = useState<MirrorNode>(seedRoot);
   const [input, setInput] = useState("");
   const [lastResult, setLastResult] = useState("—");
-  const [highlightPath, setHighlightPath] = useState<Set<string>>(new Set());
+  const [highlightPath, flashHighlightPath] = useFlashHighlight(
+    EMPTY_PATH,
+    900,
+  );
 
   const handleAdd = () => {
     const w = input.trim().toLowerCase();
     if (!w) return;
-    trieRef.current!.add(w);
     setRoot((prev) => addToMirror(prev, w));
-    const path = new Set<string>();
-    let acc = "";
-    for (const c of w) {
-      acc += c;
-      path.add(acc);
-    }
-    setHighlightPath(path);
-    window.setTimeout(() => setHighlightPath(new Set()), 900);
+    flashHighlightPath(pathSet(w));
     setLastResult(`added "${w}"`);
     setInput("");
   };
@@ -140,25 +151,13 @@ export const TrieVisualizer = () => {
   const handleFind = () => {
     const w = input.trim().toLowerCase();
     if (!w) return;
-    const found = trieRef.current!.find(w);
+    const found = findInMirror(root, w);
     setLastResult(`find("${w}") → ${found}`);
-    if (found) {
-      const path = new Set<string>();
-      let acc = "";
-      for (const c of w) {
-        acc += c;
-        path.add(acc);
-      }
-      setHighlightPath(path);
-      window.setTimeout(() => setHighlightPath(new Set()), 900);
-    }
+    if (found) flashHighlightPath(pathSet(w));
     setInput("");
   };
 
-  const {nodes, width, height} = useMemo(
-    () => layoutTrie(root, highlightPath),
-    [root, highlightPath],
-  );
+  const {nodes, width, height} = layoutTrie(root, highlightPath);
 
   return (
     <Box>

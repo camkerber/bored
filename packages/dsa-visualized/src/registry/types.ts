@@ -1,4 +1,8 @@
-import type {ComponentType} from "react";
+import type {ComponentType, LazyExoticComponent} from "react";
+
+export type VisualizerComponent =
+  | ComponentType
+  | LazyExoticComponent<ComponentType>;
 
 export interface OperationDescriptor {
   name: string;
@@ -12,7 +16,7 @@ export interface AlgorithmEntry {
   description: string;
   timeComplexity: string;
   spaceComplexity?: string;
-  visualizer?: ComponentType;
+  visualizer?: VisualizerComponent;
 }
 
 export interface DataStructureEntry {
@@ -20,5 +24,5 @@ export interface DataStructureEntry {
   name: string;
   description: string;
   operations: OperationDescriptor[];
-  visualizer?: ComponentType;
+  visualizer?: VisualizerComponent;
 }

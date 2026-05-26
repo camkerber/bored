@@ -1,7 +1,12 @@
 import {useCallback, useState} from "react";
 import {Box} from "@mui/material";
 import {useStepRunner} from "../hooks/useStepRunner";
-import {SortBars, StepControls, randomArray} from "./shared";
+import {
+  HIGHLIGHT_COLORS,
+  SortBars,
+  StepControls,
+  randomArray,
+} from "./shared";
 
 interface Frame {
   values: number[];
@@ -56,12 +61,12 @@ export const SelectionSortVisualizer = () => {
   const f = runner.frame;
 
   const colorFor = (idx: number) => {
-    if (f.done) return "#4caf50";
-    if (idx < f.i) return "#4caf50";
-    if (idx === f.minIndex) return "#f44336";
-    if (idx === f.j) return "#ff9800";
-    if (idx === f.i) return "#ba68c8";
-    return "#90caf9";
+    if (f.done) return HIGHLIGHT_COLORS.settled;
+    if (idx < f.i) return HIGHLIGHT_COLORS.settled;
+    if (idx === f.minIndex) return HIGHLIGHT_COLORS.compare;
+    if (idx === f.j) return HIGHLIGHT_COLORS.active;
+    if (idx === f.i) return HIGHLIGHT_COLORS.pivot;
+    return HIGHLIGHT_COLORS.default;
   };
 
   return (

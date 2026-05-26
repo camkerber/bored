@@ -1,4 +1,6 @@
 import {Box} from "@mui/material";
+import {HIGHLIGHT_COLORS} from "./colors";
+import {VisualizerPanel} from "./VisualizerPanel";
 
 interface Props {
   values: number[];
@@ -10,16 +12,7 @@ interface Props {
 export const SortBars = ({values, colorFor, max, height = 240}: Props) => {
   const ceiling = max ?? Math.max(...values, 1);
   return (
-    <Box
-      sx={{
-        p: 2,
-        backgroundColor: "background.default",
-        border: "1px solid",
-        borderColor: "divider",
-        borderRadius: 2,
-        overflowX: "auto",
-      }}
-    >
+    <VisualizerPanel sx={{overflowX: "auto"}}>
       <Box
         sx={{
           display: "flex",
@@ -44,7 +37,7 @@ export const SortBars = ({values, colorFor, max, height = 240}: Props) => {
               display: "flex",
               alignItems: "flex-start",
               justifyContent: "center",
-              color: "rgba(0,0,0,0.85)",
+              color: HIGHLIGHT_COLORS.text,
               fontSize: 12,
               fontWeight: 600,
               pt: 0.5,
@@ -54,6 +47,6 @@ export const SortBars = ({values, colorFor, max, height = 240}: Props) => {
           </Box>
         ))}
       </Box>
-    </Box>
+    </VisualizerPanel>
   );
 };

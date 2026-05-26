@@ -1,11 +1,13 @@
-import {useRef, useState} from "react";
+import {useState} from "react";
 import {Box, Button, Stack, TextField, Typography} from "@mui/material";
 import {
   Heap,
   MinHeap,
   MaxHeap,
 } from "@camkerber/typescript-dsa/data-structures";
+import {useFlashHighlight} from "../hooks/useFlashHighlight";
 import {TreeSvg, type PositionedNode} from "./shared/TreeSvg";
+import {HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
 
 type HeapKind = "min" | "max" | "custom";
 
@@ -75,50 +77,45 @@ const layoutHeap = (
 const labelFor = (kind: HeapKind) =>
   kind === "min" ? "Min Heap" : kind === "max" ? "Max Heap" : "Heap";
 
+const NEUTRAL: {idx: number; kind: PositionedNode["highlight"]} = {
+  idx: -1,
+  kind: "default",
+};
+
 const HeapVisualizerInner = ({kind}: Props) => {
-  const heapRef = useRef<Heap<number> | null>(null);
-  if (heapRef.current == null)
-    heapRef.current = makeHeap(kind, SEED_BY_KIND[kind]);
-  const [arr, setArr] = useState<number[]>(() =>
-    readArray(makeHeap(kind, SEED_BY_KIND[kind])),
+  const [heap, setHeap] = useState<Heap<number>>(() =>
+    makeHeap(kind, SEED_BY_KIND[kind]),
   );
+  const [arr, setArr] = useState<number[]>(() => readArray(heap));
   const [input, setInput] = useState("");
   const [lastResult, setLastResult] = useState("—");
-  const [highlight, setHighlight] = useState<{
-    idx: number;
-    kind: PositionedNode["highlight"];
-  }>({idx: -1, kind: "default"});
+  const [highlight, flashHighlight] = useFlashHighlight(NEUTRAL, 800);
 
-  const sync = () => setArr(readArray(heapRef.current!));
-
-  const flash = (idx: number, kindHl: PositionedNode["highlight"]) => {
-    setHighlight({idx, kind: kindHl});
-    window.setTimeout(() => setHighlight({idx: -1, kind: "default"}), 800);
-  };
+  const sync = () => setArr(readArray(heap));
 
   const handlePush = () => {
     const v = Number.parseInt(input, 10);
     if (Number.isNaN(v)) return;
-    heapRef.current!.push(v);
+    heap.push(v);
     sync();
-    const next = readArray(heapRef.current!);
-    flash(next.indexOf(v), "added");
+    const next = readArray(heap);
+    flashHighlight({idx: next.indexOf(v), kind: "added"});
     setInput("");
   };
 
   const handlePop = () => {
-    flash(0, "removed");
+    flashHighlight({idx: 0, kind: "removed"});
     window.setTimeout(() => {
-      const popped = heapRef.current!.pop();
+      const popped = heap.pop();
       setLastResult(`pop → ${popped ?? "undefined"}`);
       sync();
     }, 250);
   };
 
   const handlePeek = () => {
-    const v = heapRef.current!.peek();
+    const v = heap.peek();
     setLastResult(`peek → ${v ?? "undefined"}`);
-    if (arr.length > 0) flash(0, "found");
+    if (arr.length > 0) flashHighlight({idx: 0, kind: "found"});
   };
 
   const handleHeapify = () => {
@@ -126,14 +123,15 @@ const HeapVisualizerInner = ({kind}: Props) => {
       {length: 6},
       () => Math.floor(Math.random() * 90) + 5,
     );
-    heapRef.current!.heapify(fresh);
+    heap.heapify(fresh);
     sync();
     setLastResult(`heapified ${fresh.join(", ")}`);
   };
 
   const handleClear = () => {
-    heapRef.current = makeHeap(kind, []);
-    sync();
+    const empty = makeHeap(kind, []);
+    setHeap(empty);
+    setArr([]);
     setLastResult("—");
   };
 
@@ -143,17 +141,7 @@ const HeapVisualizerInner = ({kind}: Props) => {
     <Box>
       <TreeSvg nodes={nodes} width={width} height={height} />
 
-      <Box
-        sx={{
-          mt: 2,
-          p: 1.5,
-          backgroundColor: "background.default",
-          border: "1px solid",
-          borderColor: "divider",
-          borderRadius: 2,
-          overflowX: "auto",
-        }}
-      >
+      <VisualizerPanel sx={{mt: 2, p: 1.5, overflowX: "auto"}}>
         <Typography variant="caption" sx={{color: "text.secondary"}}>
           backing array
         </Typography>
@@ -173,12 +161,15 @@ const HeapVisualizerInner = ({kind}: Props) => {
                   width: 36,
                   height: 36,
                   borderRadius: 1,
-                  backgroundColor: i === highlight.idx ? "#ff9800" : "#cfd8dc",
+                  backgroundColor:
+                    i === highlight.idx
+                      ? HIGHLIGHT_COLORS.active
+                      : HIGHLIGHT_COLORS.outside,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   fontWeight: 700,
-                  color: "rgba(0,0,0,0.85)",
+                  color: HIGHLIGHT_COLORS.text,
                   transition: "background-color 200ms ease",
                 }}
               >
@@ -187,7 +178,7 @@ const HeapVisualizerInner = ({kind}: Props) => {
             ))
           )}
         </Box>
-      </Box>
+      </VisualizerPanel>
 
       <Stack
         direction="row"

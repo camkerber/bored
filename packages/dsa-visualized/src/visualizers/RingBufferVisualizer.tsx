@@ -1,8 +1,10 @@
-import {useRef, useState} from "react";
+import {useState} from "react";
 import {Box, Button, Stack, TextField, Typography} from "@mui/material";
 import {RingBuffer} from "@camkerber/typescript-dsa/data-structures";
+import {HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
 
 const CAPACITY = 6;
+const SEED = [10, 20, 30];
 
 interface Snapshot {
   buffer: (number | undefined)[];
@@ -26,46 +28,43 @@ const readSnapshot = (rb: RingBuffer<number>): Snapshot => {
   };
 };
 
-export const RingBufferVisualizer = () => {
-  const rbRef = useRef<RingBuffer<number> | null>(null);
-  if (rbRef.current == null) {
-    const rb = (rbRef.current = new RingBuffer<number>(CAPACITY));
-    [10, 20, 30].forEach((v) => rb.enqueue(v));
-  }
+const makeRingBuffer = (): RingBuffer<number> => {
+  const rb = new RingBuffer<number>(CAPACITY);
+  SEED.forEach((v) => rb.enqueue(v));
+  return rb;
+};
 
-  const [snap, setSnap] = useState<Snapshot>(() => {
-    const rb = new RingBuffer<number>(CAPACITY);
-    [10, 20, 30].forEach((v) => rb.enqueue(v));
-    return readSnapshot(rb);
-  });
+export const RingBufferVisualizer = () => {
+  const [rb] = useState<RingBuffer<number>>(makeRingBuffer);
+  const [snap, setSnap] = useState<Snapshot>(() => readSnapshot(rb));
   const [input, setInput] = useState("");
   const [lastResult, setLastResult] = useState("—");
 
-  const sync = () => setSnap(readSnapshot(rbRef.current!));
+  const sync = () => setSnap(readSnapshot(rb));
 
   const handleEnqueue = () => {
     const v = Number.parseInt(input, 10);
     if (Number.isNaN(v)) return;
     const wasFull = snap.length === CAPACITY;
-    rbRef.current!.enqueue(v);
+    rb.enqueue(v);
     sync();
     setLastResult(wasFull ? `enqueue ${v} (overwrote oldest)` : `enqueue ${v}`);
     setInput("");
   };
 
   const handleDequeue = () => {
-    const v = rbRef.current!.dequeue();
+    const v = rb.dequeue();
     sync();
     setLastResult(`dequeue → ${v ?? "undefined"}`);
   };
 
   const handlePeek = () => {
-    const v = rbRef.current!.peek();
+    const v = rb.peek();
     setLastResult(`peek → ${v ?? "undefined"}`);
   };
 
   const handleClear = () => {
-    rbRef.current!.clear();
+    rb.clear();
     sync();
     setLastResult("cleared");
   };
@@ -76,13 +75,8 @@ export const RingBufferVisualizer = () => {
 
   return (
     <Box>
-      <Box
+      <VisualizerPanel
         sx={{
-          p: 2,
-          backgroundColor: "background.default",
-          border: "1px solid",
-          borderColor: "divider",
-          borderRadius: 2,
           display: "flex",
           justifyContent: "center",
         }}
@@ -93,7 +87,7 @@ export const RingBufferVisualizer = () => {
             cy={center}
             r={radius + 30}
             fill="none"
-            stroke="#cfd8dc"
+            stroke={HIGHLIGHT_COLORS.outside}
             strokeDasharray="4 4"
           />
           {snap.buffer.map((value, i) => {
@@ -111,9 +105,19 @@ export const RingBufferVisualizer = () => {
                   cy={y}
                   r={22}
                   fill={
-                    isOccupied ? (isHead ? "#ff9800" : "#90caf9") : "#eceff1"
+                    isOccupied
+                      ? isHead
+                        ? HIGHLIGHT_COLORS.active
+                        : HIGHLIGHT_COLORS.default
+                      : HIGHLIGHT_COLORS.surface
                   }
-                  stroke={isHead ? "#e65100" : isTail ? "#2e7d32" : "#90a4ae"}
+                  stroke={
+                    isHead
+                      ? "#e65100"
+                      : isTail
+                        ? "#2e7d32"
+                        : HIGHLIGHT_COLORS.edge
+                  }
                   strokeWidth={isHead || isTail ? 2.5 : 1}
                 />
                 <text
@@ -123,7 +127,7 @@ export const RingBufferVisualizer = () => {
                   dominantBaseline="central"
                   fontSize={13}
                   fontWeight={700}
-                  fill="rgba(0,0,0,0.85)"
+                  fill={HIGHLIGHT_COLORS.text}
                 >
                   {value ?? ""}
                 </text>
@@ -140,7 +144,7 @@ export const RingBufferVisualizer = () => {
             );
           })}
         </svg>
-      </Box>
+      </VisualizerPanel>
 
       <Stack
         direction="row"

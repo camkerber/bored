@@ -1,7 +1,12 @@
 import {useCallback, useState} from "react";
 import {Box} from "@mui/material";
 import {useStepRunner} from "../hooks/useStepRunner";
-import {SortBars, StepControls, randomArray} from "./shared";
+import {
+  HIGHLIGHT_COLORS,
+  SortBars,
+  StepControls,
+  randomArray,
+} from "./shared";
 
 interface Frame {
   values: number[];
@@ -54,11 +59,11 @@ export const InsertionSortVisualizer = () => {
   const f = runner.frame;
 
   const colorFor = (idx: number) => {
-    if (f.done) return "#4caf50";
-    if (idx < f.i) return "#4caf50";
-    if (idx === f.position + 1) return "#f44336";
-    if (idx === f.i) return "#ff9800";
-    return "#90caf9";
+    if (f.done) return HIGHLIGHT_COLORS.settled;
+    if (idx < f.i) return HIGHLIGHT_COLORS.settled;
+    if (idx === f.position + 1) return HIGHLIGHT_COLORS.compare;
+    if (idx === f.i) return HIGHLIGHT_COLORS.active;
+    return HIGHLIGHT_COLORS.default;
   };
 
   return (

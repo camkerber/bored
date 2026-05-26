@@ -1,7 +1,12 @@
 import {useCallback, useState} from "react";
 import {Box, Stack, TextField, Typography} from "@mui/material";
 import {useStepRunner} from "../hooks/useStepRunner";
-import {SortBars, StepControls, randomArray} from "./shared";
+import {
+  HIGHLIGHT_COLORS,
+  SortBars,
+  StepControls,
+  randomArray,
+} from "./shared";
 
 interface Frame {
   values: number[];
@@ -112,13 +117,13 @@ export const QuickSelectVisualizer = () => {
   const f = runner.frame;
 
   const colorFor = (idx: number) => {
-    if (f.done && idx === k) return "#4caf50";
-    if (idx === f.pivotIdx) return "#ba68c8";
-    if (idx === f.i) return "#ff9800";
-    if (idx === f.j) return "#f44336";
-    if (idx === k) return "#ffd54f";
-    if (idx >= f.left && idx <= f.right) return "#90caf9";
-    return "#cfd8dc";
+    if (f.done && idx === k) return HIGHLIGHT_COLORS.settled;
+    if (idx === f.pivotIdx) return HIGHLIGHT_COLORS.pivot;
+    if (idx === f.i) return HIGHLIGHT_COLORS.active;
+    if (idx === f.j) return HIGHLIGHT_COLORS.compare;
+    if (idx === k) return HIGHLIGHT_COLORS.target;
+    if (idx >= f.left && idx <= f.right) return HIGHLIGHT_COLORS.default;
+    return HIGHLIGHT_COLORS.outside;
   };
 
   return (

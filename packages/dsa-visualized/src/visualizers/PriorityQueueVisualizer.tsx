@@ -1,6 +1,7 @@
-import {useRef, useState} from "react";
+import {useState} from "react";
 import {Box, Button, Stack, TextField, Typography} from "@mui/material";
 import {PriorityQueue} from "@camkerber/typescript-dsa/data-structures";
+import {HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
 
 interface Item {
   value: number;
@@ -16,42 +17,39 @@ const SEED: Item[] = [
 const readPq = (pq: PriorityQueue<number>): Item[] =>
   (pq as unknown as {heap: {heap: Item[]}}).heap.heap.map((n) => ({...n}));
 
-export const PriorityQueueVisualizer = () => {
-  const pqRef = useRef<PriorityQueue<number> | null>(null);
-  if (pqRef.current == null) {
-    const pq = (pqRef.current = new PriorityQueue<number>(true));
-    SEED.forEach((s) => pq.enqueue(s.value, s.priority));
-  }
+const makePq = (): PriorityQueue<number> => {
+  const pq = new PriorityQueue<number>(true);
+  SEED.forEach((s) => pq.enqueue(s.value, s.priority));
+  return pq;
+};
 
-  const [items, setItems] = useState<Item[]>(() => {
-    const pq = new PriorityQueue<number>(true);
-    SEED.forEach((s) => pq.enqueue(s.value, s.priority));
-    return readPq(pq);
-  });
+export const PriorityQueueVisualizer = () => {
+  const [pq] = useState<PriorityQueue<number>>(makePq);
+  const [items, setItems] = useState<Item[]>(() => readPq(pq));
   const [valueInput, setValueInput] = useState("");
   const [priorityInput, setPriorityInput] = useState("");
   const [lastResult, setLastResult] = useState("—");
 
-  const sync = () => setItems(readPq(pqRef.current!));
+  const sync = () => setItems(readPq(pq));
 
   const handleEnqueue = () => {
     const v = Number.parseInt(valueInput, 10);
     const p = Number.parseInt(priorityInput, 10);
     if (Number.isNaN(v) || Number.isNaN(p)) return;
-    pqRef.current!.enqueue(v, p);
+    pq.enqueue(v, p);
     sync();
     setValueInput("");
     setPriorityInput("");
   };
 
   const handleDequeue = () => {
-    const v = pqRef.current!.dequeue();
+    const v = pq.dequeue();
     setLastResult(`dequeue → ${v ?? "undefined"}`);
     sync();
   };
 
   const handlePeek = () => {
-    const v = pqRef.current!.peek();
+    const v = pq.peek();
     setLastResult(`peek → ${v ?? "undefined"}`);
   };
 
@@ -59,17 +57,12 @@ export const PriorityQueueVisualizer = () => {
 
   return (
     <Box>
-      <Box
+      <VisualizerPanel
         sx={{
           display: "flex",
           alignItems: "center",
           gap: 1,
           minHeight: 100,
-          p: 2,
-          backgroundColor: "background.default",
-          border: "1px solid",
-          borderColor: "divider",
-          borderRadius: 2,
           overflowX: "auto",
         }}
       >
@@ -91,12 +84,15 @@ export const PriorityQueueVisualizer = () => {
                 minWidth: 72,
                 height: 64,
                 borderRadius: 1,
-                backgroundColor: idx === 0 ? "#ff9800" : "#90caf9",
+                backgroundColor:
+                  idx === 0
+                    ? HIGHLIGHT_COLORS.active
+                    : HIGHLIGHT_COLORS.default,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                color: "rgba(0,0,0,0.85)",
+                color: HIGHLIGHT_COLORS.text,
                 fontWeight: 700,
                 px: 1,
               }}
@@ -106,7 +102,7 @@ export const PriorityQueueVisualizer = () => {
             </Box>
           ))
         )}
-      </Box>
+      </VisualizerPanel>
 
       <Stack
         direction="row"

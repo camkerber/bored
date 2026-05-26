@@ -1,7 +1,12 @@
 import {useCallback, useState} from "react";
 import {Box, Stack, TextField, Typography} from "@mui/material";
 import {useStepRunner} from "../hooks/useStepRunner";
-import {StepControls, randomSortedArray} from "./shared";
+import {
+  HIGHLIGHT_COLORS,
+  StepControls,
+  VisualizerPanel,
+  randomSortedArray,
+} from "./shared";
 
 interface Frame {
   low: number;
@@ -63,10 +68,10 @@ export const BinarySearchVisualizer = () => {
   const f = runner.frame;
 
   const slotColor = (idx: number) => {
-    if (f.found && idx === f.mid) return "#4caf50";
-    if (idx === f.mid) return "#ba68c8";
-    if (idx < f.low || idx > f.high) return "#cfd8dc";
-    return "#90caf9";
+    if (f.found && idx === f.mid) return HIGHLIGHT_COLORS.found;
+    if (idx === f.mid) return HIGHLIGHT_COLORS.pivot;
+    if (idx < f.low || idx > f.high) return HIGHLIGHT_COLORS.outside;
+    return HIGHLIGHT_COLORS.default;
   };
 
   return (
@@ -96,17 +101,12 @@ export const BinarySearchVisualizer = () => {
           Edit target then press Reset / Play.
         </Typography>
       </Stack>
-      <Box
+      <VisualizerPanel
         sx={{
           display: "flex",
           alignItems: "center",
           gap: 1,
           minHeight: 80,
-          p: 2,
-          backgroundColor: "background.default",
-          border: "1px solid",
-          borderColor: "divider",
-          borderRadius: 2,
           overflowX: "auto",
         }}
       >
@@ -121,7 +121,7 @@ export const BinarySearchVisualizer = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "rgba(0,0,0,0.85)",
+              color: HIGHLIGHT_COLORS.text,
               fontWeight: 700,
               transition: "background-color 200ms ease",
             }}
@@ -129,7 +129,7 @@ export const BinarySearchVisualizer = () => {
             {value}
           </Box>
         ))}
-      </Box>
+      </VisualizerPanel>
       <StepControls
         runner={runner}
         onShuffle={() => setArr(randomSortedArray(12))}

@@ -1,4 +1,6 @@
+import {Suspense} from "react";
 import {Navigate, useParams} from "react-router-dom";
+import {CircularProgress} from "@mui/material";
 import {ALGORITHMS} from "../registry";
 import {DsaPageShell} from "./DsaPageShell";
 import {ComingSoon} from "./ComingSoon";
@@ -23,7 +25,13 @@ export const DsaAlgorithm = () => {
       description={entry.description}
       chips={chips}
     >
-      {Visualizer ? <Visualizer /> : <ComingSoon />}
+      {Visualizer ? (
+        <Suspense fallback={<CircularProgress size={32} />}>
+          <Visualizer />
+        </Suspense>
+      ) : (
+        <ComingSoon />
+      )}
     </DsaPageShell>
   );
 };

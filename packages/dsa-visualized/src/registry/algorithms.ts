@@ -1,12 +1,36 @@
-import {
-  BubbleSortVisualizer,
-  InsertionSortVisualizer,
-  SelectionSortVisualizer,
-  QuickSortVisualizer,
-  BinarySearchVisualizer,
-  QuickSelectVisualizer,
-} from "../visualizers";
+import {lazy} from "react";
 import type {AlgorithmEntry} from "./types";
+
+const BubbleSortVisualizer = lazy(() =>
+  import("../visualizers/BubbleSortVisualizer").then((m) => ({
+    default: m.BubbleSortVisualizer,
+  })),
+);
+const InsertionSortVisualizer = lazy(() =>
+  import("../visualizers/InsertionSortVisualizer").then((m) => ({
+    default: m.InsertionSortVisualizer,
+  })),
+);
+const SelectionSortVisualizer = lazy(() =>
+  import("../visualizers/SelectionSortVisualizer").then((m) => ({
+    default: m.SelectionSortVisualizer,
+  })),
+);
+const QuickSortVisualizer = lazy(() =>
+  import("../visualizers/QuickSortVisualizer").then((m) => ({
+    default: m.QuickSortVisualizer,
+  })),
+);
+const BinarySearchVisualizer = lazy(() =>
+  import("../visualizers/BinarySearchVisualizer").then((m) => ({
+    default: m.BinarySearchVisualizer,
+  })),
+);
+const QuickSelectVisualizer = lazy(() =>
+  import("../visualizers/QuickSelectVisualizer").then((m) => ({
+    default: m.QuickSelectVisualizer,
+  })),
+);
 
 export const ALGORITHMS: Record<string, AlgorithmEntry> = {
   "bubble-sort": {
