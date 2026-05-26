@@ -1,34 +1,33 @@
-import {useParams} from "react-router-dom";
-import {useUserBoardState} from "../hooks/useUserBoardState";
+import {Alert} from "@mui/material";
+import {useLoaderData} from "react-router-dom";
+import type {BingoUserBoardResponse} from "@bored/api";
+import {useUserBoardMarks} from "../hooks/useUserBoardState";
 import {useShareBingoBoard} from "../hooks/useShareBingoBoard";
-import {BoardLoadingState} from "./BoardLoadingState";
-import {BoardErrorState} from "./BoardErrorState";
+import {FREE_SPACE_INDEX, FREE_SPACE_SENTINEL} from "../utils/constants";
 import {InteractiveBoardView} from "./InteractiveBoardView";
 
-interface RouteParams extends Record<string, string | undefined> {
-  boardId: string;
-  userId: string;
-}
-
 export const UserBoardScreen = () => {
-  const {boardId, userId} = useParams<RouteParams>();
-  const {state, hasFreeSpace, optimisticSet, onCellClick} = useUserBoardState({
-    boardId,
-    userId,
+  const data = useLoaderData() as BingoUserBoardResponse;
+  const hasFreeSpace = data.board[FREE_SPACE_INDEX] === FREE_SPACE_SENTINEL;
+  const {marks, onCellClick, error} = useUserBoardMarks({
+    boardId: data.boardId,
+    userId: data.userId,
+    initialMarks: data.marks,
+    hasFreeSpace,
   });
-  const {onShare, shareNote} = useShareBingoBoard(boardId);
-
-  if (state.kind === "loading") return <BoardLoadingState />;
-  if (state.kind === "error") return <BoardErrorState message={state.message} />;
+  const {onShare, shareNote} = useShareBingoBoard(data.boardId);
 
   return (
-    <InteractiveBoardView
-      cells={state.data.board}
-      marks={optimisticSet}
-      hasFreeSpace={hasFreeSpace}
-      onCellClick={onCellClick}
-      onShare={onShare}
-      shareNote={shareNote}
-    />
+    <>
+      {error ? <Alert severity="error">{error}</Alert> : null}
+      <InteractiveBoardView
+        cells={data.board}
+        marks={marks}
+        hasFreeSpace={hasFreeSpace}
+        onCellClick={onCellClick}
+        onShare={onShare}
+        shareNote={shareNote}
+      />
+    </>
   );
 };

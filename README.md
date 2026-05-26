@@ -1,6 +1,6 @@
 # Bored — Personal Portfolio
 
-A pnpm monorepo for [camkerber.dev](https://camkerber.dev): a React 19 + TypeScript 6 single-page portfolio that hosts a handful of small interactive projects (Connections clone, Wordle clone, Spotify Charts, DSA visualizer, "What Are We Watching" co-op picker).
+A pnpm monorepo for [camkerber.dev](https://camkerber.dev): a React 19 + TypeScript 6 single-page portfolio that hosts a handful of small interactive projects (Connections clone, Wordle clone, Spotify Charts, DSA visualizer, "What Are We Watching" co-op picker, custom Bingo board creator).
 
 ## Stack
 
@@ -21,13 +21,13 @@ A pnpm monorepo for [camkerber.dev](https://camkerber.dev): a React 19 + TypeScr
                                   │     root, providers, router      │
                                   └─────────────┬────────────────────┘
                                                 │ route → screen
-        ┌───────────────────────┬───────────────┼────────────────┬──────────────────────┐
-        ▼                       ▼               ▼                ▼                      ▼
- ┌─────────────┐        ┌─────────────┐  ┌─────────────┐  ┌────────────────┐   ┌─────────────┐
- │ connections │        │   wordle    │  │   spotify   │  │ dsa-visualized │   │   watcher   │
- └──────┬──────┘        └──────┬──────┘  └──────┬──────┘  └────────┬───────┘   └──────┬──────┘
-        │                      │                │                  │                  │
-        ▼                      ▼                ▼                  ▼                  ▼
+        ┌───────────────┬───────────────┬───────────────┬─────────────────┬────────────────┐
+        ▼               ▼               ▼               ▼                 ▼                ▼
+ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌────────────────┐ ┌─────────────┐
+ │ connections │ │   wordle    │ │   spotify   │ │   bingo     │ │ dsa-visualized │ │   watcher   │
+ └──────┬──────┘ └──────┬──────┘ └──────┬──────┘ └──────┬──────┘ └────────┬───────┘ └──────┬──────┘
+        │               │               │               │                 │                │
+        ▼               ▼               ▼               ▼                 ▼                ▼
  ┌─────────────────────────────────────────────────────────────────────────────────────────┐
  │                                       @bored/ui                                         │
  │                                   basic UI components                                   │
@@ -64,6 +64,7 @@ bored/
 │   ├── connections/              # @bored/connections
 │   ├── wordle/                   # @bored/wordle
 │   ├── spotify/                  # @bored/spotify
+│   ├── bingo/                    # @bored/bingo
 │   ├── dsa-visualized/           # @bored/dsa-visualized
 │   └── watcher/                  # @bored/watcher
 ├── pnpm-workspace.yaml
@@ -82,16 +83,17 @@ All non-Home screens render through `withSuspense` (a `<Suspense>` boundary with
 
 ## Package responsibilities
 
-| Package                 | Role                                                                                                                                                                                                                                                                                               | Depends on           |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
-| `@bored/utils`          | Cross-package constants (`PROJECTS_MAP`), helpers (`shuffleArray`, `copyToClipboard`, `shareLinkOrText`, results formatters), hooks (`useDebounce`, navigate helpers), and types for each game                                                                                                     | —                    |
-| `@bored/ui`             | Shared UI: `Home`, `ProjectsCarousel`, `ReturnHome`, `ErrorPage`, `Modal`, `withSuspense`, carousel primitives                                                                                                                                                                                     | `@bored/utils`       |
-| `@bored/api`            | Single `apiClient` that unwraps `{success, data, error}` envelopes from `bored-backend`, throwing typed `ApiError`. SWR-based hooks: `useApiQuery` (suspense), `useApiPollingQuery` (interval). Per-feature request modules (`useWatcherRequests`, `useGetAllGames`, `useGetSpotifyTopArtists`, …) | `@bored/utils`       |
-| `@bored/connections`    | NYT Connections clone. `ConnectionsGameContext` owns selection/guess state; `GameArchives` lists prior puzzles. Game data fetched via `@bored/api`                                                                                                                                                 | `ui`, `utils`, `api` |
-| `@bored/wordle`         | Wordle clone. `WordleContext` owns the board, keyboard state, and tile-flip animations; dictionary fetched via `@bored/api`                                                                                                                                                                        | `ui`, `utils`, `api` |
-| `@bored/spotify`        | Spotify Charts. Browser-side OAuth (PKCE) under `auth/`, `SpotifyAuthProvider` context, top artists/tracks views; talks directly to `accounts.spotify.com` for tokens and to `bored-backend` for chart endpoints                                                                                   | `utils`, `api`       |
-| `@bored/dsa-visualized` | Interactive visualizers (sorts, trees, heap, trie, queue, …) for algorithms published in the `@camkerber/typescript-dsa` npm package. A `registry` maps slugs → visualizer components                                                                                                              | `ui`, `utils`        |
-| `@bored/watcher`        | "What Are We Watching" co-op session: two participants submit movie/show entries, swipe through the combined deck, and see matches. `WatcherSessionProvider` tracks `sessionId` / `participantToken` / `slot` and consumes `useWatcherSessionState` (5s SWR poll)                                  | `ui`, `utils`, `api` |
+| Package                 | Role                                                                                                                                                                                                                                                                                                     | Depends on           |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| `@bored/utils`          | Cross-package constants (`PROJECTS_MAP`), helpers (`shuffleArray`, `copyToClipboard`, `shareLinkOrText`, results formatters), hooks (`useDebounce`, navigate helpers), and types for each game                                                                                                           | —                    |
+| `@bored/ui`             | Shared UI: `Home`, `ProjectsCarousel`, `ReturnHome`, `ErrorPage`, `Modal`, `withSuspense`, carousel primitives                                                                                                                                                                                           | `@bored/utils`       |
+| `@bored/api`            | Single `apiClient` that unwraps `{success, data, error}` envelopes from `bored-backend`, throwing typed `ApiError`. SWR-based hooks: `useApiQuery` (suspense), `useApiPollingQuery` (interval). Per-feature request modules (`useWatcherRequests`, `useGetAllGames`, `useGetSpotifyTopArtists`, …)       | `@bored/utils`       |
+| `@bored/connections`    | NYT Connections clone. `ConnectionsGameContext` owns selection/guess state; `GameArchives` lists prior puzzles. Game data fetched via `@bored/api`                                                                                                                                                       | `ui`, `utils`, `api` |
+| `@bored/wordle`         | Wordle clone. `WordleContext` owns the board, keyboard state, and tile-flip animations; dictionary fetched via `@bored/api`                                                                                                                                                                              | `ui`, `utils`, `api` |
+| `@bored/spotify`        | Spotify Charts. Browser-side OAuth (PKCE) under `auth/`, `SpotifyAuthProvider` context, top artists/tracks views; talks directly to `accounts.spotify.com` for tokens and to `bored-backend` for chart endpoints                                                                                         | `utils`, `api`       |
+| `@bored/bingo`          | Custom bingo board creator. `BingoCreateForm` (react-hook-form) authors a board with a live `BingoLivePreview`; sharing mints per-user boards via `bingoMintLoader`, and `UserBoardScreen` renders the interactive grid loaded by `bingoUserBoardLoader`. Expired/missing boards route to `BingoExpired` | `ui`, `utils`, `api` |
+| `@bored/dsa-visualized` | Interactive visualizers (sorts, trees, heap, trie, queue, …) for algorithms published in the `@camkerber/typescript-dsa` npm package. A `registry` maps slugs → visualizer components                                                                                                                    | `ui`, `utils`        |
+| `@bored/watcher`        | "What Are We Watching" co-op session: two participants submit movie/show entries, swipe through the combined deck, and see matches. `WatcherSessionProvider` tracks `sessionId` / `participantToken` / `slot` and consumes `useWatcherSessionState` (5s SWR poll)                                        | `ui`, `utils`, `api` |
 
 ## Data flow
 

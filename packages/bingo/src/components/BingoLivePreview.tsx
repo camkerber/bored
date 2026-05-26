@@ -1,4 +1,3 @@
-import {useMemo} from "react";
 import {Typography} from "@mui/material";
 import {useWatch, type Control} from "react-hook-form";
 import {BoardPreview} from "./BoardPreview";
@@ -21,14 +20,10 @@ export const BingoLivePreview = ({
     (n, e) => (e?.value?.trim() ? n + 1 : n),
     0,
   );
-  const cells = useMemo(() => {
-    const out = new Array<string>(BOARD_SIZE).fill("");
-    for (let i = 0; i < scatterMap.length; i++) {
-      const cellIdx = scatterMap[i];
-      out[cellIdx] = entries?.[i]?.value ?? "";
-    }
-    return out;
-  }, [entries, scatterMap]);
+  const cells = new Array<string>(BOARD_SIZE).fill("");
+  for (let i = 0; i < scatterMap.length; i++) {
+    cells[scatterMap[i]] = entries?.[i]?.value ?? "";
+  }
   return (
     <>
       <BoardPreview cells={cells} hasFreeSpace={hasFreeSpace} />

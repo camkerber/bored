@@ -1,10 +1,10 @@
-import {useCallback, useState} from "react";
+import {useState} from "react";
 import {shareLinkOrText} from "@bored/utils";
 
 export function useShareBingoBoard(boardId: string | undefined) {
   const [shareNote, setShareNote] = useState<string | null>(null);
 
-  const onShare = useCallback(async () => {
+  const onShare = async () => {
     if (!boardId) return;
     const url =
       typeof window !== "undefined"
@@ -18,7 +18,7 @@ export function useShareBingoBoard(boardId: string | undefined) {
       },
       () => setShareNote("Link copied!"),
     );
-  }, [boardId]);
+  };
 
   return {onShare, shareNote};
 }

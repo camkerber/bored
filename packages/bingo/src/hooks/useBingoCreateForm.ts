@@ -1,4 +1,4 @@
-import {useCallback, useMemo, useState, useTransition} from "react";
+import {useState, useTransition} from "react";
 import {useFieldArray, useForm} from "react-hook-form";
 import {BOARD_SIZE} from "../utils/constants";
 import {buildScatterMap} from "../utils/scatterAssignments";
@@ -27,33 +27,27 @@ export function useBingoCreateForm() {
   const {replace} = useFieldArray({control: form.control, name: "entries"});
 
   const totalNeeded = inputCountFor(hasFreeSpace);
-  const scatterMap = useMemo(
-    () => buildScatterMap(totalNeeded, hasFreeSpace, scatterSeed),
-    [totalNeeded, hasFreeSpace, scatterSeed],
-  );
+  const scatterMap = buildScatterMap(totalNeeded, hasFreeSpace, scatterSeed);
 
-  const onToggleFreeSpace = useCallback(
-    (next: boolean) => {
-      if (next === hasFreeSpace) return;
-      const target = inputCountFor(next);
-      const current = form.getValues("entries") ?? [];
-      const trimmed = current
-        .map((e) => e?.value ?? "")
-        .filter((v) => v.trim().length > 0);
-      const sliced = trimmed.slice(0, target);
-      const nextEntries = sliced
-        .concat(
-          Array.from({length: Math.max(0, target - sliced.length)}, () => ""),
-        )
-        .map((value) => ({value}));
-      startTransition(() => {
-        setHasFreeSpace(next);
-        setScatterSeed(randomSeed());
-        replace(nextEntries);
-      });
-    },
-    [hasFreeSpace, form, replace],
-  );
+  const onToggleFreeSpace = (next: boolean) => {
+    if (next === hasFreeSpace) return;
+    const target = inputCountFor(next);
+    const current = form.getValues("entries") ?? [];
+    const trimmed = current
+      .map((e) => e?.value ?? "")
+      .filter((v) => v.trim().length > 0);
+    const sliced = trimmed.slice(0, target);
+    const nextEntries = sliced
+      .concat(
+        Array.from({length: Math.max(0, target - sliced.length)}, () => ""),
+      )
+      .map((value) => ({value}));
+    startTransition(() => {
+      setHasFreeSpace(next);
+      setScatterSeed(randomSeed());
+      replace(nextEntries);
+    });
+  };
 
   const canSubmit = form.formState.isValid;
   const checkboxLocked = !hasFreeSpace && canSubmit;

@@ -9,9 +9,10 @@ import {Spotify, SpotifyCallback} from "@bored/spotify";
 import {Watcher} from "@bored/watcher";
 import {
   Bingo,
-  BingoBoardRoute,
   BingoExpired,
   UserBoardScreen,
+  bingoMintLoader,
+  bingoUserBoardLoader,
 } from "@bored/bingo";
 import {
   DsaLanding,
@@ -75,10 +76,12 @@ const router = createBrowserRouter([
       },
       {
         path: `${PROJECTS_MAP.bingo.path}/:boardId`,
-        element: withSuspense(<BingoBoardRoute />),
+        loader: bingoMintLoader,
+        element: null,
       },
       {
         path: `${PROJECTS_MAP.bingo.path}/:boardId/user/:userId`,
+        loader: bingoUserBoardLoader,
         element: withSuspense(<UserBoardScreen />),
       },
     ],
