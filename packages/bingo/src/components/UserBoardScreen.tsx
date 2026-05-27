@@ -27,6 +27,7 @@ export const UserBoardScreen = () => {
         onCellClick={onCellClick}
         onShare={onShare}
         shareNote={shareNote}
+        name={data.name}
       />
     </>
   );

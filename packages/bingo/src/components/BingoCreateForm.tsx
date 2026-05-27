@@ -1,7 +1,8 @@
-import {Alert, Box, Button, Stack, Typography} from "@mui/material";
+import {Alert, Box, Button, Stack} from "@mui/material";
 import {BingoCreateLayout} from "./BingoCreateLayout";
 import {BingoInputsList} from "./BingoInputsList";
 import {BingoLivePreview} from "./BingoLivePreview";
+import {BingoNameField} from "./BingoNameField";
 import {BingoSubmitOverlay} from "./BingoSubmitOverlay";
 import {useBingoCreateForm} from "../hooks/useBingoCreateForm";
 import {useCreateBingoSubmit} from "../hooks/useCreateBingoSubmit";
@@ -35,9 +36,7 @@ export const BingoCreateForm = () => {
         spacing={3}
         sx={{width: "100%", maxWidth: 960}}
       >
-        <Typography variant="h4" component="h1" sx={{textAlign: "center"}}>
-          Create a bingo board
-        </Typography>
+        <BingoNameField register={form.register} />
         {submitError ? <Alert severity="error">{submitError}</Alert> : null}
 
         <BingoCreateLayout

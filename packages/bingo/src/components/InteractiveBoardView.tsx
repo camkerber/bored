@@ -9,6 +9,7 @@ interface InteractiveBoardViewProps {
   onCellClick: (index: number) => void;
   onShare: () => void;
   shareNote: string | null;
+  name?: string;
 }
 
 export const InteractiveBoardView = ({
@@ -18,6 +19,7 @@ export const InteractiveBoardView = ({
   onCellClick,
   onShare,
   shareNote,
+  name,
 }: InteractiveBoardViewProps) => (
   <Container maxWidth="md" sx={{pb: 3}} disableGutters>
     <Stack
@@ -25,7 +27,7 @@ export const InteractiveBoardView = ({
       sx={{display: "flex", alignItems: "center", justifyContent: "center"}}
     >
       <Typography variant="h4" component="h1" sx={{textAlign: "center"}}>
-        Your bingo board
+        {name?.trim() ?? "Your bingo board"}
       </Typography>
       <BoardPreview
         cells={cells}

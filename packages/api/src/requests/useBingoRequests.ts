@@ -5,10 +5,14 @@ export interface BingoUserBoardResponse {
   userId: string;
   board: string[];
   marks: number[];
+  name?: string;
 }
 
-export const createBingoBoard = (bingoBoard: string[]) =>
-  apiPost<BingoUserBoardResponse>("/api/bingo", {bingoBoard});
+export const createBingoBoard = (bingoBoard: string[], name?: string) =>
+  apiPost<BingoUserBoardResponse>("/api/bingo", {
+    bingoBoard,
+    ...(name ? {name} : {}),
+  });
 
 export const mintBingoUserBoard = (boardId: string) =>
   apiGet<BingoUserBoardResponse>(`/api/bingo/${encodeURIComponent(boardId)}`);

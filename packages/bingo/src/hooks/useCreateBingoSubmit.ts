@@ -17,7 +17,8 @@ export function useCreateBingoSubmit(hasFreeSpace: boolean) {
       const payload = hasFreeSpace
         ? [...trimmed, FREE_SPACE_SENTINEL]
         : trimmed;
-      const result = await createBingoBoard(payload);
+      const trimmedName = values.name.trim();
+      const result = await createBingoBoard(payload, trimmedName || undefined);
       navigate(`/bingo/${result.boardId}/user/${result.userId}`, {
         replace: true,
       });

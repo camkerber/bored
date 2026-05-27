@@ -4,6 +4,7 @@ import {BOARD_SIZE} from "../utils/constants";
 import {buildScatterMap} from "../utils/scatterAssignments";
 
 export interface BingoFormValues {
+  name: string;
   entries: {value: string}[];
 }
 
@@ -21,7 +22,7 @@ export function useBingoCreateForm() {
   const [, startTransition] = useTransition();
 
   const form = useForm<BingoFormValues>({
-    defaultValues: {entries: makeBlanks(inputCountFor(true))},
+    defaultValues: {name: "", entries: makeBlanks(inputCountFor(true))},
     mode: "onChange",
   });
   const {replace} = useFieldArray({control: form.control, name: "entries"});
