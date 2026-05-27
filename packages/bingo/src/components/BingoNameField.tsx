@@ -53,9 +53,6 @@ export const BingoNameField = ({register}: BingoNameFieldProps) => {
           width: "min(100%, 520px)",
           "& .MuiOutlinedInput-root": {
             "& .MuiOutlinedInput-input": {
-              fontSize: (theme) => theme.typography.h4.fontSize,
-              fontWeight: (theme) => theme.typography.h4.fontWeight,
-              lineHeight: (theme) => theme.typography.h4.lineHeight,
               padding: "8px 14px",
               "&::placeholder": {
                 opacity: 1,
