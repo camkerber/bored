@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "main": "./src/index.ts",
+  "sideEffects": false,
   "dependencies": {
     "framer-motion": "^11.11.0",
     "react-hook-form": "^7.53.0"

@@ -75,9 +75,9 @@ export const DsaLanding = () => (
       DSA Visualized
     </Typography>
     <Typography variant="body1" sx={{mt: 1, color: "text.secondary"}}>
-      Interactive visualizations of the algorithms and data structures
-      published in the <code>@camkerber/typescript-dsa</code> package. Pick one
-      to step through it.
+      Interactive visualizations of the algorithms and data structures published
+      in the <code>@camkerber/typescript-dsa</code> package. Pick one to step
+      through it.
     </Typography>
     <Section
       title="Algorithms"

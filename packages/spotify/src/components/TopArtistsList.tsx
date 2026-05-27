@@ -1,8 +1,8 @@
-import {Box, Typography} from "@mui/material";
 import {SpotifyTimeRange} from "@bored/utils";
 import {useGetSpotifyTopArtists} from "@bored/api";
 import {useSpotifyAuth} from "../context";
-import {ArtistCard} from "./ArtistCard";
+import {MediaRankCard} from "./MediaRankCard";
+import {TopItemsGrid} from "./TopItemsGrid";
 
 interface TopArtistsListProps {
   timeRange: SpotifyTimeRange;
@@ -13,56 +13,27 @@ export const TopArtistsList = ({
   timeRange,
   limit = 20,
 }: TopArtistsListProps) => {
-  const {getValidAccessToken, isAuthenticated} = useSpotifyAuth();
+  const {getValidAccessToken} = useSpotifyAuth();
   const {data} = useGetSpotifyTopArtists({
     timeRange,
     limit,
-    enabled: isAuthenticated,
     getAccessToken: getValidAccessToken,
   });
 
-  if (!data?.items.length) {
-    return (
-      <Typography
-        variant="body2"
-        sx={{
-          color: "text.secondary",
-          mt: 4,
-        }}
-      >
-        No top artists found for this time range yet.
-      </Typography>
-    );
-  }
-
   return (
-    <Box>
-      <Box
-        sx={{
-          display: "grid",
-          gap: 2,
-          gridTemplateColumns: {
-            xs: "repeat(2, 1fr)",
-            sm: "repeat(3, 1fr)",
-            md: "repeat(4, 1fr)",
-          },
-        }}
-      >
-        {data.items.map((artist, index) => (
-          <ArtistCard key={artist.id} artist={artist} rank={index + 1} />
-        ))}
-      </Box>
-      <Typography
-        variant="caption"
-        sx={{
-          color: "text.secondary",
-          display: "block",
-          mt: 3,
-          textAlign: "center",
-        }}
-      >
-        Powered by Spotify
-      </Typography>
-    </Box>
+    <TopItemsGrid
+      items={data?.items ?? []}
+      emptyMessage="No top artists found for this time range yet."
+      renderItem={(artist, index) => (
+        <MediaRankCard
+          key={artist.id}
+          rank={index + 1}
+          name={artist.name}
+          imageUrl={artist.images?.[0]?.url}
+          subtitle={artist.genres?.[0]}
+          externalUrl={artist.external_urls.spotify}
+        />
+      )}
+    />
   );
 };

@@ -11,9 +11,7 @@ export const createBingoBoard = (bingoBoard: string[]) =>
   apiPost<BingoUserBoardResponse>("/api/bingo", {bingoBoard});
 
 export const mintBingoUserBoard = (boardId: string) =>
-  apiGet<BingoUserBoardResponse>(
-    `/api/bingo/${encodeURIComponent(boardId)}`,
-  );
+  apiGet<BingoUserBoardResponse>(`/api/bingo/${encodeURIComponent(boardId)}`);
 
 export const getBingoUserBoard = (boardId: string, userId: string) =>
   apiGet<BingoUserBoardResponse>(

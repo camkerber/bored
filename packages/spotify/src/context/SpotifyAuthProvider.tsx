@@ -1,90 +1,46 @@
-import {
-  createContext,
-  PropsWithChildren,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import {createContext, PropsWithChildren, useState} from "react";
 import {
   beginLogin,
   getValidAccessToken,
   logout as logoutClient,
   refreshTokensIfNeeded,
 } from "../auth";
+
 export interface SpotifyAuthValue {
-  isAuthenticated: boolean;
-  accessToken: string | null;
-  isInitializing: boolean;
+  authPromise: Promise<boolean>;
   login: () => void;
   logout: () => void;
   getValidAccessToken: () => Promise<string>;
-  setAuthenticatedFromCallback: (accessToken: string) => void;
 }
 
 export const SpotifyAuthContext = createContext<SpotifyAuthValue | undefined>(
   undefined,
 );
 
+const createAuthPromise = (): Promise<boolean> =>
+  refreshTokensIfNeeded()
+    .then((tokens) => tokens !== null)
+    .catch(() => false);
+
 export const SpotifyAuthProvider = ({children}: PropsWithChildren) => {
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [isInitializing, setIsInitializing] = useState<boolean>(true);
+  const [authPromise, setAuthPromise] =
+    useState<Promise<boolean>>(createAuthPromise);
 
-  useEffect(() => {
-    let cancelled = false;
-    void (async () => {
-      try {
-        const tokens = await refreshTokensIfNeeded();
-        if (!cancelled) setAccessToken(tokens?.accessToken ?? null);
-      } catch {
-        if (!cancelled) setAccessToken(null);
-      } finally {
-        if (!cancelled) setIsInitializing(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const login = useCallback(() => {
+  const login = () => {
     void beginLogin();
-  }, []);
+  };
 
-  const logout = useCallback(() => {
+  const logout = () => {
     logoutClient();
-    setAccessToken(null);
-  }, []);
+    setAuthPromise(Promise.resolve(false));
+  };
 
-  const getValidAccessTokenCallback = useCallback(async () => {
-    const token = await getValidAccessToken();
-    setAccessToken((current) => (current === token ? current : token));
-    return token;
-  }, []);
-
-  const setAuthenticatedFromCallback = useCallback((token: string) => {
-    setAccessToken(token);
-  }, []);
-
-  const value = useMemo<SpotifyAuthValue>(
-    () => ({
-      isAuthenticated: accessToken !== null,
-      accessToken,
-      isInitializing,
-      login,
-      logout,
-      getValidAccessToken: getValidAccessTokenCallback,
-      setAuthenticatedFromCallback,
-    }),
-    [
-      accessToken,
-      isInitializing,
-      login,
-      logout,
-      getValidAccessTokenCallback,
-      setAuthenticatedFromCallback,
-    ],
-  );
+  const value: SpotifyAuthValue = {
+    authPromise,
+    login,
+    logout,
+    getValidAccessToken,
+  };
 
   return (
     <SpotifyAuthContext.Provider value={value}>

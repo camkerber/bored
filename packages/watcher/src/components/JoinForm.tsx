@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useActionState, useState} from "react";
 import {Alert, Box, Button, Stack, TextField, Typography} from "@mui/material";
 import {useWatcherSessionContext} from "../context";
 
@@ -6,34 +6,40 @@ export interface JoinFormProps {
   onCancel: () => void;
 }
 
+interface JoinState {
+  error: string | null;
+}
+
+const INITIAL_STATE: JoinState = {error: null};
+
 export const JoinForm = ({onCancel}: JoinFormProps) => {
   const {joinSession} = useWatcherSessionContext();
   const [code, setCode] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    if (!/^\d{5}$/.test(code)) {
-      setError("Enter the 5-digit code from your partner");
-      return;
-    }
-    setSubmitting(true);
-    try {
-      await joinSession(code);
-    } catch (e2) {
-      setError(e2 instanceof Error ? e2.message : "Could not join session");
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  const [state, formAction, isPending] = useActionState<JoinState, FormData>(
+    async (_prev, formData) => {
+      const raw = formData.get("code");
+      const value = typeof raw === "string" ? raw : "";
+      if (!/^\d{5}$/.test(value)) {
+        return {error: "Enter the 5-digit code from your partner"};
+      }
+      try {
+        await joinSession(value);
+        return {error: null};
+      } catch (e) {
+        return {
+          error: e instanceof Error ? e.message : "Could not join session",
+        };
+      }
+    },
+    INITIAL_STATE,
+  );
 
   return (
     <Box sx={{display: "flex", justifyContent: "center", mt: 6, px: 2}}>
       <Stack
         component="form"
-        onSubmit={handleSubmit}
+        action={formAction}
         spacing={3}
         sx={{width: "100%", maxWidth: 360}}
       >
@@ -46,9 +52,10 @@ export const JoinForm = ({onCancel}: JoinFormProps) => {
         >
           Join a session
         </Typography>
-        {error ? <Alert severity="error">{error}</Alert> : null}
+        {state.error ? <Alert severity="error">{state.error}</Alert> : null}
         <TextField
           label="5-digit code"
+          name="code"
           value={code}
           onChange={(e) =>
             setCode(e.target.value.replace(/\D/g, "").slice(0, 5))
@@ -66,13 +73,13 @@ export const JoinForm = ({onCancel}: JoinFormProps) => {
             justifyContent: "flex-end",
           }}
         >
-          <Button onClick={onCancel} disabled={submitting}>
+          <Button onClick={onCancel} disabled={isPending}>
             Cancel
           </Button>
           <Button
             type="submit"
             variant="contained"
-            disabled={submitting || code.length !== 5}
+            disabled={isPending || code.length !== 5}
           >
             Join
           </Button>

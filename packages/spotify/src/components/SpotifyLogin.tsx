@@ -2,7 +2,7 @@ import {Box, Button, Stack, Typography} from "@mui/material";
 import {useSpotifyAuth} from "../context";
 
 export const SpotifyLogin = () => {
-  const {login, isInitializing} = useSpotifyAuth();
+  const {login} = useSpotifyAuth();
 
   return (
     <Box sx={{display: "flex", justifyContent: "center", py: 6}}>
@@ -22,12 +22,7 @@ export const SpotifyLogin = () => {
         >
           Sign in with Spotify to see your top artists.
         </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={login}
-          disabled={isInitializing}
-        >
+        <Button variant="contained" color="primary" onClick={login}>
           Sign in with Spotify
         </Button>
       </Stack>

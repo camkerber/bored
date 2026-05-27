@@ -24,10 +24,7 @@ interface FormValues {
 }
 
 const newEntry = (): MovieShow => ({
-  id:
-    typeof crypto !== "undefined" && "randomUUID" in crypto
-      ? crypto.randomUUID()
-      : `entry-${Math.random().toString(36).slice(2, 10)}`,
+  id: crypto.randomUUID(),
   title: "",
   description: "",
   service: "",
@@ -50,30 +47,31 @@ export const SessionForm = ({waiting}: {waiting: boolean}) => {
   });
   const {fields, append, remove} = useFieldArray({control, name: "entries"});
 
-  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
 
   const onSubmit = handleSubmit(async (values) => {
     if (!sessionId || !participantToken) return;
     setError(null);
-    setSubmitting(true);
+    const cleaned = values.entries.map((e) => ({
+      id: e.id,
+      title: e.title.trim(),
+      description: e.description?.trim() || undefined,
+      service: e.service?.trim() || undefined,
+    }));
     try {
-      const cleaned = values.entries.map((e) => ({
-        id: e.id,
-        title: e.title.trim(),
-        description: e.description?.trim() || undefined,
-        service: e.service?.trim() || undefined,
-      }));
       await submitWatcherEntries(sessionId, participantToken, cleaned);
       await markWatcherReady(sessionId, participantToken);
+      setSubmitted(true);
       await refreshState();
-      // Leave `submitting` true on success — the parent will swap to the
-      // waiting/matching view once state propagates, unmounting this form.
     } catch (e) {
       setError(e instanceof Error ? e.message : "Could not submit entries");
-      setSubmitting(false);
     }
   });
+
+  // Hold the backdrop open after a successful submit until the parent swaps
+  // us out for the waiting/matching view.
+  const submitting = formState.isSubmitting || submitted;
 
   return (
     <Box

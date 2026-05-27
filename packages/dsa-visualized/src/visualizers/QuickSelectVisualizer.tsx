@@ -1,12 +1,7 @@
 import {useCallback, useState} from "react";
 import {Box, Stack, TextField, Typography} from "@mui/material";
 import {useStepRunner} from "../hooks/useStepRunner";
-import {
-  HIGHLIGHT_COLORS,
-  SortBars,
-  StepControls,
-  randomArray,
-} from "./shared";
+import {HIGHLIGHT_COLORS, SortBars, StepControls, randomArray} from "./shared";
 
 interface Frame {
   values: number[];

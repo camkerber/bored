@@ -1,10 +1,4 @@
-import {
-  createContext,
-  PropsWithChildren,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import {createContext, PropsWithChildren, useState} from "react";
 import {
   createWatcherSession,
   joinWatcherSession,
@@ -47,62 +41,46 @@ export const WatcherSessionProvider = ({children}: PropsWithChildren) => {
     refetch: refreshState,
   } = useWatcherSessionState(sessionId, participantToken);
 
-  const startSession = useCallback(async (selectedMode: SessionMode) => {
+  const startSession = async (selectedMode: SessionMode) => {
     const result = await createWatcherSession(selectedMode);
     setSessionId(result.sessionId);
     setCode(result.code);
     setParticipantToken(result.participantToken);
     setSlot("p1");
     setMode(selectedMode);
-  }, []);
+  };
 
-  const joinSession = useCallback(async (joinCode: string) => {
+  const joinSession = async (joinCode: string) => {
     const result = await joinWatcherSession(joinCode);
     setSessionId(result.sessionId);
     setCode(result.state.code);
     setParticipantToken(result.participantToken);
     setSlot("p2");
     setMode(result.state.mode);
-  }, []);
+  };
 
-  const reset = useCallback(() => {
+  const reset = () => {
     setSessionId(undefined);
     setCode(undefined);
     setParticipantToken(undefined);
     setSlot(undefined);
     setMode(undefined);
-  }, []);
+  };
 
-  const value = useMemo<WatcherSession>(
-    () => ({
-      sessionId,
-      code,
-      participantToken,
-      slot,
-      mode: state?.mode ?? mode,
-      state,
-      isStateLoading,
-      stateError: stateError ?? undefined,
-      refreshState,
-      startSession,
-      joinSession,
-      reset,
-    }),
-    [
-      sessionId,
-      code,
-      participantToken,
-      slot,
-      mode,
-      state,
-      isStateLoading,
-      stateError,
-      refreshState,
-      startSession,
-      joinSession,
-      reset,
-    ],
-  );
+  const value: WatcherSession = {
+    sessionId,
+    code,
+    participantToken,
+    slot,
+    mode: state?.mode ?? mode,
+    state,
+    isStateLoading,
+    stateError: stateError ?? undefined,
+    refreshState,
+    startSession,
+    joinSession,
+    reset,
+  };
 
   return (
     <WatcherSessionContext.Provider value={value}>

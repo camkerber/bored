@@ -1,4 +1,4 @@
-import {Box, CircularProgress, Typography} from "@mui/material";
+import {Box, CircularProgress, Link, Typography} from "@mui/material";
 import {useSnackbar} from "notistack";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
@@ -49,13 +49,14 @@ export const SpotifyCallback = () => {
           >
             {errorMessage}
           </Typography>
-          <Typography
+          <Link
+            component="button"
+            type="button"
             variant="body2"
-            sx={{cursor: "pointer", textDecoration: "underline"}}
             onClick={() => navigate("/spotify", {replace: true})}
           >
             Back to Spotify
-          </Typography>
+          </Link>
         </>
       ) : (
         <>

@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState, useTransition} from "react";
 import {
   Alert,
   Box,
@@ -18,19 +18,18 @@ export interface ModePickerProps {
 
 export const ModePicker = ({onCancel}: ModePickerProps) => {
   const {startSession} = useWatcherSessionContext();
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
-  const handlePick = async (mode: SessionMode) => {
+  const handlePick = (mode: SessionMode) => {
     setError(null);
-    setSubmitting(true);
-    try {
-      await startSession(mode);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to start session");
-    } finally {
-      setSubmitting(false);
-    }
+    startTransition(async () => {
+      try {
+        await startSession(mode);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Failed to start session");
+      }
+    });
   };
 
   return (

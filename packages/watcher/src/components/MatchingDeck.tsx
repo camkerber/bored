@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import {useReducer, useState} from "react";
 import {
   Alert,
   Box,
@@ -21,6 +21,45 @@ type SubmitState =
   | {kind: "error"; message: string; likes: string[]; dislikes: string[]}
   | {kind: "submitted"};
 
+interface DeckState {
+  index: number;
+  likes: string[];
+  dislikes: string[];
+  flash: SwipeDecision | null;
+}
+
+type DeckAction =
+  | {type: "decide"; decision: SwipeDecision; id: string}
+  | {type: "advance"};
+
+const INITIAL_DECK_STATE: DeckState = {
+  index: 0,
+  likes: [],
+  dislikes: [],
+  flash: null,
+};
+
+function deckReducer(state: DeckState, action: DeckAction): DeckState {
+  switch (action.type) {
+    case "decide":
+      if (state.flash) return state;
+      return {
+        ...state,
+        likes:
+          action.decision === "like"
+            ? [...state.likes, action.id]
+            : state.likes,
+        dislikes:
+          action.decision === "dislike"
+            ? [...state.dislikes, action.id]
+            : state.dislikes,
+        flash: action.decision,
+      };
+    case "advance":
+      return {...state, index: state.index + 1, flash: null};
+  }
+}
+
 interface DeckRoundProps {
   entries: MovieShow[];
   sessionId: string;
@@ -34,13 +73,16 @@ const DeckRound = ({
   participantToken,
   onSubmitted,
 }: DeckRoundProps) => {
-  const [index, setIndex] = useState(0);
-  const [likes, setLikes] = useState<string[]>([]);
-  const [dislikes, setDislikes] = useState<string[]>([]);
-  const [flash, setFlash] = useState<SwipeDecision | null>(null);
+  const [{index, likes, dislikes, flash}, dispatch] = useReducer(
+    deckReducer,
+    INITIAL_DECK_STATE,
+  );
   const [submitState, setSubmitState] = useState<SubmitState>({kind: "idle"});
 
   const send = (likesNow: string[], dislikesNow: string[]) => {
+    if (submitState.kind === "submitting" || submitState.kind === "submitted") {
+      return;
+    }
     setSubmitState({kind: "submitting"});
     submitWatcherSwipes(sessionId, participantToken, likesNow, dislikesNow)
       .then(() => onSubmitted())
@@ -57,21 +99,15 @@ const DeckRound = ({
 
   const decide = (decision: SwipeDecision) => {
     if (flash || index >= entries.length) return;
-    const current = entries[index];
-    const nextLikes = decision === "like" ? [...likes, current.id] : likes;
-    const nextDislikes =
-      decision === "dislike" ? [...dislikes, current.id] : dislikes;
-    setLikes(nextLikes);
-    setDislikes(nextDislikes);
-    setFlash(decision);
-    const nextIndex = index + 1;
-    setTimeout(() => {
-      setFlash(null);
-      setIndex(nextIndex);
-      if (nextIndex >= entries.length) {
-        send(nextLikes, nextDislikes);
-      }
-    }, 220);
+    dispatch({type: "decide", decision, id: entries[index].id});
+  };
+
+  const handleDismissed = () => {
+    const isLast = index + 1 >= entries.length;
+    dispatch({type: "advance"});
+    if (isLast) {
+      send(likes, dislikes);
+    }
   };
 
   const finished = index >= entries.length;
@@ -125,7 +161,13 @@ const DeckRound = ({
         >
           {index + 1} of {entries.length}
         </Typography>
-        <SwipeCard entry={current} onDecide={decide} flash={flash} />
+        <SwipeCard
+          key={current.id}
+          entry={current}
+          onDecide={decide}
+          onDismissed={handleDismissed}
+          flash={flash}
+        />
         <Stack direction="row" spacing={4} sx={{mt: 1}}>
           <IconButton
             aria-label="Dislike"
@@ -164,7 +206,7 @@ export const MatchingDeck = () => {
     !!sessionId && !!participantToken,
   );
 
-  const entries = useMemo(() => data?.entries ?? [], [data]);
+  const entries = data?.entries ?? [];
 
   if (isLoading) {
     return (

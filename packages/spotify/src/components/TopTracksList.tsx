@@ -1,8 +1,8 @@
-import {Box, Typography} from "@mui/material";
 import {SpotifyTimeRange} from "@bored/utils";
 import {useGetSpotifyTopTracks} from "@bored/api";
 import {useSpotifyAuth} from "../context";
-import {TrackCard} from "./TrackCard";
+import {MediaRankCard} from "./MediaRankCard";
+import {TopItemsGrid} from "./TopItemsGrid";
 
 interface TopTracksListProps {
   timeRange: SpotifyTimeRange;
@@ -10,56 +10,28 @@ interface TopTracksListProps {
 }
 
 export const TopTracksList = ({timeRange, limit = 20}: TopTracksListProps) => {
-  const {getValidAccessToken, isAuthenticated} = useSpotifyAuth();
+  const {getValidAccessToken} = useSpotifyAuth();
   const {data} = useGetSpotifyTopTracks({
     timeRange,
     limit,
-    enabled: isAuthenticated,
     getAccessToken: getValidAccessToken,
   });
 
-  if (!data?.items.length) {
-    return (
-      <Typography
-        variant="body2"
-        sx={{
-          color: "text.secondary",
-          mt: 4,
-        }}
-      >
-        No top songs found for this time range yet.
-      </Typography>
-    );
-  }
-
   return (
-    <Box>
-      <Box
-        sx={{
-          display: "grid",
-          gap: 2,
-          gridTemplateColumns: {
-            xs: "repeat(2, 1fr)",
-            sm: "repeat(3, 1fr)",
-            md: "repeat(4, 1fr)",
-          },
-        }}
-      >
-        {data.items.map((track, index) => (
-          <TrackCard key={track.id} track={track} rank={index + 1} />
-        ))}
-      </Box>
-      <Typography
-        variant="caption"
-        sx={{
-          color: "text.secondary",
-          display: "block",
-          mt: 3,
-          textAlign: "center",
-        }}
-      >
-        Powered by Spotify
-      </Typography>
-    </Box>
+    <TopItemsGrid
+      items={data?.items ?? []}
+      emptyMessage="No top songs found for this time range yet."
+      renderItem={(track, index) => (
+        <MediaRankCard
+          key={track.id}
+          rank={index + 1}
+          name={track.name}
+          imageUrl={track.album.images?.[0]?.url}
+          subtitle={track.artists.map((a) => a.name).join(", ") || undefined}
+          externalUrl={track.external_urls.spotify}
+          elevation={2}
+        />
+      )}
+    />
   );
 };

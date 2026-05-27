@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import {useState, useTransition} from "react";
 import {
   Alert,
   Box,
@@ -28,27 +28,24 @@ export const Results = () => {
   } = useWatcherMatches(sessionId, participantToken, !!state);
   const {data: deckData} = useWatcherDeck(sessionId, participantToken, !!state);
 
-  const matchedEntries = useMemo(() => {
-    if (!matchesData || !deckData) return [];
-    const ids = new Set(matchesData.matches);
-    return deckData.entries.filter((e) => ids.has(e.id));
-  }, [matchesData, deckData]);
+  const matchedIds = new Set(matchesData?.matches ?? []);
+  const matchedEntries =
+    deckData?.entries.filter((e) => matchedIds.has(e.id)) ?? [];
 
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
-  const handleRematch = async (mode: "narrow" | "retry") => {
+  const handleRematch = (mode: "narrow" | "retry") => {
     if (!sessionId || !participantToken) return;
     setError(null);
-    setSubmitting(true);
-    try {
-      await requestWatcherRematch(sessionId, participantToken, mode);
-      await refreshState();
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Could not rematch");
-    } finally {
-      setSubmitting(false);
-    }
+    startTransition(async () => {
+      try {
+        await requestWatcherRematch(sessionId, participantToken, mode);
+        await refreshState();
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Could not rematch");
+      }
+    });
   };
 
   if (matchesLoading) {
