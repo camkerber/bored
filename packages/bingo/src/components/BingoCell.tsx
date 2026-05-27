@@ -11,13 +11,17 @@ interface StyledBoxProps {
 const StyledBox = styled(Box)<StyledBoxProps>(
   ({theme, label, interactive, marked, freeSpace}) => ({
     position: "relative",
-    aspectRatio: "1 / 1",
+    width: "100%",
+    height: "100%",
+    minWidth: 0,
+    minHeight: 0,
+    overflow: "hidden",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     textAlign: "center",
     textWrap: "auto",
-    p: "2px",
+    padding: "4px",
     fontSize: cellFontSize(label.length),
     lineHeight: 1.15,
     wordBreak: "break-word",
@@ -35,17 +39,19 @@ const StyledBox = styled(Box)<StyledBoxProps>(
       transition: "background-color 120ms ease",
       pointerEvents: "none",
     },
-    "&:hover::before": interactive
-      ? {
-          backgroundColor: marked
-            ? alpha(theme.palette.secondary.light, 0.5)
-            : theme.palette.secondary.light,
-        }
-      : undefined,
-    "&:hover": {
-      color: interactive
-        ? theme.palette.common.white
-        : theme.palette.text.primary,
+    "@media (hover: hover)": {
+      "&:hover::before": interactive
+        ? {
+            backgroundColor: marked
+              ? alpha(theme.palette.secondary.light, 0.5)
+              : theme.palette.secondary.light,
+          }
+        : undefined,
+      "&:hover": {
+        color: interactive
+          ? theme.palette.common.white
+          : theme.palette.text.primary,
+      },
     },
   }),
 );

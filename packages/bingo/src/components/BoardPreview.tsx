@@ -25,6 +25,8 @@ export const BoardPreview = ({
     sx={{
       display: "grid",
       gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+      gridTemplateRows: "repeat(5, minmax(0, 1fr))",
+      aspectRatio: "1 / 1",
       gap: "1px",
       padding: "1px",
       backgroundColor: "divider",
