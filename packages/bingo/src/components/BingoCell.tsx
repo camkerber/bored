@@ -43,7 +43,9 @@ const StyledBox = styled(Box)<StyledBoxProps>(
         }
       : undefined,
     "&:hover": {
-      color: theme.palette.common.white,
+      color: interactive
+        ? theme.palette.common.white
+        : theme.palette.text.primary,
     },
   }),
 );
