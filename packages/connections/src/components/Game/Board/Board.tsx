@@ -1,9 +1,9 @@
 import {SolvedCategories} from "./SolvedCategories";
 import {Tiles} from "./Tiles";
-import {useConnectionsGameContext} from "../../../context";
+import {useConnectionsGameState} from "../../../context";
 
 export const Board = () => {
-  const {solvedCategories} = useConnectionsGameContext();
+  const {solvedCategories} = useConnectionsGameState();
 
   return (
     <>

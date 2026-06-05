@@ -1,7 +1,6 @@
 import {Button, Typography} from "@mui/material";
 import {useSnackbar} from "notistack";
-import {useMemo} from "react";
-import {useConnectionsGameContext} from "../../context";
+import {useConnectionsGameState} from "../../context";
 import {shareLinkOrText} from "@bored/utils";
 import {Modal} from "@bored/ui";
 import {isMobile} from "react-device-detect";
@@ -14,20 +13,18 @@ interface ShareResultsModalProps {
 
 export const ShareResultsModal = ({open, onClose}: ShareResultsModalProps) => {
   const {enqueueSnackbar} = useSnackbar();
-  const {shareableResults: results, activeGame} = useConnectionsGameContext();
+  const {shareableResults: results, activeGame} = useConnectionsGameState();
 
-  const resultsString = useMemo(() => {
-    const allGuesses = [];
-    for (let i = 0; i < results.length; i++) {
-      const category = results[i];
-      allGuesses.push(CATEGORY_SQUARE_MAP[category]);
-      const position = i + 1;
-      if (position % 4 === 0 && position !== results.length) {
-        allGuesses.push("\n");
-      }
+  const allGuesses = [];
+  for (let i = 0; i < results.length; i++) {
+    const category = results[i];
+    allGuesses.push(CATEGORY_SQUARE_MAP[category]);
+    const position = i + 1;
+    if (position % 4 === 0 && position !== results.length) {
+      allGuesses.push("\n");
     }
-    return `${activeGame.title}\n${allGuesses.join("")}`;
-  }, [results, activeGame.title]);
+  }
+  const resultsString = `${activeGame.title}\n${allGuesses.join("")}`;
 
   const handleShare = async () => {
     await shareLinkOrText(

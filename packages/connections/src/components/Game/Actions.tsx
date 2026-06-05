@@ -1,5 +1,8 @@
 import {Button, Grid} from "@mui/material";
-import {useConnectionsGameContext} from "../../context";
+import {
+  useConnectionsGameActions,
+  useConnectionsGameState,
+} from "../../context";
 import {shareLinkOrText, useNavigateToConnectionsPath} from "@bored/utils";
 import {useSnackbar} from "notistack";
 
@@ -8,13 +11,9 @@ interface ActionsProps {
 }
 
 export const Actions = ({onShareResults}: ActionsProps) => {
-  const {
-    submit,
-    shuffleOptions,
-    selectionsComplete,
-    gameCompleted,
-    activeGame,
-  } = useConnectionsGameContext();
+  const {selectionsComplete, gameCompleted, activeGame} =
+    useConnectionsGameState();
+  const {submit, shuffleOptions} = useConnectionsGameActions();
 
   const navigateTo = useNavigateToConnectionsPath();
   const {enqueueSnackbar} = useSnackbar();

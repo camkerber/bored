@@ -37,7 +37,8 @@ export default tseslint.config(
         {
           allowConstantExport: true,
           allowExportNames: [
-            "ConnectionsGameContext",
+            "ConnectionsGameStateContext",
+            "ConnectionsGameActionsContext",
             "SpotifyAuthContext",
             "WatcherSessionContext",
             "WordleContext",

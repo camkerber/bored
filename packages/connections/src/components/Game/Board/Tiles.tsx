@@ -1,5 +1,7 @@
-import {memo, useCallback, useMemo} from "react";
-import {useConnectionsGameContext} from "../../../context";
+import {
+  useConnectionsGameActions,
+  useConnectionsGameState,
+} from "../../../context";
 import {Button} from "@mui/material";
 import {COLOR_MAP} from "../../../utils";
 
@@ -11,14 +13,7 @@ interface TileProps {
   onSelect: (option: string) => void;
 }
 
-const Tile = memo(function Tile({
-  option,
-  isSelected,
-  shake,
-  flashColor,
-  onSelect,
-}: TileProps) {
-  const handleClick = useCallback(() => onSelect(option), [onSelect, option]);
+const Tile = ({option, isSelected, shake, flashColor, onSelect}: TileProps) => {
   const className =
     "connections-tile" + (isSelected && shake ? " connections-tile-shake" : "");
   const style = flashColor
@@ -26,7 +21,7 @@ const Tile = memo(function Tile({
     : undefined;
   return (
     <Button
-      onClick={handleClick}
+      onClick={() => onSelect(option)}
       className={className}
       variant="contained"
       disableElevation
@@ -36,15 +31,15 @@ const Tile = memo(function Tile({
       {option}
     </Button>
   );
-});
+};
 
 export const Tiles = () => {
-  const {options, selectOption, selections, shakeAnimation, flashCategory} =
-    useConnectionsGameContext();
+  const {options, selections, shakeAnimation, flashCategory} =
+    useConnectionsGameState();
+  const {selectOption} = useConnectionsGameActions();
 
-  const selectedSet = useMemo(() => new Set(selections), [selections]);
-  const flashColor: string | null =
-    flashCategory !== null ? COLOR_MAP[flashCategory] : null;
+  const selectedSet = new Set(selections);
+  const flashColor = flashCategory !== null ? COLOR_MAP[flashCategory] : null;
 
   return (
     <>

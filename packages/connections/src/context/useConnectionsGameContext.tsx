@@ -1,12 +1,27 @@
 import {useContext} from "react";
-import {ConnectionsGameContext} from "./ConnectionsGame";
+import {
+  ConnectionsGameActionsContext,
+  ConnectionsGameStateContext,
+} from "./ConnectionsGame";
 
-export const useConnectionsGameContext = () => {
-  const context = useContext(ConnectionsGameContext);
+export const useConnectionsGameState = () => {
+  const context = useContext(ConnectionsGameStateContext);
 
   if (!context) {
     throw Error(
-      "ConnectionsGameContext is undefined. It can only be used within ConnectionsGameProvider",
+      "ConnectionsGameStateContext is undefined. It can only be used within ConnectionsGameProvider",
+    );
+  }
+
+  return context;
+};
+
+export const useConnectionsGameActions = () => {
+  const context = useContext(ConnectionsGameActionsContext);
+
+  if (!context) {
+    throw Error(
+      "ConnectionsGameActionsContext is undefined. It can only be used within ConnectionsGameProvider",
     );
   }
 

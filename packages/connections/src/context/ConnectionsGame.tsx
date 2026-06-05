@@ -1,48 +1,46 @@
 import {useSnackbar} from "notistack";
+import {createContext, PropsWithChildren, useEffect, useState} from "react";
+import {setCompletedGames, shuffleArray, Category, Game} from "@bored/utils";
 import {
-  createContext,
-  PropsWithChildren,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
-import {
-  setCompletedGames,
-  shuffleArray,
-  Category,
-  Connection,
-  Game,
-} from "@bored/utils";
+  buildGuessKey,
+  evaluateGuess,
+  initializeOptions,
+  optionsForCategory,
+  unsolvedCategories,
+} from "../utils";
 
-export interface ConnectionsGame {
+const MAX_MISTAKES = 4;
+const TOTAL_CATEGORIES = 4;
+const FLASH_DURATION_MS = 600;
+const SHAKE_DURATION_MS = 500;
+const RESULTS_REVEAL_DELAY_MS = 1000;
+
+export interface ConnectionsGameState {
   activeGame: Game;
-  submit: () => void;
   options: string[];
-  shuffleOptions: () => void;
   selections: string[];
-  selectOption: (option: string) => void;
   selectionsComplete: boolean;
   incorrectGuessCount: number;
   solvedCategories: Category[];
   gameCompleted: boolean;
   shareableResults: Category[]; // every 4 elements is one guess
-  showShareResultsModal: boolean;
-  setShowShareResultsModal: (show: boolean) => void;
   shakeAnimation: boolean;
   flashCategory: Category | null;
 }
 
-export const ConnectionsGameContext = createContext<
-  ConnectionsGame | undefined
+export interface ConnectionsGameActions {
+  submit: () => void;
+  shuffleOptions: () => void;
+  selectOption: (option: string) => void;
+}
+
+export const ConnectionsGameStateContext = createContext<
+  ConnectionsGameState | undefined
 >(undefined);
 
-const initializeOptions = (connections: Connection[]): string[] => {
-  let allOptions: string[] = [];
-  connections.forEach((connection) => {
-    allOptions = [...allOptions, ...connection.options];
-  });
-  return shuffleArray(allOptions);
-};
+export const ConnectionsGameActionsContext = createContext<
+  ConnectionsGameActions | undefined
+>(undefined);
 
 interface ConnectionsGameProviderProps extends PropsWithChildren {
   game: Game;
@@ -63,63 +61,30 @@ export const ConnectionsGameProvider = ({
   const [solvedCategories, setSolvedCategories] = useState<Category[]>([]);
   const [gameCompleted, setGameCompleted] = useState<boolean>(false);
   const [shareableResults, setShareableResults] = useState<Category[]>([]);
-  const [showShareResultsModal, setShowShareResultsModal] =
-    useState<boolean>(false);
   const [shakeAnimation, setShakeAnimation] = useState<boolean>(false);
   const [flashCategory, setFlashCategory] = useState<Category | null>(null);
 
-  const shuffleOptions = useCallback(() => {
+  const shuffleOptions = () => {
     setOptions((prevOptions) => shuffleArray(prevOptions));
-  }, []);
+  };
 
-  const handleSelectOption = useCallback((option: string) => {
-    setSelections((prevSelections) => {
-      if (!prevSelections.includes(option)) {
-        return [...prevSelections, option];
-      }
-      return prevSelections.filter((prevSelection) => prevSelection !== option);
-    });
-  }, []);
+  const selectOption = (option: string) => {
+    setSelections((prevSelections) =>
+      prevSelections.includes(option)
+        ? prevSelections.filter((prevSelection) => prevSelection !== option)
+        : [...prevSelections, option],
+    );
+  };
 
-  const handleCompletedCategory = useCallback(
-    (category: Category) => {
-      setSelections([]);
+  // Out of mistakes: reveal the remaining categories and end the game.
+  const endGame = () => {
+    setOptions([]);
+    setSolvedCategories((prev) => [...prev, ...unsolvedCategories(prev)]);
+    setGameCompleted(true);
+  };
 
-      // remove options of completed category from options state
-      const completedCategoryOptions = game.connections.find(
-        (connection) => connection.category === category,
-      )?.options;
-      setOptions((prevOptions) =>
-        prevOptions.filter(
-          (option) => !completedCategoryOptions?.includes(option),
-        ),
-      );
-
-      setSolvedCategories((prevSolvedCats) => {
-        // game completed
-        if (prevSolvedCats.length === 3) {
-          setGameCompleted(true);
-          setCompletedGames(game.id);
-          setTimeout(() => {
-            setShowShareResultsModal(true);
-          }, 1000);
-        }
-        return [...prevSolvedCats, category];
-      });
-    },
-    [game.connections, game.id],
-  );
-
-  const handleSubmit = useCallback(() => {
-    // find category with the most correct guesses
-    const count: Record<Category, number> = {
-      [Category.Yellow]: 0,
-      [Category.Green]: 0,
-      [Category.Blue]: 0,
-      [Category.Purple]: 0,
-    };
-
-    const guessKey = [...selections].sort().join(" ");
+  const submit = () => {
+    const guessKey = buildGuessKey(selections);
     if (pastGuesses.includes(guessKey)) {
       enqueueSnackbar("You've already made that guess", {
         key: "duplicate-guess",
@@ -131,118 +96,96 @@ export const ConnectionsGameProvider = ({
     }
     setPastGuesses((prev) => [...prev, guessKey]);
 
-    const guessesByColor: Category[] = [];
-    selections.forEach((selection) => {
-      game.connections.forEach((connection) => {
-        if (connection.options.includes(selection)) {
-          count[connection.category] += 1;
-          guessesByColor.push(connection.category);
-        }
-      });
-    });
-    const categories = Object.keys(count) as Category[];
-    const bestCategory = categories.reduce((a, b) =>
-      count[a] > count[b] ? a : b,
+    const {bestCategory, bestCount, guessesByColor} = evaluateGuess(
+      selections,
+      game.connections,
     );
-    const bestCount = count[bestCategory];
 
     // save guesses for sharing
-    setShareableResults((prevGuesses) => [...prevGuesses, ...guessesByColor]);
-
-    // show results to user
-    const endGame = () => {
-      setGameCompleted(true);
-      setOptions([]);
-      setSolvedCategories((prevSolvedCats) => {
-        const unsolvedCats = Object.values(Category).filter(
-          (category) => !prevSolvedCats.includes(category),
-        );
-        return [...prevSolvedCats, ...unsolvedCats];
-      });
-      setShowShareResultsModal(true);
-    };
+    setShareableResults((prev) => [...prev, ...guessesByColor]);
 
     if (bestCount === 4) {
+      // flash the winning row; the reveal/clear happens in an effect so the
+      // timer can be cancelled if the player navigates away mid-animation.
       setFlashCategory(bestCategory);
-      setTimeout(() => {
-        setFlashCategory(null);
-        handleCompletedCategory(bestCategory);
-      }, 600);
-    } else if (bestCount === 3) {
-      const newCount = incorrectGuessCount + 1;
-      setIncorrectGuessCount(newCount);
-      setShakeAnimation(true);
-      setTimeout(() => setShakeAnimation(false), 500);
-      enqueueSnackbar("One away...", {
-        key: "one-away",
-        variant: "info",
-        preventDuplicate: true,
-        autoHideDuration: 2000,
-      });
-      if (newCount === 4) endGame();
-    } else {
-      const newCount = incorrectGuessCount + 1;
-      setIncorrectGuessCount(newCount);
-      setShakeAnimation(true);
-      setTimeout(() => setShakeAnimation(false), 500);
-      enqueueSnackbar("Not quite...", {
-        key: "not-quite",
-        variant: "info",
-        preventDuplicate: true,
-        autoHideDuration: 2000,
-      });
-      if (newCount === 4) endGame();
+      return;
     }
-  }, [
-    enqueueSnackbar,
-    game.connections,
-    handleCompletedCategory,
-    incorrectGuessCount,
-    selections,
-    pastGuesses,
-  ]);
+
+    const newCount = incorrectGuessCount + 1;
+    setIncorrectGuessCount(newCount);
+    setShakeAnimation(true);
+    enqueueSnackbar(bestCount === 3 ? "One away..." : "Not quite...", {
+      key: bestCount === 3 ? "one-away" : "not-quite",
+      variant: "info",
+      preventDuplicate: true,
+      autoHideDuration: 2000,
+    });
+    if (newCount === MAX_MISTAKES) endGame();
+  };
+
+  // Reveal a fully-correct guess after the flash animation finishes.
+  useEffect(() => {
+    if (flashCategory === null) return;
+    const category = flashCategory;
+    const timer = setTimeout(() => {
+      const completedOptions = optionsForCategory(game.connections, category);
+      setSelections([]);
+      setOptions((prev) =>
+        prev.filter((option) => !completedOptions.includes(option)),
+      );
+      setSolvedCategories((prev) => [...prev, category]);
+      setFlashCategory(null);
+    }, FLASH_DURATION_MS);
+    return () => clearTimeout(timer);
+  }, [flashCategory, game.connections]);
+
+  // Reset the shake animation once it has played.
+  useEffect(() => {
+    if (!shakeAnimation) return;
+    const timer = setTimeout(() => setShakeAnimation(false), SHAKE_DURATION_MS);
+    return () => clearTimeout(timer);
+  }, [shakeAnimation]);
+
+  // All categories solved: persist completion and reveal results after
+  // a short pause so the final row's reveal is visible first. The loss path
+  // (endGame) sets `gameCompleted` in the same commit, so this is skipped there
+  // and the game is only ever marked completed on a win.
+  useEffect(() => {
+    if (solvedCategories.length < TOTAL_CATEGORIES || gameCompleted) return;
+    setCompletedGames(game.id);
+    const timer = setTimeout(
+      () => setGameCompleted(true),
+      RESULTS_REVEAL_DELAY_MS,
+    );
+    return () => clearTimeout(timer);
+  }, [solvedCategories.length, gameCompleted, game.id]);
 
   const selectionsComplete = selections.length === 4;
 
-  const connectionsGame: ConnectionsGame = useMemo(
-    () => ({
-      activeGame: game,
-      submit: handleSubmit,
-      options,
-      shuffleOptions,
-      selections,
-      selectOption: handleSelectOption,
-      selectionsComplete,
-      incorrectGuessCount,
-      solvedCategories,
-      gameCompleted,
-      shareableResults,
-      showShareResultsModal,
-      setShowShareResultsModal,
-      shakeAnimation,
-      flashCategory,
-    }),
-    [
-      game,
-      gameCompleted,
-      handleSelectOption,
-      handleSubmit,
-      incorrectGuessCount,
-      options,
-      selections,
-      selectionsComplete,
-      shareableResults,
-      showShareResultsModal,
-      shuffleOptions,
-      solvedCategories,
-      shakeAnimation,
-      flashCategory,
-    ],
-  );
+  const state: ConnectionsGameState = {
+    activeGame: game,
+    options,
+    selections,
+    selectionsComplete,
+    incorrectGuessCount,
+    solvedCategories,
+    gameCompleted,
+    shareableResults,
+    shakeAnimation,
+    flashCategory,
+  };
+
+  const actions: ConnectionsGameActions = {
+    submit,
+    shuffleOptions,
+    selectOption,
+  };
 
   return (
-    <ConnectionsGameContext.Provider value={connectionsGame}>
-      {children}
-    </ConnectionsGameContext.Provider>
+    <ConnectionsGameActionsContext.Provider value={actions}>
+      <ConnectionsGameStateContext.Provider value={state}>
+        {children}
+      </ConnectionsGameStateContext.Provider>
+    </ConnectionsGameActionsContext.Provider>
   );
 };

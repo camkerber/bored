@@ -1,9 +1,9 @@
-import {useConnectionsGameContext} from "../../../context";
+import {useConnectionsGameState} from "../../../context";
 import {Paper, Typography, useMediaQuery, useTheme} from "@mui/material";
 import {COLOR_MAP} from "../../../utils";
 
 export const SolvedCategories = () => {
-  const {solvedCategories, activeGame} = useConnectionsGameContext();
+  const {solvedCategories, activeGame} = useConnectionsGameState();
   const theme = useTheme();
   const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 

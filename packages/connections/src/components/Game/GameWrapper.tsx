@@ -1,32 +1,24 @@
-import {useCallback} from "react";
-import {useConnectionsGameContext} from "../../context";
+import {useState} from "react";
+import {useConnectionsGameState} from "../../context";
 import {Actions} from "./Actions";
 import {Board} from "./Board";
 import {GuessCounter} from "./GuessCounter";
 import {ShareResultsModal} from "./ShareResultsModal";
 
 export const GameWrapper = () => {
-  const {showShareResultsModal, setShowShareResultsModal, incorrectGuessCount} =
-    useConnectionsGameContext();
+  const {incorrectGuessCount, gameCompleted} = useConnectionsGameState();
+  const [resultsDismissed, setResultsDismissed] = useState(false);
+  const showShareResults = gameCompleted && !resultsDismissed;
 
-  const openShareResults = useCallback(
-    () => setShowShareResultsModal(true),
-    [setShowShareResultsModal],
-  );
-  const closeShareResults = useCallback(
-    () => setShowShareResultsModal(false),
-    [setShowShareResultsModal],
-  );
+  const openShareResults = () => setResultsDismissed(false);
+  const closeShareResults = () => setResultsDismissed(true);
 
   return (
     <>
       <Board />
       <GuessCounter incorrectGuessCount={incorrectGuessCount} />
       <Actions onShareResults={openShareResults} />
-      <ShareResultsModal
-        open={showShareResultsModal}
-        onClose={closeShareResults}
-      />
+      <ShareResultsModal open={showShareResults} onClose={closeShareResults} />
     </>
   );
 };
