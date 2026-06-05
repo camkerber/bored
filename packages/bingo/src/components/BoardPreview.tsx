@@ -20,7 +20,7 @@ export const BoardPreview = ({
   onCellClick,
 }: BoardPreviewProps) => (
   <Box
-    role="grid"
+    role="group"
     aria-label="Bingo board"
     sx={{
       display: "grid",

@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useActionState} from "react";
 import {useNavigate} from "react-router-dom";
 import {createBingoBoard} from "@bored/api";
 import {FREE_SPACE_SENTINEL} from "../utils/constants";
@@ -6,12 +6,11 @@ import type {BingoFormValues} from "./useBingoCreateForm";
 
 export function useCreateBingoSubmit(hasFreeSpace: boolean) {
   const navigate = useNavigate();
-  const [submitting, setSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const submit = async (values: BingoFormValues) => {
-    setSubmitError(null);
-    setSubmitting(true);
+  const [submitError, submit, submitting] = useActionState<
+    string | null,
+    BingoFormValues
+  >(async (_prev, values) => {
     try {
       const trimmed = values.entries.map((e) => e.value.trim());
       const payload = hasFreeSpace
@@ -22,11 +21,11 @@ export function useCreateBingoSubmit(hasFreeSpace: boolean) {
       navigate(`/bingo/${result.boardId}/user/${result.userId}`, {
         replace: true,
       });
+      return null;
     } catch (e) {
-      setSubmitError(e instanceof Error ? e.message : "Could not create board");
-      setSubmitting(false);
+      return e instanceof Error ? e.message : "Could not create board";
     }
-  };
+  }, null);
 
   return {submitting, submitError, submit};
 }

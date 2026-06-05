@@ -1,11 +1,11 @@
-import {Checkbox, FormControlLabel, Stack, TextField} from "@mui/material";
-import type {FieldErrors, UseFormRegister} from "react-hook-form";
-import {MAX_SPACE_LENGTH} from "../utils/constants";
+import {Checkbox, FormControlLabel, Stack} from "@mui/material";
+import type {Control, UseFormRegister} from "react-hook-form";
+import {BingoSpaceField} from "./BingoSpaceField";
 import type {BingoFormValues} from "../hooks/useBingoCreateForm";
 
 interface BingoInputsListProps {
+  control: Control<BingoFormValues>;
   register: UseFormRegister<BingoFormValues>;
-  errors: FieldErrors<BingoFormValues>;
   totalNeeded: number;
   hasFreeSpace: boolean;
   checkboxLocked: boolean;
@@ -13,8 +13,8 @@ interface BingoInputsListProps {
 }
 
 export const BingoInputsList = ({
+  control,
   register,
-  errors,
   totalNeeded,
   hasFreeSpace,
   checkboxLocked,
@@ -32,18 +32,11 @@ export const BingoInputsList = ({
       label="Free space"
     />
     {Array.from({length: totalNeeded}, (_, index) => (
-      <TextField
+      <BingoSpaceField
         key={`${hasFreeSpace ? "f" : "n"}-${index}`}
-        label={`Space ${index + 1}`}
-        size="small"
-        fullWidth
-        slotProps={{htmlInput: {maxLength: MAX_SPACE_LENGTH}}}
-        {...register(`entries.${index}.value`, {
-          required: true,
-          validate: (v) => v.trim().length > 0,
-          maxLength: MAX_SPACE_LENGTH,
-        })}
-        error={!!errors.entries?.[index]?.value}
+        control={control}
+        register={register}
+        index={index}
       />
     ))}
   </Stack>

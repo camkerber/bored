@@ -8,17 +8,12 @@ import {Wordle} from "@bored/wordle";
 import {Spotify, SpotifyCallback} from "@bored/spotify";
 import {Watcher} from "@bored/watcher";
 import {
-  Bingo,
-  BingoExpired,
-  UserBoardScreen,
-  bingoMintLoader,
-  bingoUserBoardLoader,
-} from "@bored/bingo";
-import {
   DsaLanding,
   DsaAlgorithm,
   DsaDataStructure,
 } from "@bored/dsa-visualized";
+
+const loadBingo = () => import("@bored/bingo");
 
 const router = createBrowserRouter([
   {
@@ -68,21 +63,22 @@ const router = createBrowserRouter([
       },
       {
         path: `${PROJECTS_MAP.bingo.path}`,
-        element: withSuspense(<Bingo />),
+        lazy: async () => ({Component: (await loadBingo()).Bingo}),
       },
       {
         path: `${PROJECTS_MAP.bingo.path}/expired`,
-        element: withSuspense(<BingoExpired />),
+        lazy: async () => ({Component: (await loadBingo()).BingoExpired}),
       },
       {
         path: `${PROJECTS_MAP.bingo.path}/:boardId`,
-        loader: bingoMintLoader,
-        element: null,
+        lazy: async () => ({loader: (await loadBingo()).bingoMintLoader}),
       },
       {
         path: `${PROJECTS_MAP.bingo.path}/:boardId/user/:userId`,
-        loader: bingoUserBoardLoader,
-        element: withSuspense(<UserBoardScreen />),
+        lazy: async () => {
+          const m = await loadBingo();
+          return {loader: m.bingoUserBoardLoader, Component: m.UserBoardScreen};
+        },
       },
     ],
   },

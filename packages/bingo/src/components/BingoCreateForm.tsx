@@ -42,8 +42,8 @@ export const BingoCreateForm = () => {
         <BingoCreateLayout
           inputs={
             <BingoInputsList
+              control={form.control}
               register={form.register}
-              errors={form.formState.errors}
               totalNeeded={totalNeeded}
               hasFreeSpace={hasFreeSpace}
               checkboxLocked={checkboxLocked}

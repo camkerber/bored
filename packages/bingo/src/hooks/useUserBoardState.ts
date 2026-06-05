@@ -1,4 +1,4 @@
-import {useOptimistic, useState, useTransition} from "react";
+import {useOptimistic, useRef, useState, useTransition} from "react";
 import {toggleBingoMark} from "@bored/api";
 import {FREE_SPACE_INDEX} from "../utils/constants";
 
@@ -31,16 +31,20 @@ export function useUserBoardMarks({
   );
   const [, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const latestRequest = useRef(0);
 
   const onCellClick = (index: number) => {
     if (hasFreeSpace && index === FREE_SPACE_INDEX) return;
+    const requestId = ++latestRequest.current;
     startTransition(async () => {
       applyOptimistic(index);
       try {
         const result = await toggleBingoMark(boardId, userId, index);
+        if (requestId !== latestRequest.current) return;
         setMarks(new Set(result.marks));
         setError(null);
       } catch (err) {
+        if (requestId !== latestRequest.current) return;
         setError(err instanceof Error ? err.message : "Failed to update mark");
       }
     });

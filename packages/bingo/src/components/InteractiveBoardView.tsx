@@ -27,7 +27,7 @@ export const InteractiveBoardView = ({
       sx={{display: "flex", alignItems: "center", justifyContent: "center"}}
     >
       <Typography variant="h4" component="h1" sx={{textAlign: "center"}}>
-        {name?.trim() ?? "Your bingo board"}
+        {name?.trim() || "Your bingo board"}
       </Typography>
       <BoardPreview
         cells={cells}
