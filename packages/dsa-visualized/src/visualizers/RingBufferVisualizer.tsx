@@ -1,7 +1,7 @@
 import {useState} from "react";
-import {Box, Button, Stack, TextField, Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import {RingBuffer} from "@camkerber/typescript-dsa/data-structures";
-import {HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
+import {DsaControlBar, HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
 
 const CAPACITY = 6;
 const SEED = [10, 20, 30];
@@ -146,44 +146,26 @@ export const RingBufferVisualizer = () => {
         </svg>
       </VisualizerPanel>
 
-      <Stack
-        direction="row"
-        sx={{mt: 2, flexWrap: "wrap", alignItems: "center", gap: 1}}
-      >
-        <TextField
-          size="small"
-          label="value"
-          type="number"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          sx={{width: 100}}
-        />
-        <Button variant="contained" onClick={handleEnqueue}>
-          Enqueue
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={handleDequeue}
-          disabled={snap.length === 0}
-        >
-          Dequeue
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={handlePeek}
-          disabled={snap.length === 0}
-        >
-          Peek
-        </Button>
-        <Button
-          variant="outlined"
-          color="error"
-          onClick={handleClear}
-          disabled={snap.length === 0}
-        >
-          Clear
-        </Button>
-      </Stack>
+      <DsaControlBar
+        inputs={[
+          {label: "value", value: input, onChange: setInput, width: 100},
+        ]}
+        actions={[
+          {label: "Enqueue", onClick: handleEnqueue, variant: "contained"},
+          {
+            label: "Dequeue",
+            onClick: handleDequeue,
+            disabled: snap.length === 0,
+          },
+          {label: "Peek", onClick: handlePeek, disabled: snap.length === 0},
+          {
+            label: "Clear",
+            onClick: handleClear,
+            color: "error",
+            disabled: snap.length === 0,
+          },
+        ]}
+      />
 
       <Typography
         variant="caption"

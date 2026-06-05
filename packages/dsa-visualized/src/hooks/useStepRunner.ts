@@ -1,11 +1,11 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 
 interface Options<F> {
   buildFrames: () => F[];
   initialSpeedMs?: number;
 }
 
-interface Runner<F> {
+export interface Runner<F> {
   frame: F;
   index: number;
   total: number;
@@ -17,7 +17,6 @@ interface Runner<F> {
   play: () => void;
   pause: () => void;
   reset: () => void;
-  rebuild: () => void;
   setSpeedMs: (ms: number) => void;
 }
 
@@ -25,10 +24,17 @@ export function useStepRunner<F>({
   buildFrames,
   initialSpeedMs = 250,
 }: Options<F>): Runner<F> {
-  const [frames, setFrames] = useState<F[]>(() => buildFrames());
+  const frames = useMemo(() => buildFrames(), [buildFrames]);
   const [index, setIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [speedMs, setSpeedMs] = useState(initialSpeedMs);
+
+  const [renderedFrames, setRenderedFrames] = useState(frames);
+  if (renderedFrames !== frames) {
+    setRenderedFrames(frames);
+    setIndex(0);
+    setIsPlaying(false);
+  }
 
   const isFinished = index >= frames.length - 1;
   const isActuallyPlaying = isPlaying && !isFinished;
@@ -43,11 +49,6 @@ export function useStepRunner<F>({
   const reset = () => {
     setIsPlaying(false);
     setIndex(0);
-  };
-  const rebuild = () => {
-    setIsPlaying(false);
-    setIndex(0);
-    setFrames(buildFrames());
   };
 
   useEffect(() => {
@@ -70,7 +71,6 @@ export function useStepRunner<F>({
     play,
     pause,
     reset,
-    rebuild,
     setSpeedMs,
   };
 }

@@ -1,11 +1,12 @@
 import {useState} from "react";
-import {Box, Button, Stack, TextField, Typography} from "@mui/material";
+import {Box, Stack, Typography} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import {useFlashHighlight} from "../hooks/useFlashHighlight";
-import {HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
+import {useDelayedAction} from "../hooks/useDelayedAction";
+import {DsaControlBar, HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
 
 type Highlight = "head" | "tail" | "removed" | null;
 
@@ -20,6 +21,7 @@ export const QueueVisualizer = () => {
     undefined,
   );
   const [lastPeeked, setLastPeeked] = useState<number | undefined>(undefined);
+  const schedule = useDelayedAction();
 
   const handleEnqueue = () => {
     const value = Number.parseInt(input, 10);
@@ -34,7 +36,7 @@ export const QueueVisualizer = () => {
     const dequeued = items[0];
     setLastDequeued(dequeued);
     flashHighlight({idx: 0, kind: "removed"});
-    window.setTimeout(() => setItems((prev) => prev.slice(1)), 250);
+    schedule(() => setItems((prev) => prev.slice(1)), 250);
   };
 
   const handlePeek = () => {
@@ -111,54 +113,43 @@ export const QueueVisualizer = () => {
         </Typography>
       </VisualizerPanel>
 
-      <Stack
-        direction="row"
-        sx={{mt: 2, flexWrap: "wrap", alignItems: "center", gap: 1}}
-      >
-        <TextField
-          size="small"
-          label="value"
-          type="number"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") handleEnqueue();
-          }}
-          sx={{width: 120}}
-        />
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={handleEnqueue}
-        >
-          Enqueue
-        </Button>
-        <Button
-          variant="outlined"
-          startIcon={<RemoveIcon />}
-          onClick={handleDequeue}
-          disabled={items.length === 0}
-        >
-          Dequeue
-        </Button>
-        <Button
-          variant="outlined"
-          startIcon={<VisibilityIcon />}
-          onClick={handlePeek}
-          disabled={items.length === 0}
-        >
-          Peek
-        </Button>
-        <Button
-          variant="outlined"
-          color="error"
-          startIcon={<ClearAllIcon />}
-          onClick={handleClear}
-          disabled={items.length === 0}
-        >
-          Clear
-        </Button>
-      </Stack>
+      <DsaControlBar
+        inputs={[
+          {
+            label: "value",
+            value: input,
+            onChange: setInput,
+            onEnter: handleEnqueue,
+          },
+        ]}
+        actions={[
+          {
+            label: "Enqueue",
+            onClick: handleEnqueue,
+            variant: "contained",
+            icon: <AddIcon />,
+          },
+          {
+            label: "Dequeue",
+            onClick: handleDequeue,
+            icon: <RemoveIcon />,
+            disabled: items.length === 0,
+          },
+          {
+            label: "Peek",
+            onClick: handlePeek,
+            icon: <VisibilityIcon />,
+            disabled: items.length === 0,
+          },
+          {
+            label: "Clear",
+            onClick: handleClear,
+            color: "error",
+            icon: <ClearAllIcon />,
+            disabled: items.length === 0,
+          },
+        ]}
+      />
 
       <Stack direction="row" spacing={3} sx={{mt: 2, color: "text.secondary"}}>
         <Typography variant="caption">length: {items.length}</Typography>

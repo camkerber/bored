@@ -1,7 +1,7 @@
 import {useState} from "react";
-import {Box, Button, Stack, TextField, Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import {PriorityQueue} from "@camkerber/typescript-dsa/data-structures";
-import {HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
+import {DsaControlBar, HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
 
 interface Item {
   value: number;
@@ -104,44 +104,31 @@ export const PriorityQueueVisualizer = () => {
         )}
       </VisualizerPanel>
 
-      <Stack
-        direction="row"
-        sx={{mt: 2, flexWrap: "wrap", alignItems: "center", gap: 1}}
-      >
-        <TextField
-          size="small"
-          label="value"
-          type="number"
-          value={valueInput}
-          onChange={(e) => setValueInput(e.target.value)}
-          sx={{width: 100}}
-        />
-        <TextField
-          size="small"
-          label="priority"
-          type="number"
-          value={priorityInput}
-          onChange={(e) => setPriorityInput(e.target.value)}
-          sx={{width: 100}}
-        />
-        <Button variant="contained" onClick={handleEnqueue}>
-          Enqueue
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={handleDequeue}
-          disabled={items.length === 0}
-        >
-          Dequeue
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={handlePeek}
-          disabled={items.length === 0}
-        >
-          Peek
-        </Button>
-      </Stack>
+      <DsaControlBar
+        inputs={[
+          {
+            label: "value",
+            value: valueInput,
+            onChange: setValueInput,
+            width: 100,
+          },
+          {
+            label: "priority",
+            value: priorityInput,
+            onChange: setPriorityInput,
+            width: 100,
+          },
+        ]}
+        actions={[
+          {label: "Enqueue", onClick: handleEnqueue, variant: "contained"},
+          {
+            label: "Dequeue",
+            onClick: handleDequeue,
+            disabled: items.length === 0,
+          },
+          {label: "Peek", onClick: handlePeek, disabled: items.length === 0},
+        ]}
+      />
 
       <Typography
         variant="caption"

@@ -1,3 +1,4 @@
+export * from "./DsaControlBar";
 export * from "./SortBars";
 export * from "./StepControls";
 export * from "./VisualizerPanel";

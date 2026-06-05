@@ -1,6 +1,8 @@
 import {useState} from "react";
-import {Box, Button, Stack, TextField, Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import {useFlashHighlight} from "../hooks/useFlashHighlight";
+import {useDelayedAction} from "../hooks/useDelayedAction";
+import {DsaControlBar} from "./shared";
 import {TreeSvg, type PositionedNode} from "./shared/TreeSvg";
 
 interface MirrorNode {
@@ -123,6 +125,7 @@ export const BinarySearchTreeVisualizer = () => {
   const [input, setInput] = useState("");
   const [highlight, flashHighlight] = useFlashHighlight(EMPTY_HIGHLIGHT, 800);
   const [lastResult, setLastResult] = useState("—");
+  const schedule = useDelayedAction();
 
   const handleInsert = () => {
     const v = Number.parseInt(input, 10);
@@ -142,7 +145,7 @@ export const BinarySearchTreeVisualizer = () => {
     }
     setLastResult(`removed ${v}`);
     flashHighlight(new Map([[v, "removed"]]));
-    window.setTimeout(() => setRoot((prev) => removeMirror(prev, v)), 250);
+    schedule(() => setRoot((prev) => removeMirror(prev, v)), 250);
     setInput("");
   };
 
@@ -163,31 +166,15 @@ export const BinarySearchTreeVisualizer = () => {
   return (
     <Box>
       <TreeSvg nodes={nodes} width={width} height={height} />
-      <Stack
-        direction="row"
-        sx={{mt: 2, flexWrap: "wrap", alignItems: "center", gap: 1}}
-      >
-        <TextField
-          size="small"
-          label="value"
-          type="number"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          sx={{width: 120}}
-        />
-        <Button variant="contained" onClick={handleInsert}>
-          Insert
-        </Button>
-        <Button variant="outlined" onClick={handleRemove}>
-          Remove
-        </Button>
-        <Button variant="outlined" onClick={handleFindMin}>
-          findMin
-        </Button>
-        <Button variant="outlined" onClick={handleFindMax}>
-          findMax
-        </Button>
-      </Stack>
+      <DsaControlBar
+        inputs={[{label: "value", value: input, onChange: setInput}]}
+        actions={[
+          {label: "Insert", onClick: handleInsert, variant: "contained"},
+          {label: "Remove", onClick: handleRemove},
+          {label: "findMin", onClick: handleFindMin},
+          {label: "findMax", onClick: handleFindMax},
+        ]}
+      />
       <Typography
         variant="caption"
         sx={{display: "block", mt: 2, color: "text.secondary"}}

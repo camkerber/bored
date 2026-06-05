@@ -1,6 +1,7 @@
 import {useState} from "react";
-import {Box, Button, Stack, TextField, Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import {useFlashHighlight} from "../hooks/useFlashHighlight";
+import {DsaControlBar} from "./shared";
 import {TreeSvg, type PositionedNode} from "./shared/TreeSvg";
 
 interface MirrorNode {
@@ -162,25 +163,22 @@ export const TrieVisualizer = () => {
   return (
     <Box>
       <TreeSvg nodes={nodes} width={width} height={height} />
-      <Stack
-        direction="row"
-        sx={{mt: 2, flexWrap: "wrap", alignItems: "center", gap: 1}}
-      >
-        <TextField
-          size="small"
-          label="word"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleAdd()}
-          sx={{width: 160}}
-        />
-        <Button variant="contained" onClick={handleAdd}>
-          Add
-        </Button>
-        <Button variant="outlined" onClick={handleFind}>
-          Find
-        </Button>
-      </Stack>
+      <DsaControlBar
+        inputs={[
+          {
+            label: "word",
+            value: input,
+            onChange: setInput,
+            type: "text",
+            width: 160,
+            onEnter: handleAdd,
+          },
+        ]}
+        actions={[
+          {label: "Add", onClick: handleAdd, variant: "contained"},
+          {label: "Find", onClick: handleFind},
+        ]}
+      />
       <Typography
         variant="caption"
         sx={{display: "block", mt: 2, color: "text.secondary"}}

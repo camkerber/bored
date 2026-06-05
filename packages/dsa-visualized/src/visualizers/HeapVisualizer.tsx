@@ -1,13 +1,14 @@
 import {useState} from "react";
-import {Box, Button, Stack, TextField, Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import {
   Heap,
   MinHeap,
   MaxHeap,
 } from "@camkerber/typescript-dsa/data-structures";
 import {useFlashHighlight} from "../hooks/useFlashHighlight";
+import {useDelayedAction} from "../hooks/useDelayedAction";
 import {TreeSvg, type PositionedNode} from "./shared/TreeSvg";
-import {HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
+import {DsaControlBar, HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
 
 type HeapKind = "min" | "max" | "custom";
 
@@ -90,6 +91,7 @@ const HeapVisualizerInner = ({kind}: Props) => {
   const [input, setInput] = useState("");
   const [lastResult, setLastResult] = useState("—");
   const [highlight, flashHighlight] = useFlashHighlight(NEUTRAL, 800);
+  const schedule = useDelayedAction();
 
   const sync = () => setArr(readArray(heap));
 
@@ -105,7 +107,7 @@ const HeapVisualizerInner = ({kind}: Props) => {
 
   const handlePop = () => {
     flashHighlight({idx: 0, kind: "removed"});
-    window.setTimeout(() => {
+    schedule(() => {
       const popped = heap.pop();
       setLastResult(`pop → ${popped ?? "undefined"}`);
       sync();
@@ -180,47 +182,23 @@ const HeapVisualizerInner = ({kind}: Props) => {
         </Box>
       </VisualizerPanel>
 
-      <Stack
-        direction="row"
-        sx={{mt: 2, flexWrap: "wrap", alignItems: "center", gap: 1}}
-      >
-        <TextField
-          size="small"
-          label="value"
-          type="number"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          sx={{width: 100}}
-        />
-        <Button variant="contained" onClick={handlePush}>
-          Push
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={handlePop}
-          disabled={arr.length === 0}
-        >
-          Pop
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={handlePeek}
-          disabled={arr.length === 0}
-        >
-          Peek
-        </Button>
-        <Button variant="outlined" onClick={handleHeapify}>
-          Heapify random
-        </Button>
-        <Button
-          variant="outlined"
-          color="error"
-          onClick={handleClear}
-          disabled={arr.length === 0}
-        >
-          Clear
-        </Button>
-      </Stack>
+      <DsaControlBar
+        inputs={[
+          {label: "value", value: input, onChange: setInput, width: 100},
+        ]}
+        actions={[
+          {label: "Push", onClick: handlePush, variant: "contained"},
+          {label: "Pop", onClick: handlePop, disabled: arr.length === 0},
+          {label: "Peek", onClick: handlePeek, disabled: arr.length === 0},
+          {label: "Heapify random", onClick: handleHeapify},
+          {
+            label: "Clear",
+            onClick: handleClear,
+            color: "error",
+            disabled: arr.length === 0,
+          },
+        ]}
+      />
 
       <Typography
         variant="caption"

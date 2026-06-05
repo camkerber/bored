@@ -5,23 +5,10 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
-
-interface Runner {
-  index: number;
-  total: number;
-  isPlaying: boolean;
-  isFinished: boolean;
-  speedMs: number;
-  step: () => void;
-  back: () => void;
-  play: () => void;
-  pause: () => void;
-  reset: () => void;
-  setSpeedMs: (ms: number) => void;
-}
+import type {Runner} from "../../hooks/useStepRunner";
 
 interface Props {
-  runner: Runner;
+  runner: Runner<unknown>;
   onShuffle?: () => void;
   caption?: string;
 }

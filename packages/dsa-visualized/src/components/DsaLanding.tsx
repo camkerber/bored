@@ -10,19 +10,16 @@ import {Link as RouterLink} from "react-router-dom";
 import {ALGORITHMS, DATA_STRUCTURES} from "../registry";
 import type {AlgorithmEntry, DataStructureEntry} from "../registry";
 
-const Section = ({
-  title,
-  entries,
-  basePath,
-  renderChip,
-}: {
+interface SectionProps {
   title: string;
   entries: (AlgorithmEntry | DataStructureEntry)[];
   basePath: string;
-  renderChip: (
+  renderChip?: (
     entry: AlgorithmEntry | DataStructureEntry,
   ) => string | undefined;
-}) => (
+}
+
+const Section = ({title, entries, basePath, renderChip}: SectionProps) => (
   <Box sx={{mt: 4}}>
     <Typography variant="h5" sx={{fontWeight: 600, mb: 2}}>
       {title}
@@ -39,7 +36,7 @@ const Section = ({
       }}
     >
       {entries.map((entry) => {
-        const chip = renderChip(entry);
+        const chip = renderChip?.(entry);
         return (
           <Card key={entry.slug} elevation={2}>
             <CardActionArea
@@ -91,7 +88,6 @@ export const DsaLanding = () => (
       title="Data Structures"
       entries={Object.values(DATA_STRUCTURES)}
       basePath="/dsa/data-structure"
-      renderChip={() => undefined}
     />
   </Box>
 );

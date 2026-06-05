@@ -1,11 +1,12 @@
 import {useState} from "react";
-import {Box, Button, Stack, TextField, Typography} from "@mui/material";
+import {Box, Stack, Typography} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import {useFlashHighlight} from "../hooks/useFlashHighlight";
-import {HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
+import {useDelayedAction} from "../hooks/useDelayedAction";
+import {DsaControlBar, HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
 
 type Highlight = "top" | "added" | "removed" | null;
 const SEED = [1, 2, 3];
@@ -17,6 +18,7 @@ export const StackVisualizer = () => {
   const [highlight, flashHighlight] = useFlashHighlight(NEUTRAL, 700);
   const [lastPopped, setLastPopped] = useState<number | undefined>();
   const [lastPeeked, setLastPeeked] = useState<number | undefined>();
+  const schedule = useDelayedAction();
 
   const handlePush = () => {
     const v = Number.parseInt(input, 10);
@@ -31,7 +33,7 @@ export const StackVisualizer = () => {
     const popped = items[items.length - 1];
     setLastPopped(popped);
     flashHighlight({idx: items.length - 1, kind: "removed"});
-    window.setTimeout(() => setItems((prev) => prev.slice(0, -1)), 250);
+    schedule(() => setItems((prev) => prev.slice(0, -1)), 250);
   };
 
   const handlePeek = () => {
@@ -104,52 +106,43 @@ export const StackVisualizer = () => {
         </Typography>
       </VisualizerPanel>
 
-      <Stack
-        direction="row"
-        sx={{mt: 2, flexWrap: "wrap", alignItems: "center", gap: 1}}
-      >
-        <TextField
-          size="small"
-          label="value"
-          type="number"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handlePush()}
-          sx={{width: 120}}
-        />
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={handlePush}
-        >
-          Push
-        </Button>
-        <Button
-          variant="outlined"
-          startIcon={<RemoveIcon />}
-          onClick={handlePop}
-          disabled={items.length === 0}
-        >
-          Pop
-        </Button>
-        <Button
-          variant="outlined"
-          startIcon={<VisibilityIcon />}
-          onClick={handlePeek}
-          disabled={items.length === 0}
-        >
-          Peek
-        </Button>
-        <Button
-          variant="outlined"
-          color="error"
-          startIcon={<ClearAllIcon />}
-          onClick={handleClear}
-          disabled={items.length === 0}
-        >
-          Clear
-        </Button>
-      </Stack>
+      <DsaControlBar
+        inputs={[
+          {
+            label: "value",
+            value: input,
+            onChange: setInput,
+            onEnter: handlePush,
+          },
+        ]}
+        actions={[
+          {
+            label: "Push",
+            onClick: handlePush,
+            variant: "contained",
+            icon: <AddIcon />,
+          },
+          {
+            label: "Pop",
+            onClick: handlePop,
+            icon: <RemoveIcon />,
+            disabled: items.length === 0,
+          },
+          {
+            label: "Peek",
+            onClick: handlePeek,
+            icon: <VisibilityIcon />,
+            disabled: items.length === 0,
+          },
+          {
+            label: "Clear",
+            onClick: handleClear,
+            color: "error",
+            icon: <ClearAllIcon />,
+            disabled: items.length === 0,
+          },
+        ]}
+      />
 
       <Stack direction="row" spacing={3} sx={{mt: 2, color: "text.secondary"}}>
         <Typography variant="caption">length: {items.length}</Typography>

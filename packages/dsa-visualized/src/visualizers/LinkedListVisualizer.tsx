@@ -1,8 +1,9 @@
 import {useState} from "react";
-import {Box, Button, Stack, TextField, Typography} from "@mui/material";
+import {Box, Stack, Typography} from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {useFlashHighlight} from "../hooks/useFlashHighlight";
-import {HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
+import {useDelayedAction} from "../hooks/useDelayedAction";
+import {DsaControlBar, HIGHLIGHT_COLORS, VisualizerPanel} from "./shared";
 
 interface Props {
   doubly?: boolean;
@@ -39,6 +40,7 @@ export const LinkedListVisualizer = ({doubly = false}: Props) => {
   const [indexInput, setIndexInput] = useState("0");
   const [highlight, flashHighlight] = useFlashHighlight(NEUTRAL, 800);
   const [lastResult, setLastResult] = useState<string>("—");
+  const schedule = useDelayedAction();
 
   const parseValue = () => Number.parseInt(valueInput, 10);
   const parseIndex = () => Number.parseInt(indexInput, 10);
@@ -83,7 +85,7 @@ export const LinkedListVisualizer = ({doubly = false}: Props) => {
     }
     setLastResult(`remove(${v}) → ${v}`);
     flashHighlight({idx: targetIdx, kind: "removed"});
-    window.setTimeout(() => {
+    schedule(() => {
       setItems((prev) => prev.filter((_, i) => i !== targetIdx));
     }, 250);
     setValueInput("");
@@ -154,42 +156,29 @@ export const LinkedListVisualizer = ({doubly = false}: Props) => {
         )}
       </VisualizerPanel>
 
-      <Stack
-        direction="row"
-        sx={{mt: 2, flexWrap: "wrap", alignItems: "center", gap: 1}}
-      >
-        <TextField
-          size="small"
-          label="value"
-          type="number"
-          value={valueInput}
-          onChange={(e) => setValueInput(e.target.value)}
-          sx={{width: 100}}
-        />
-        <TextField
-          size="small"
-          label="index"
-          type="number"
-          value={indexInput}
-          onChange={(e) => setIndexInput(e.target.value)}
-          sx={{width: 100}}
-        />
-        <Button variant="contained" onClick={handlePrepend}>
-          Prepend
-        </Button>
-        <Button variant="contained" onClick={handleAppend}>
-          Append
-        </Button>
-        <Button variant="outlined" onClick={handleInsertAt}>
-          Insert at
-        </Button>
-        <Button variant="outlined" onClick={handleRemove}>
-          Remove
-        </Button>
-        <Button variant="outlined" onClick={handleGet}>
-          Get
-        </Button>
-      </Stack>
+      <DsaControlBar
+        inputs={[
+          {
+            label: "value",
+            value: valueInput,
+            onChange: setValueInput,
+            width: 100,
+          },
+          {
+            label: "index",
+            value: indexInput,
+            onChange: setIndexInput,
+            width: 100,
+          },
+        ]}
+        actions={[
+          {label: "Prepend", onClick: handlePrepend, variant: "contained"},
+          {label: "Append", onClick: handleAppend, variant: "contained"},
+          {label: "Insert at", onClick: handleInsertAt},
+          {label: "Remove", onClick: handleRemove},
+          {label: "Get", onClick: handleGet},
+        ]}
+      />
 
       <Stack direction="row" spacing={3} sx={{mt: 2, color: "text.secondary"}}>
         <Typography variant="caption">length: {items.length}</Typography>
