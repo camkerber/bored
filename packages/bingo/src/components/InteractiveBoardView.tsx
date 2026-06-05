@@ -40,7 +40,7 @@ export const InteractiveBoardView = ({
         variant="caption"
         sx={{textAlign: "center", color: "text.secondary"}}
       >
-        When the shared link is opened a fresh board is created.
+        When the shared link is opened a unique board will be created.
       </Typography>
     </Stack>
   </Container>
