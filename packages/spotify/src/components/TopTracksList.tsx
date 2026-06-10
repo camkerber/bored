@@ -1,4 +1,4 @@
-import {SpotifyTimeRange} from "@bored/utils";
+import type {SpotifyTimeRange} from "@bored/utils";
 import {useGetSpotifyTopTracks} from "@bored/api";
 import {useSpotifyAuth} from "../context";
 import {MediaRankCard} from "./MediaRankCard";

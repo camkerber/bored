@@ -40,6 +40,8 @@ export const MediaRankCard = ({
           component="img"
           image={imageUrl ?? FALLBACK_IMAGE}
           alt={name}
+          loading="lazy"
+          decoding="async"
           sx={{aspectRatio: "1 / 1", objectFit: "cover"}}
         />
         <Box

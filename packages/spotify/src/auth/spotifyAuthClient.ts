@@ -3,14 +3,8 @@ import {
   generateCodeVerifier,
   generateState,
 } from "./pkce";
-import {
-  clearTokens,
-  isExpired,
-  loadTokens,
-  saveTokens,
-  StoredTokens,
-  SpotifyTokenResponse,
-} from "./tokenStorage";
+import {clearTokens, isExpired, loadTokens, saveTokens} from "./tokenStorage";
+import type {StoredTokens, SpotifyTokenResponse} from "./tokenStorage";
 
 const AUTHORIZE_ENDPOINT = "https://accounts.spotify.com/authorize";
 const TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";

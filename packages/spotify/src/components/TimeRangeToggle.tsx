@@ -1,5 +1,5 @@
 import {ToggleButton, ToggleButtonGroup} from "@mui/material";
-import {SpotifyTimeRange} from "@bored/utils";
+import type {SpotifyTimeRange} from "@bored/utils";
 
 interface TimeRangeToggleProps {
   value: SpotifyTimeRange;

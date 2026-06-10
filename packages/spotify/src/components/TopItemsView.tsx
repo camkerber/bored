@@ -7,9 +7,10 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import {SpotifyTimeRange, SpotifyTopItemKind} from "@bored/utils";
+import type {SpotifyTimeRange, SpotifyTopItemKind} from "@bored/utils";
 import {Suspense, useState} from "react";
 import {useSpotifyAuth} from "../context";
+import {ErrorBoundary} from "./ErrorBoundary";
 import {TimeRangeToggle} from "./TimeRangeToggle";
 import {TopArtistsList} from "./TopArtistsList";
 import {TopTracksList} from "./TopTracksList";
@@ -52,13 +53,27 @@ export const TopItemsView = () => {
       <Box sx={{mb: 3}}>
         <TimeRangeToggle value={timeRange} onChange={setTimeRange} />
       </Box>
-      <Suspense fallback={<SuspenseFallback />}>
-        {kind === "artists" ? (
-          <TopArtistsList timeRange={timeRange} />
-        ) : (
-          <TopTracksList timeRange={timeRange} />
+      <ErrorBoundary
+        resetKeys={[kind, timeRange]}
+        fallback={(reset) => (
+          <Stack spacing={2} sx={{alignItems: "center", py: 6}}>
+            <Typography variant="body2" sx={{color: "text.secondary"}}>
+              Couldn&apos;t load your Spotify charts.
+            </Typography>
+            <Button onClick={reset} size="small" variant="outlined">
+              Try again
+            </Button>
+          </Stack>
         )}
-      </Suspense>
+      >
+        <Suspense fallback={<SuspenseFallback />}>
+          {kind === "artists" ? (
+            <TopArtistsList timeRange={timeRange} />
+          ) : (
+            <TopTracksList timeRange={timeRange} />
+          )}
+        </Suspense>
+      </ErrorBoundary>
     </Box>
   );
 };
