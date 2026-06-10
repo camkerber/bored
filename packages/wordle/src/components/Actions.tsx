@@ -1,41 +1,28 @@
 import {useWordleContext} from "../context";
-import {getCompletedWordles, shareLinkOrText} from "@bored/utils";
+import {useWordleShare} from "../hooks";
 import {Button, Container, Typography} from "@mui/material";
-import {useSnackbar} from "notistack";
 
 export const Actions = () => {
   const {
     gameCompleted,
+    currentWordCompleted,
     openResultsModal,
     handleGetNewWord,
     wordToGuess,
     wordleDict,
   } = useWordleContext();
-  const {enqueueSnackbar} = useSnackbar();
-  const completedGames = getCompletedWordles();
+  const share = useWordleShare();
 
   const showNewGameButton =
-    (gameCompleted && !openResultsModal) ||
-    completedGames.includes(wordToGuess);
+    (gameCompleted && !openResultsModal) || currentWordCompleted;
   const showShareButton = gameCompleted && !openResultsModal;
 
-  const handleShare = async () => {
-    await shareLinkOrText(
-      {
-        title: "Cam is bored",
-        text: `Wordle #${wordleDict[wordToGuess.toLowerCase()]}`,
-        url: window.location.href,
-      },
-      () =>
-        enqueueSnackbar("Results copied", {
-          variant: "success",
-        }),
-      () =>
-        enqueueSnackbar("Failed to copy results", {
-          variant: "error",
-        }),
-    );
-  };
+  const handleShare = () =>
+    share({
+      title: "Cam is bored",
+      text: `Wordle #${wordleDict[wordToGuess.toLowerCase()]}`,
+      url: window.location.href,
+    });
 
   return (
     <>

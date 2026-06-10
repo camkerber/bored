@@ -4,7 +4,6 @@ import {ResultsModal} from "./ResultsModal";
 import {Actions} from "./Actions";
 import {useGetWordleDictionary} from "@bored/api";
 import {WordleProvider} from "../context";
-import {DICT_LENGTH} from "../utils";
 import {Navigate, useParams} from "react-router-dom";
 import {useState} from "react";
 
@@ -24,7 +23,8 @@ export const Wordle = () => {
   const {data} = useGetWordleDictionary();
   const [wordIndex] = useState<string>(
     () =>
-      params?.wordValue ?? Math.floor(Math.random() * DICT_LENGTH).toString(),
+      params?.wordValue ??
+      Math.floor(Math.random() * Object.keys(data).length).toString(),
   );
 
   if (!params?.wordValue) {

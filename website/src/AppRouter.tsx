@@ -1,3 +1,4 @@
+import {lazy} from "react";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {App} from "./App";
 import {Home} from "@bored/ui";
@@ -6,12 +7,15 @@ import {PROJECTS_MAP} from "@bored/utils";
 import {Connections, Archive} from "@bored/connections";
 import {Wordle} from "@bored/wordle";
 import {Spotify, SpotifyCallback} from "@bored/spotify";
-import {Watcher} from "@bored/watcher";
 import {
   DsaLanding,
   DsaAlgorithm,
   DsaDataStructure,
 } from "@bored/dsa-visualized";
+
+const Watcher = lazy(() =>
+  import("@bored/watcher").then((m) => ({default: m.Watcher})),
+);
 
 const loadBingo = () => import("@bored/bingo");
 

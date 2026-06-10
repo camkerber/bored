@@ -2,6 +2,7 @@ import {Paper, Typography, useTheme} from "@mui/material";
 import type {Theme} from "@mui/material";
 import {CharGuessStatus, WordleCharacter} from "@bored/utils";
 import {CSSProperties, useLayoutEffect, useRef, useState} from "react";
+import {FLIP_STAGGER_MS, FLIP_DURATION_MS} from "../utils";
 
 const STATUS_BG: Record<CharGuessStatus, (t: Theme) => string> = {
   [CharGuessStatus.Correct]: (t) => t.palette.success.main,
@@ -9,9 +10,6 @@ const STATUS_BG: Record<CharGuessStatus, (t: Theme) => string> = {
   [CharGuessStatus.NotInTheWord]: (t) => t.palette.text.disabled,
   [CharGuessStatus.Unguessed]: (t) => t.palette.grey[300],
 };
-
-const FLIP_STAGGER_MS = 250;
-const FLIP_DURATION_MS = 500;
 
 interface CharInputProps {
   charObj: WordleCharacter;

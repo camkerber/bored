@@ -1,9 +1,9 @@
 import {Modal} from "@bored/ui";
-import {shareLinkOrText, CharGuessStatus} from "@bored/utils";
+import {CharGuessStatus} from "@bored/utils";
 import {Button, Typography} from "@mui/material";
-import {useSnackbar} from "notistack";
 import {isMobile} from "react-device-detect";
 import {useWordleContext} from "../context";
+import {useWordleShare} from "../hooks";
 import {CHAR_STATUS_SQUARE_MAP} from "../utils";
 
 export const ResultsModal = () => {
@@ -15,7 +15,7 @@ export const ResultsModal = () => {
     openResultsModal,
     setOpenResultsModal,
   } = useWordleContext();
-  const {enqueueSnackbar} = useSnackbar();
+  const share = useWordleShare();
 
   const squares = guesses
     .flatMap((row) => {
@@ -27,21 +27,7 @@ export const ResultsModal = () => {
 
   const resultsString = `Wordle #${wordleDict[wordToGuess.toLowerCase()]}\n${squares}`;
 
-  const handleShare = async () => {
-    await shareLinkOrText(
-      {
-        text: resultsString,
-      },
-      () =>
-        enqueueSnackbar("Results copied", {
-          variant: "success",
-        }),
-      () =>
-        enqueueSnackbar("Failed to copy results", {
-          variant: "error",
-        }),
-    );
-  };
+  const handleShare = () => share({text: resultsString});
 
   return (
     <Modal
@@ -58,7 +44,7 @@ export const ResultsModal = () => {
         >
           Wordle Completed!
         </Typography>
-        <pre id="camnections-results" className="share-results-content">
+        <pre id="wordle-results" className="share-results-content">
           {resultsString}
         </pre>
         <Button onClick={handleShare} variant="outlined" sx={{mt: 2}}>

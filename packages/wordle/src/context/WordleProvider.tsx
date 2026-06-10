@@ -18,12 +18,20 @@ import {
   useRef,
   useState,
 } from "react";
-import {DELETE_STRING, SUBMIT_STRING, ALL_KEYS, DICT_LENGTH} from "../utils";
+import {
+  DELETE_STRING,
+  SUBMIT_STRING,
+  ALL_KEYS,
+  WORD_LENGTH,
+  MAX_GUESSES,
+  RESULTS_REVEAL_DELAY_MS,
+} from "../utils";
 
 export interface WordleGameContext {
   charsNotInWord: ReadonlySet<string>;
   guesses: WordleBoard;
   gameCompleted: boolean;
+  currentWordCompleted: boolean;
   openResultsModal: boolean;
   wordToGuess: string;
   wordleDict: WordleDictionary;
@@ -36,22 +44,14 @@ export const WordleContext = createContext<WordleGameContext | undefined>(
   undefined,
 );
 
-const createEmptyRow = (): WordleGuess => [
-  {character: "", status: CharGuessStatus.Unguessed},
-  {character: "", status: CharGuessStatus.Unguessed},
-  {character: "", status: CharGuessStatus.Unguessed},
-  {character: "", status: CharGuessStatus.Unguessed},
-  {character: "", status: CharGuessStatus.Unguessed},
-];
+const createEmptyRow = (): WordleGuess =>
+  Array.from({length: WORD_LENGTH}, () => ({
+    character: "",
+    status: CharGuessStatus.Unguessed,
+  })) as unknown as WordleGuess;
 
-const createEmptyBoard = (): WordleBoard => [
-  createEmptyRow(),
-  createEmptyRow(),
-  createEmptyRow(),
-  createEmptyRow(),
-  createEmptyRow(),
-  createEmptyRow(),
-];
+const createEmptyBoard = (): WordleBoard =>
+  Array.from({length: MAX_GUESSES}, createEmptyRow) as unknown as WordleBoard;
 
 interface ClassifiedGuess {
   row: WordleGuess;
@@ -66,13 +66,9 @@ const classifyGuess = (
 ): ClassifiedGuess => {
   const targetChars = target.split("");
   const targetSet = new Set(targetChars);
-  const row: WordleGuess = [
-    {...guess[0]},
-    {...guess[1]},
-    {...guess[2]},
-    {...guess[3]},
-    {...guess[4]},
-  ];
+  const row: WordleGuess = guess.map((c) => ({
+    ...c,
+  })) as unknown as WordleGuess;
 
   const localCorrect = new Set<string>();
   const wrongPosition = new Set<string>();
@@ -108,13 +104,11 @@ const classifyGuess = (
   return {row, newCorrect, newNotInWord};
 };
 
-const markRowCorrect = (guess: WordleGuess): WordleGuess => [
-  {...guess[0], status: CharGuessStatus.Correct},
-  {...guess[1], status: CharGuessStatus.Correct},
-  {...guess[2], status: CharGuessStatus.Correct},
-  {...guess[3], status: CharGuessStatus.Correct},
-  {...guess[4], status: CharGuessStatus.Correct},
-];
+const markRowCorrect = (guess: WordleGuess): WordleGuess =>
+  guess.map((c) => ({
+    ...c,
+    status: CharGuessStatus.Correct,
+  })) as unknown as WordleGuess;
 
 const replaceRow = (
   board: WordleBoard,
@@ -133,7 +127,7 @@ const resolveInitialWord = (
   const keys = Object.keys(wordleDict);
   if (keys.length === 0) return "";
 
-  if (Number(wordIndexFromRoute) > DICT_LENGTH) {
+  if (Number(wordIndexFromRoute) > keys.length) {
     return (getRandomArrayItem(keys) ?? keys[0]).toUpperCase();
   }
 
@@ -172,12 +166,21 @@ export const WordleProvider = ({
 
   const [gameCompleted, setGameCompleted] = useState<boolean>(false);
   const [openResultsModal, setOpenResultsModal] = useState<boolean>(false);
+  // Whether the current word has already been solved (persisted in
+  // localStorage). Tracked in state so consumers don't re-read storage on
+  // every render. Completions are stored lowercase to match the dictionary.
+  const [currentWordCompleted, setCurrentWordCompleted] = useState<boolean>(
+    () =>
+      getCompletedWordles().includes(
+        resolveInitialWord(wordleDict, wordIndexFromRoute).toLowerCase(),
+      ),
+  );
   const finishTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const getRandomWord = (): string | undefined => {
     const allWords = Object.keys(wordleDict);
     const completedGames = getCompletedWordles();
-    if (completedGames?.length === DICT_LENGTH) {
+    if (completedGames?.length === allWords.length) {
       clearWordleCompletions();
       return getRandomArrayItem(allWords);
     }
@@ -206,6 +209,9 @@ export const WordleProvider = ({
     const word = getRandomWord();
     if (word) {
       setWordToGuess(word.toUpperCase());
+      setCurrentWordCompleted(
+        getCompletedWordles().includes(word.toLowerCase()),
+      );
       navigateTo(wordleDict[word]);
     }
   };
@@ -216,7 +222,7 @@ export const WordleProvider = ({
       setOpenResultsModal(true);
       setGameCompleted(true);
       finishTimerRef.current = null;
-    }, 1800);
+    }, RESULTS_REVEAL_DELAY_MS);
   };
 
   useEffect(
@@ -252,7 +258,8 @@ export const WordleProvider = ({
       setGuesses((prev) =>
         replaceRow(prev, guessCount, markRowCorrect(prev[guessCount])),
       );
-      setCompletedWordles(wordToGuess);
+      setCompletedWordles(wordToGuess.toLowerCase());
+      setCurrentWordCompleted(true);
       finishGame();
       setGuessCount((prev) => prev + 1);
       setCharCount(0);
@@ -279,17 +286,17 @@ export const WordleProvider = ({
     }
     setGuessCount((prev) => {
       const next = prev + 1;
-      if (next === 6) finishGame();
+      if (next === MAX_GUESSES) finishGame();
       return next;
     });
     setCharCount(0);
   };
 
   const handleNewChar = (char: string) => {
-    if (guessCount === 6) return;
+    if (guessCount === MAX_GUESSES) return;
 
     if (char === SUBMIT_STRING) {
-      if (charCount !== 5) {
+      if (charCount !== WORD_LENGTH) {
         enqueueSnackbar("Each guess must be 5 letters", {
           key: "guess-too-short",
           variant: "info",
@@ -312,7 +319,7 @@ export const WordleProvider = ({
       return;
     }
 
-    if (charCount === 5) return;
+    if (charCount === WORD_LENGTH) return;
 
     setGuesses((prev) => {
       const row = [...prev[guessCount]] as WordleGuess;
@@ -349,6 +356,7 @@ export const WordleProvider = ({
     charsNotInWord,
     guesses,
     gameCompleted,
+    currentWordCompleted,
     openResultsModal,
     wordToGuess,
     wordleDict,
