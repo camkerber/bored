@@ -44,11 +44,12 @@ export const BinarySearchVisualizer = () => {
   const [targetInput, setTargetInput] = useState<string>(() =>
     String(arr[Math.floor(arr.length / 2)]),
   );
-  const target = Number.parseInt(targetInput, 10);
+  const parsed = Number.parseInt(targetInput, 10);
+  const target = Number.isNaN(parsed) ? null : parsed;
 
   const build = useCallback(
     () =>
-      Number.isNaN(target)
+      target === null
         ? [
             {
               low: 0,
@@ -58,7 +59,7 @@ export const BinarySearchVisualizer = () => {
               exhausted: false,
             },
           ]
-        : buildFrames(arr, target),
+        : buildFrames(arr, target!),
     [arr, target],
   );
   const runner = useStepRunner<Frame>({
@@ -137,7 +138,7 @@ export const BinarySearchVisualizer = () => {
           f.found
             ? `found ${target} at index ${f.mid}`
             : f.exhausted
-              ? `${target} not present`
+              ? `${target ?? "?"} not present`
               : `low=${f.low} high=${f.high}${f.mid >= 0 ? ` mid=${f.mid}` : ""}`
         }
       />

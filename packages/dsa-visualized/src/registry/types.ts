@@ -16,7 +16,7 @@ export interface AlgorithmEntry {
   description: string;
   timeComplexity: string;
   spaceComplexity?: string;
-  visualizer?: VisualizerComponent;
+  visualizer: VisualizerComponent;
 }
 
 export interface DataStructureEntry {
@@ -24,5 +24,5 @@ export interface DataStructureEntry {
   name: string;
   description: string;
   operations: OperationDescriptor[];
-  visualizer?: VisualizerComponent;
+  visualizer: VisualizerComponent;
 }

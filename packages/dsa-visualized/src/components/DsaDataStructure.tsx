@@ -3,7 +3,6 @@ import {Navigate, useParams} from "react-router-dom";
 import {Box, CircularProgress, Stack, Typography} from "@mui/material";
 import {DATA_STRUCTURES} from "../registry";
 import {DsaPageShell} from "./DsaPageShell";
-import {ComingSoon} from "./ComingSoon";
 
 export const DsaDataStructure = () => {
   const {slug} = useParams<{slug: string}>();
@@ -17,13 +16,9 @@ export const DsaDataStructure = () => {
 
   return (
     <DsaPageShell title={entry.name} description={entry.description}>
-      {Visualizer ? (
-        <Suspense fallback={<CircularProgress size={32} />}>
-          <Visualizer />
-        </Suspense>
-      ) : (
-        <ComingSoon />
-      )}
+      <Suspense fallback={<CircularProgress size={32} />}>
+        <Visualizer />
+      </Suspense>
       <Box sx={{mt: 4}}>
         <Typography variant="h6" sx={{fontWeight: 600, mb: 1}}>
           Operations

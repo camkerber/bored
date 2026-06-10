@@ -3,7 +3,6 @@ import {Navigate, useParams} from "react-router-dom";
 import {CircularProgress} from "@mui/material";
 import {ALGORITHMS} from "../registry";
 import {DsaPageShell} from "./DsaPageShell";
-import {ComingSoon} from "./ComingSoon";
 
 export const DsaAlgorithm = () => {
   const {slug} = useParams<{slug: string}>();
@@ -25,13 +24,9 @@ export const DsaAlgorithm = () => {
       description={entry.description}
       chips={chips}
     >
-      {Visualizer ? (
-        <Suspense fallback={<CircularProgress size={32} />}>
-          <Visualizer />
-        </Suspense>
-      ) : (
-        <ComingSoon />
-      )}
+      <Suspense fallback={<CircularProgress size={32} />}>
+        <Visualizer />
+      </Suspense>
     </DsaPageShell>
   );
 };
