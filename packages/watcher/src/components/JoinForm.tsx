@@ -1,6 +1,6 @@
 import {useActionState, useState} from "react";
 import {Alert, Box, Button, Stack, TextField, Typography} from "@mui/material";
-import {useWatcherSessionContext} from "../context";
+import {useWatcherSession} from "../context";
 
 export interface JoinFormProps {
   onCancel: () => void;
@@ -13,7 +13,7 @@ interface JoinState {
 const INITIAL_STATE: JoinState = {error: null};
 
 export const JoinForm = ({onCancel}: JoinFormProps) => {
-  const {joinSession} = useWatcherSessionContext();
+  const {joinSession} = useWatcherSession();
   const [code, setCode] = useState("");
 
   const [state, formAction, isPending] = useActionState<JoinState, FormData>(

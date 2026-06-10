@@ -1,29 +1,16 @@
-import {createContext, PropsWithChildren, useState} from "react";
+import {PropsWithChildren, useState} from "react";
 import {
   createWatcherSession,
   joinWatcherSession,
   useWatcherSessionState,
 } from "@bored/api";
-import {ParticipantSlot, SessionMode, SessionState} from "../utils/types";
-
-export interface WatcherSession {
-  sessionId: string | undefined;
-  code: string | undefined;
-  participantToken: string | undefined;
-  slot: ParticipantSlot | undefined;
-  mode: SessionMode | undefined;
-  state: SessionState | undefined;
-  isStateLoading: boolean;
-  stateError: Error | undefined;
-  refreshState: () => Promise<unknown>;
-  startSession: (mode: SessionMode) => Promise<void>;
-  joinSession: (code: string) => Promise<void>;
-  reset: () => void;
-}
-
-export const WatcherSessionContext = createContext<WatcherSession | undefined>(
-  undefined,
-);
+import {ParticipantSlot, SessionMode} from "../utils/types";
+import {
+  WatcherLiveState,
+  WatcherLiveStateContext,
+  WatcherSession,
+  WatcherSessionContext,
+} from "./contexts";
 
 export const WatcherSessionProvider = ({children}: PropsWithChildren) => {
   const [sessionId, setSessionId] = useState<string | undefined>();
@@ -67,24 +54,31 @@ export const WatcherSessionProvider = ({children}: PropsWithChildren) => {
     setMode(undefined);
   };
 
-  const value: WatcherSession = {
+  // The session mode is immutable once set, so the locally tracked value is
+  // authoritative — keeping it out of the live state keeps this object stable.
+  const session: WatcherSession = {
     sessionId,
     code,
     participantToken,
     slot,
-    mode: state?.mode ?? mode,
-    state,
-    isStateLoading,
-    stateError: stateError ?? undefined,
+    mode,
     refreshState,
     startSession,
     joinSession,
     reset,
   };
 
+  const liveState: WatcherLiveState = {
+    state,
+    isStateLoading,
+    stateError: stateError ?? undefined,
+  };
+
   return (
-    <WatcherSessionContext.Provider value={value}>
-      {children}
+    <WatcherSessionContext.Provider value={session}>
+      <WatcherLiveStateContext.Provider value={liveState}>
+        {children}
+      </WatcherLiveStateContext.Provider>
     </WatcherSessionContext.Provider>
   );
 };

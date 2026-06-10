@@ -15,7 +15,7 @@ import {
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import AddIcon from "@mui/icons-material/AddCircleOutlined";
 import {markWatcherReady, submitWatcherEntries} from "@bored/api";
-import {useWatcherSessionContext} from "../context";
+import {useWatcherSession} from "../context";
 import {STREAMING_SERVICES} from "../utils/streamingServices";
 import {MovieShow, SessionMode} from "../utils/types";
 
@@ -34,15 +34,17 @@ const limitsForMode = (mode: SessionMode) =>
   mode === "solo-entry" ? {min: 2, max: 10} : {min: 1, max: 5};
 
 export const SessionForm = ({waiting}: {waiting: boolean}) => {
-  const {sessionId, participantToken, mode, refreshState} =
-    useWatcherSessionContext();
+  const {sessionId, participantToken, mode, refreshState} = useWatcherSession();
   const formMode: SessionMode = mode ?? "dual-entry";
   const {min, max} = limitsForMode(formMode);
 
+  // Built once on mount — react-hook-form only reads defaultValues initially,
+  // and the entry count is fixed for the form's lifetime.
+  const [defaultEntries] = useState(() =>
+    Array.from({length: min}, () => newEntry()),
+  );
   const {control, register, handleSubmit, formState} = useForm<FormValues>({
-    defaultValues: {
-      entries: Array.from({length: min}, () => newEntry()),
-    },
+    defaultValues: {entries: defaultEntries},
     mode: "onChange",
   });
   const {fields, append, remove} = useFieldArray({control, name: "entries"});

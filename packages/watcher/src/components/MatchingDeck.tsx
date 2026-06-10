@@ -11,7 +11,7 @@ import {
 import ThumbDownIcon from "@mui/icons-material/ThumbDownAltOutlined";
 import ThumbUpIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import {submitWatcherSwipes, useWatcherDeck} from "@bored/api";
-import {useWatcherSessionContext} from "../context";
+import {useWatcherLiveState, useWatcherSession} from "../context";
 import {MovieShow} from "../utils/types";
 import {SwipeCard, SwipeDecision} from "./SwipeCard";
 
@@ -196,8 +196,8 @@ const DeckRound = ({
 };
 
 export const MatchingDeck = () => {
-  const {sessionId, participantToken, state, refreshState} =
-    useWatcherSessionContext();
+  const {sessionId, participantToken, refreshState} = useWatcherSession();
+  const {state} = useWatcherLiveState();
   const round = state?.rounds ?? 1;
 
   const {data, isLoading, error} = useWatcherDeck(

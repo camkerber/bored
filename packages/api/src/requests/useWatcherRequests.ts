@@ -113,6 +113,8 @@ export const useWatcherSessionState = (
     path: sessionId ? `/api/watcher/sessions/${sessionId}` : null,
     headers: token ? withParticipantToken(token) : undefined,
     enabled: !!sessionId && !!token,
+    // Stop polling once the session is terminal; the last state is retained.
+    intervalMs: (latest) => (latest?.status === "results" ? 0 : 5000),
   });
 
 export const useWatcherDeck = (

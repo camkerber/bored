@@ -10,14 +10,14 @@ import {
   Typography,
 } from "@mui/material";
 import {SessionMode} from "../utils/types";
-import {useWatcherSessionContext} from "../context";
+import {useWatcherSession} from "../context";
 
 export interface ModePickerProps {
   onCancel: () => void;
 }
 
 export const ModePicker = ({onCancel}: ModePickerProps) => {
-  const {startSession} = useWatcherSessionContext();
+  const {startSession} = useWatcherSession();
   const [submitting, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 

@@ -1,20 +1,39 @@
-import {useState} from "react";
+import {lazy, Suspense, useState} from "react";
 import {Alert, Box, CircularProgress, Container} from "@mui/material";
-import {WatcherSessionProvider, useWatcherSessionContext} from "../context";
+import {
+  WatcherSessionProvider,
+  useWatcherLiveState,
+  useWatcherSession,
+} from "../context";
 import {derivePhase} from "../utils/phase";
 import {Landing} from "./Landing";
 import {ModePicker} from "./ModePicker";
 import {JoinForm} from "./JoinForm";
-import {SessionForm} from "./SessionForm";
 import {WaitingForPartner} from "./WaitingForPartner";
-import {MatchingDeck} from "./MatchingDeck";
-import {Results} from "./Results";
+
+// Heavier, later-phase screens are split out so framer-motion (MatchingDeck via
+// SwipeCard) and react-hook-form (SessionForm) load only when their phase is hit.
+const SessionForm = lazy(() =>
+  import("./SessionForm").then((m) => ({default: m.SessionForm})),
+);
+const MatchingDeck = lazy(() =>
+  import("./MatchingDeck").then((m) => ({default: m.MatchingDeck})),
+);
+const Results = lazy(() =>
+  import("./Results").then((m) => ({default: m.Results})),
+);
+
+const CenteredSpinner = () => (
+  <Box sx={{display: "flex", justifyContent: "center", mt: 6}}>
+    <CircularProgress />
+  </Box>
+);
 
 type LandingChoice = "none" | "start" | "join";
 
 const WatcherInner = () => {
-  const {state, slot, code, sessionId, isStateLoading, stateError} =
-    useWatcherSessionContext();
+  const {slot, code, sessionId} = useWatcherSession();
+  const {state, isStateLoading, stateError} = useWatcherLiveState();
   const [choice, setChoice] = useState<LandingChoice>("none");
 
   if (!sessionId) {
@@ -39,11 +58,7 @@ const WatcherInner = () => {
       );
     }
     if (isStateLoading) {
-      return (
-        <Box sx={{display: "flex", justifyContent: "center", mt: 6}}>
-          <CircularProgress />
-        </Box>
-      );
+      return <CenteredSpinner />;
     }
     return null;
   }
@@ -111,7 +126,9 @@ const WatcherInner = () => {
 export const Watcher = () => (
   <Container maxWidth="md" sx={{py: 2}}>
     <WatcherSessionProvider>
-      <WatcherInner />
+      <Suspense fallback={<CenteredSpinner />}>
+        <WatcherInner />
+      </Suspense>
     </WatcherSessionProvider>
   </Container>
 );

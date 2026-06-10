@@ -15,11 +15,11 @@ import {
   useWatcherDeck,
   useWatcherMatches,
 } from "@bored/api";
-import {useWatcherSessionContext} from "../context";
+import {useWatcherLiveState, useWatcherSession} from "../context";
 
 export const Results = () => {
-  const {sessionId, participantToken, state, refreshState} =
-    useWatcherSessionContext();
+  const {sessionId, participantToken, refreshState} = useWatcherSession();
+  const {state} = useWatcherLiveState();
 
   const {
     data: matchesData,

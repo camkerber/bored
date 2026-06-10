@@ -1,11 +1,26 @@
 import {useContext} from "react";
-import {WatcherSession, WatcherSessionContext} from "./WatcherSession";
+import {
+  WatcherLiveState,
+  WatcherLiveStateContext,
+  WatcherSession,
+  WatcherSessionContext,
+} from "./contexts";
 
-export const useWatcherSessionContext = (): WatcherSession => {
+export const useWatcherSession = (): WatcherSession => {
   const ctx = useContext(WatcherSessionContext);
   if (!ctx) {
     throw new Error(
-      "useWatcherSessionContext must be used within a WatcherSessionProvider",
+      "useWatcherSession must be used within a WatcherSessionProvider",
+    );
+  }
+  return ctx;
+};
+
+export const useWatcherLiveState = (): WatcherLiveState => {
+  const ctx = useContext(WatcherLiveStateContext);
+  if (!ctx) {
+    throw new Error(
+      "useWatcherLiveState must be used within a WatcherSessionProvider",
     );
   }
   return ctx;

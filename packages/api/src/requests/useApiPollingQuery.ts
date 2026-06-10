@@ -1,10 +1,10 @@
 import useSWR from "swr";
 import {apiGetWithHeaders} from "../apiClient";
 
-export interface UseApiPollingQueryArgs {
+export interface UseApiPollingQueryArgs<T> {
   path: string | null;
   headers?: Record<string, string>;
-  intervalMs?: number;
+  intervalMs?: number | ((latest: T | undefined) => number);
   enabled?: boolean;
 }
 
@@ -13,7 +13,7 @@ export function useApiPollingQuery<T>({
   headers,
   intervalMs = 5000,
   enabled = true,
-}: UseApiPollingQueryArgs) {
+}: UseApiPollingQueryArgs<T>) {
   const key = enabled && path ? ["polling", path, headers ?? {}] : null;
   const {data, mutate, error, isLoading} = useSWR<T, Error>(
     key,
