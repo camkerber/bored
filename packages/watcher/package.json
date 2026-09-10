@@ -21,6 +21,6 @@
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-router-dom": "^6.26.2",
-    "typescript": "^6.0.3"
+    "typescript-7": "npm:typescript@^7.0.2"
   }
 }

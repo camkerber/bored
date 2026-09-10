@@ -59,7 +59,7 @@ export const BinarySearchVisualizer = () => {
               exhausted: false,
             },
           ]
-        : buildFrames(arr, target!),
+        : buildFrames(arr, target),
     [arr, target],
   );
   const runner = useStepRunner<Frame>({
