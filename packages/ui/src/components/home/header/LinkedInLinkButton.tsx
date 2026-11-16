@@ -3,7 +3,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 export const LinkedInLinkButton = () => (
   <Button
-    href="https://linkedin.com/in/cameron-kerber"
+    href="https://linkedin.com/in/camkerber"
     target="_blank"
     rel="noreferrer"
   >
